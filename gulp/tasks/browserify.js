@@ -67,7 +67,6 @@ function buildScript(file) {
 }
 
 gulp.task('browserify', function() {
-
+  buildScript(config.browserify.demoBundle);
   return buildScript(config.browserify.bundleName);
-
 });

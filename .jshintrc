@@ -13,5 +13,11 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "newcap": false
+  "newcap": false,
+  "globals": {
+    "document": true,
+    "window": true,
+    "module": true,
+    "require": true
+  }
 }
