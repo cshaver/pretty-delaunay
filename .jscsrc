@@ -1,0 +1,29 @@
+{
+  "preset": "google",
+  "fileExtensions": [".js", "jscs"],
+  "excludeFiles": [],
+
+  "jsDoc": {
+    "checkAnnotations": {
+      "preset": "closurecompiler",
+      "extra": {
+        "ngInject": false
+      }
+    }
+  },
+
+  "validateIndentation": 2,
+  "disallowTrailingWhitespace": true,
+  "requireTrailingComma": {
+    "ignoreSingleLine": true
+  },
+  "requireLineFeedAtFileEnd": true,
+  "disallowMultipleLineBreaks": true,
+  "disallowSpaceBeforeSemicolon": true,
+  "requireSpaceAfterLineComment": true,
+  "maximumLineLength": 120,
+  "disallowSpaceAfterObjectKeys": {
+    "allExcept": ["multiline"]
+  },
+  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties"
+}

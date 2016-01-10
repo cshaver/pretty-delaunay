@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pretty Delaunay Triangles</title>
+    <meta name="description" content="Pretty delaunay triangles using random points, colors, and gradients.">
+
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+    <div class="canvas-wrapper">
+      <canvas id="canvas" width="500" height="300"></canvas>
+    </div>
+    <form class="form" id="form">
+      <fieldset>
+        <h4>Points to generate:</h4>
+        <div class="form-row">
+          <label for="minPoints">Points</label>
+          <input id="minPoints" type="number" min="1" max="10000" value=""/>
+          <label for="maxPoints">to</label>
+          <input id="maxPoints" type="number" min="1" max="10000" value=""/>
+        </div>
+
+        <div class="form-row">
+          <label for="minEdgePoints">Edge Points</label>
+          <input id="minEdgePoints" type="number" min="1" max="10000" value=""/>
+          <label for="maxEdgePoints">to</label>
+          <input id="maxEdgePoints" type="number" min="1" max="10000" value=""/>
+        </div>
+
+        <div class="form-row">
+          <label for="minGradients">Gradients</label>
+          <input id="minGradients" type="number" min="1" max="100" value="1"/>
+          <label for="maxGradients">to</label>
+          <input id="maxGradients" type="number" min="1" max="100" value="10"/>
+        </div>
+      </fieldset>
+      <br>
+      <fieldset>
+        <h4>Colors:</h4>
+        <div class="form-row">
+          <input type="radio" name="color" value="random" id="colorType1" checked />
+          <label for="colorType2">Random</label>
+        </div>
+        <div class="form-row">
+          <input type="radio" name="color" value="choose" id="colorType2" />
+          <label for="colorType3">Choose:</label>
+        </div>
+        <fieldset>
+          <h5>Custom colors:</h5>
+          <div class="form-row">
+            <label for="color1">Inner color:</label>
+            <input type="color" id="color1" value="#FFFFFF">
+          </div>
+
+          <div class="form-row">
+            <label for="color2">Middle color:</label>
+            <input type="color" id="color2" value="#888888">
+          </div>
+
+          <div class="form-row">
+            <label for="color3">Outer color:</label>
+            <input type="color" id="color3" value="#000000">
+          </div>
+        </fieldset>
+      </fieldset>
+      <br>
+      <fieldset>
+        <h4>Generate:</h4>
+        <div class="form-row">
+          <button id="button" type="submit">Redo!</button>
+        </div>
+        <div class="form-row">
+          <button id="generateColors">Redo Colors</button>
+          <button id="generateGradient">Redo Gradient</button>
+          <button id="generateTriangles">Redo Triangles</button>
+        </div>
+        <div class="form-row">
+          <button id="toggleTriangles">Toggle Triangles</button>
+          <button id="toggleEdges">Toggle Edges</button>
+        </div>
+        <div class="form-row">
+          <button id="togglePoints">Toggle Points</button>
+          <button id="toggleCircles">Toggle Circles</button>
+          <button id="toggleCentroids">Toggle Centroids</button>
+        </div>
+      </fieldset>
+    </form>
+    <script src="../dist/pretty-delaunay.js"></script>
+    <script src="../lib/point.js"></script>
+    <script src="../lib/random.js"></script>
+    <script src="../lib/color.js"></script>
+]    <script src="demo.js"></script>
+  </body>
+
+</html>
