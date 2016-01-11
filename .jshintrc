@@ -18,6 +18,8 @@
     "document": true,
     "window": true,
     "module": true,
-    "require": true
+    "require": true,
+    "console": true,
+    "requestAnimationFrame": true
   }
 }
