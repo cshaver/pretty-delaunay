@@ -17,19 +17,37 @@
     <form class="form" id="form">
       <fieldset>
         <h4>Points to generate:</h4>
+
         <div class="form-row">
-          <label for="minPoints">Points</label>
-          <input id="minPoints" type="number" min="1" max="10000" value=""/>
-          <label for="maxPoints">to</label>
-          <input id="maxPoints" type="number" min="1" max="10000" value=""/>
+          <input type="radio" name="pointGen" value="multiplier" id="pointGen1" checked />
+          <label for="pointGen1">Multiplier (based on size of canvas)</label>
+        </div>
+        <div class="form-row">
+          <label for="pointsMultiplier">Muliplier</label>
+          <input type="range" id="pointsMultiplier" value="0.5" min="0" max="1" step="0.01">
         </div>
 
         <div class="form-row">
-          <label for="minEdgePoints">Edge Points</label>
-          <input id="minEdgePoints" type="number" min="1" max="10000" value=""/>
-          <label for="maxEdgePoints">to</label>
-          <input id="maxEdgePoints" type="number" min="1" max="10000" value=""/>
+          <input type="radio" name="pointGen" value="exactly" id="pointGen2" />
+          <label for="pointGen2">Exact range</label>
         </div>
+
+        <fieldset>
+          <h5>Point ranges</h5>
+          <div class="form-row">
+            <label for="minPoints">Points</label>
+            <input id="minPoints" type="number" min="1" max="10000" value=""/>
+            <label for="maxPoints">to</label>
+            <input id="maxPoints" type="number" min="1" max="10000" value=""/>
+          </div>
+
+          <div class="form-row">
+            <label for="minEdgePoints">Edge Points</label>
+            <input id="minEdgePoints" type="number" min="1" max="10000" value=""/>
+            <label for="maxEdgePoints">to</label>
+            <input id="maxEdgePoints" type="number" min="1" max="10000" value=""/>
+          </div>
+        </fieldset>
 
         <div class="form-row">
           <label for="minGradients">Gradients</label>
