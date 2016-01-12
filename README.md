@@ -6,6 +6,8 @@ Uses [ironwallaby's Delaunay triangulation implementation](https://github.com/ir
 
 ## Usage
 
+Include `dist/pretty-delaunay.js` at the bottom of your page.
+
 Initialize PrettyDelaunay with a canvas element and your options:
 
 ```javascript
