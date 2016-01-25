@@ -16,6 +16,10 @@ body {
   }
 }
 
+.hidden {
+  visibility: hidden !important;
+}
+
 .canvas-wrapper {
   position: absolute;
   top: 0;
