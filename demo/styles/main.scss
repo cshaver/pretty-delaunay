@@ -6,6 +6,8 @@ body {
   margin: 0;
   padding: 0;
 
+  font-family: sans-serif;
+
   & > * {
     z-index: 1;
     position: relative;
@@ -25,8 +27,12 @@ body {
   overflow: hidden;
 }
 
-* + * {
-  margin-top: 0.5em;
+* {
+  box-sizing: border-box;
+
+  & + * {
+    margin-top: .5em;
+  }
 }
 
 canvas, canvas + canvas {
@@ -35,10 +41,10 @@ canvas, canvas + canvas {
 
 h1, h2, h3, h4, h5 {
   margin-top: 0;
-  margin-bottom: 0.5em;
+  margin-bottom: .5em;
 }
 
-.form {
+form {
 
   &.light {
     color: white;
@@ -56,7 +62,7 @@ h1, h2, h3, h4, h5 {
   }
 
   & > * {
-    opacity: 0.3;
+    opacity: .3;
 
     &:hover {
       opacity: 1.0;
@@ -66,15 +72,35 @@ h1, h2, h3, h4, h5 {
 
 .form-row {
   display: flex;
+  flex-flow: row wrap;
   justify-content: space-between;
+
+  > * {
+    margin-top: 0;
+
+    + * {
+      margin-left: 1em;
+    }
+  }
+
+  input {
+    flex-grow: 1;
+  }
 }
 
-#colorType2 {
-  & + fieldset {
+input {
+  & ~ fieldset {
     display: none;
+    margin: 1em 0 0;
   }
 
-  &:checked + fieldset {
+  &:checked ~ fieldset {
     display: block;
+    flex: 0 0 100%;
   }
+}
+
+input[type=color] {
+  height: 4em;
+  max-width: 4em;
 }

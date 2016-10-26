@@ -3,6 +3,8 @@
   "description": "A pretty triangle generator for canvas",
   "repository": "https://github.com/cshaver/pretty-delaunay",
   "license": "MIT",
+  "name": "pretty-delaunay",
+  "main": "src/PrettyDelaunay.js",
   "keywords": [
     "canvas",
     "triangles",
@@ -25,7 +27,6 @@
     "gulp-util": "^3.0.1",
     "gulp-if": "^1.2.5",
     "debowerify": "^1.3.1",
-    "del": "^0.1.3",
     "run-sequence": "^0.3.6",
     "brfs": "^1.2.0",
     "bulkify": "^1.1.1",
@@ -35,5 +36,7 @@
     "vinyl-source-stream": "^0.1.1",
     "watchify": "^3.4.0"
   },
-  "name": "pretty-delaunay"
+  "dependencies": {
+    "delaunay-fast": "git+https://git@github.com/ironwallaby/delaunay.git"
+  }
 }

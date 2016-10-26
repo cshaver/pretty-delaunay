@@ -1,5 +1,6 @@
 /**
  * TODO:
+ *  - Rework Class to prototype
  *  - improve rendering speed
  *  - smooth out appearance of fading in gradients during animation
  *  - document usage
@@ -8,12 +9,14 @@
 (function() {
   'use strict';
 
-  var Delaunay = require('./_delaunay');
-  var Color    = require('./color');
-  var Random   = require('./random');
-  var Triangle = require('./triangle');
-  var Point    = require('./point');
-  var PointMap = require('./pointMap');
+  var Delaunay = require('delaunay-fast');
+  var Color = require('./PrettyDelaunay/color');
+  var Random = require('./PrettyDelaunay/random');
+  var Triangle = require('./PrettyDelaunay/triangle');
+  var Point = require('./PrettyDelaunay/point');
+  var PointMap = require('./PrettyDelaunay/pointMap');
+
+  require('./PrettyDelaunay/polyfills')();
 
   /**
    * Represents a delauney triangulation of random points
@@ -54,20 +57,6 @@
             this.hover();
           }
         }, false);
-      }
-
-      function throttle(type, name, obj) {
-        obj = obj || window;
-        var running = false;
-        var func = function() {
-          if (running) { return; }
-          running = true;
-          requestAnimationFrame(function() {
-            obj.dispatchEvent(new CustomEvent(name));
-            running = false;
-          });
-        };
-        obj.addEventListener(type, func);
       }
 
       // throttled window resize
@@ -845,34 +834,15 @@
         this.initRenderLoop();
       }
     }
+
+    getColors() {
+      return this.colors;
+    }
   }
 
   function linearScale(x0, x1, scale) {
     return x0 + (scale * (x1 - x0));
   }
 
-  if (typeof Object.assign !== 'function') {
-    (function () {
-      Object.assign = function(target) {
-        if (target === undefined || target === null) {
-          throw new TypeError('Cannot convert undefined or null to object');
-        }
-
-        var output = Object(target);
-        for (var index = 1; index < arguments.length; index++) {
-          var source = arguments[index];
-          if (source !== undefined && source !== null) {
-            for (var nextKey in source) {
-              if (source.hasOwnProperty(nextKey)) {
-                output[nextKey] = source[nextKey];
-              }
-            }
-          }
-        }
-        return output;
-      };
-    })();
-  }
-
-  window.PrettyDelaunay = PrettyDelaunay;
+  module.exports = PrettyDelaunay;
 })();

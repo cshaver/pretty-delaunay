@@ -1,8 +1,8 @@
 'use strict';
 
 export default {
-  sourceDir: './lib/',
-  buildDir: './dist/',
+  sourceDir: './src/',
+  demoDir: './demo/',
 
   styles: {
     src: 'demo/styles/**/*.scss',
@@ -12,8 +12,8 @@ export default {
   },
 
   scripts: {
-    src: 'lib/**/*.js',
-    dest: 'dist',
+    src: 'src/demo.js',
+    dest: 'demo/js',
   },
 
   assetExtensions: [
@@ -24,16 +24,16 @@ export default {
   browserify: {
     bundleName: 'pretty-delaunay.js',
     demoBundle: 'demo.js',
-    prodSourcemap: false
+    prodSourcemap: false,
   },
 
   test: {
     karma: 'test/karma.conf.js',
-    protractor: 'test/protractor.conf.js'
+    protractor: 'test/protractor.conf.js',
   },
 
   init: function() {
     return this;
-  }
+  },
 
 }.init();

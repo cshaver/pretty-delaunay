@@ -1,8 +1,9 @@
 (function() {
   'use strict';
 
-  var Color  = require('./color');
-  var Random = require('./random');
+  var PrettyDelaunay  = require('./PrettyDelaunay');
+  var Color  = require('./PrettyDelaunay/color');
+  var Random = require('./PrettyDelaunay/random');
 
   var Cookies = {
     getItem: function(sKey) {
