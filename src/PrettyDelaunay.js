@@ -187,7 +187,7 @@
                         this.colors;
 
       this.options.imageURL = imageURL ? imageURL : this.options.imageURL;
-      this.options.imageAsBackground = !!imageURL;
+      this.options.imageAsBackground = !!this.options.imageURL;
 
       this.minGradients = minGradients;
       this.maxGradients = maxGradients;
