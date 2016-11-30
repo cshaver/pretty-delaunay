@@ -95,11 +95,14 @@
   const maxGradientInput = document.getElementById('maxGradients');
   const minGradientInput = document.getElementById('minGradients');
 
-  var minPoints, maxPoints, minEdgePoints, maxEdgePoints, minGradients, maxGradients, multiplier, colors;
+  const imageBackgroundUpload = document.getElementById('imageBackgroundUpload');
+  const imageBackgroundInput = document.getElementById('imageBackgroundInput');
 
-  var showTriangles, showPoints, showCircles, showCentroids, showEdges, showAnimation;
+  let minPoints, maxPoints, minEdgePoints, maxEdgePoints, minGradients, maxGradients, multiplier, colors, image;
 
-  var options = {
+  let showTriangles, showPoints, showCircles, showCentroids, showEdges, showAnimation;
+
+  const options = {
     onDarkBackground: function() {
       form.className = 'form light';
     },
@@ -123,7 +126,7 @@
   // get options and re-randomize
   function runDelaunay() {
     getRandomizeOptions();
-    prettyDelaunay.randomize(minPoints, maxPoints, minEdgePoints, maxEdgePoints, minGradients, maxGradients, multiplier, colors);
+    prettyDelaunay.randomize(minPoints, maxPoints, minEdgePoints, maxEdgePoints, minGradients, maxGradients, multiplier, colors, image);
   }
 
   function getColors() {
@@ -143,6 +146,21 @@
     }
 
     return colors;
+  }
+
+  function getImage() {
+    if (!document.getElementById('colorType3').checked) {
+      return '';
+    }
+
+    if (document.getElementById('imageBackground1').checked && imageBackgroundUpload.files.length) {
+      let file = imageBackgroundUpload.files[0];
+      return window.URL.createObjectURL(file);
+    } else if (document.getElementById('imageBackground2').checked) {
+      return imageBackgroundInput.value;
+    } else {
+      return '';
+    }
   }
 
   // get options from cookies
@@ -207,6 +225,7 @@
     minGradients = parseInt(minGradientInput.value);
     maxGradients = parseInt(maxGradientInput.value);
     colors = getColors();
+    image = getImage();
   }
 
   /**

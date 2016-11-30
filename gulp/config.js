@@ -22,7 +22,6 @@ export default {
   ],
 
   browserify: {
-    bundleName: 'pretty-delaunay.js',
     demoBundle: 'demo.js',
     prodSourcemap: false,
   },

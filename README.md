@@ -46,6 +46,12 @@ var options = {
     // randomly choose from color palette on randomize if not supplied colors
     colorPalette: false,
 
+    // use image as background instead of gradient
+    imageAsBackground: false,
+
+    // image to use as background
+    imageURL: '',
+
     // how to resize the points
     resizeMode: 'scalePoints',
     // 'newPoints' - generates a new set of points for the new size

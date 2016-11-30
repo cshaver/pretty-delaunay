@@ -102,6 +102,12 @@
         // randomly choose from color palette on randomize if not supplied colors
         colorPalette: false,
 
+        // use image as background instead of gradient
+        imageAsBackground: false,
+
+        // image to use as background
+        imageURL: '',
+
         // how to resize the points
         resizeMode: 'scalePoints',
         // 'newPoints' - generates a new set of points for the new size
@@ -172,13 +178,16 @@
 
     // clear and create a fresh set of random points
     // all args are optional
-    randomize(min, max, minEdge, maxEdge, minGradients, maxGradients, multiplier, colors) {
+    randomize(min, max, minEdge, maxEdge, minGradients, maxGradients, multiplier, colors, imageURL) {
       // colors param is optional
       this.colors = colors ?
                       colors :
                       this.options.colorPalette ?
                         this.options.colorPalette[Random.randomBetween(0, this.options.colorPalette.length - 1)] :
                         this.colors;
+
+      this.options.imageURL = imageURL ? imageURL : this.options.imageURL;
+      this.options.imageAsBackground = !!imageURL;
 
       this.minGradients = minGradients;
       this.maxGradients = maxGradients;
@@ -189,12 +198,14 @@
 
       this.triangulate();
 
-      this.generateGradients(minGradients, maxGradients);
+      if (!this.options.imageAsBackground) {
+        this.generateGradients(minGradients, maxGradients);
 
-      // prep for animation
-      this.nextGradients = this.radialGradients.slice(0);
-      this.generateGradients();
-      this.currentGradients = this.radialGradients.slice(0);
+        // prep for animation
+        this.nextGradients = this.radialGradients.slice(0);
+        this.generateGradients();
+        this.currentGradients = this.radialGradients.slice(0);
+      }
 
       this.render();
 
@@ -204,6 +215,10 @@
     }
 
     initRenderLoop() {
+      if (this.options.imageAsBackground) {
+        return;
+      }
+
       this.looping = true;
       this.frameSteps = this.options.loopFrames;
       this.frame = this.frame ? this.frame : this.frameSteps;
@@ -631,9 +646,20 @@
     }
 
     render() {
-      // render a gradient as a base to get triangle colors
-      this.renderGradient();
+      this.renderBackground(this.renderForeground.bind(this));
+    }
 
+    renderBackground(callback) {
+      // render the base to get triangle colors
+      if (this.options.imageAsBackground) {
+        this.renderImageBackground(callback);
+      } else {
+        this.renderGradient();
+        callback();
+      }
+    }
+
+    renderForeground() {
       // get entire canvas image data of in a big typed array
       // this way we dont have to pick for each point individually
       // it's like 50x faster this way
@@ -661,7 +687,7 @@
         this.renderPoints();
       }
 
-      if (this.options.showCircles) {
+      if (this.options.showCircles && !this.options.imageAsBackground) {
         this.renderGradientCircles();
       }
 
@@ -729,8 +755,33 @@
       }
     }
 
-    renderTriangles(triangles, edges) {
+    renderImageBackground(callback) {
+      this.loadImageBackground((function() {
+        // scale image to fit width/height of canvas
+        let heightMultiplier = this.canvas.height / this.image.height;
+        let widthMultiplier = this.canvas.width / this.image.width;
 
+        let multiplier = Math.max(heightMultiplier, widthMultiplier);
+
+        this.ctx.drawImage(this.image, 0, 0, this.image.width * multiplier, this.image.height * multiplier);
+
+        callback();
+      }).bind(this));
+    }
+
+    loadImageBackground(callback) {
+      if (this.image && this.image.src === this.options.imageURL) {
+        callback();
+      } else {
+        this.image = new Image();
+        this.image.crossOrigin = 'Anonymous';
+        this.image.src = this.options.imageURL;
+
+        this.image.onload = callback;
+      }
+    }
+
+    renderTriangles(triangles, edges) {
       // save this for later
       this.center.canvasColorAtPoint(this.gradientImageData);
 

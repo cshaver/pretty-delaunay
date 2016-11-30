@@ -64,11 +64,11 @@
         <h4>Background:</h4>
         <div class="form-row">
           <input type="radio" name="background" value="random" id="colorType1" checked />
-          <label for="colorType2">Random colors</label>
+          <label for="colorType1">Random colors</label>
         </div>
         <div class="form-row">
-          <input type="radio" name="background" value="choose" id="colorType2" />
-          <label for="colorType3">Choose colors:</label>
+          <input type="radio" name="background" id="colorType2" />
+          <label for="colorType2">Choose colors:</label>
           <fieldset>
             <h5>Custom colors:</h5>
             <div class="form-row">
@@ -84,6 +84,22 @@
             <div class="form-row">
               <label for="color3">Outer color:</label>
               <input type="color" id="color3" value="#000000">
+            </div>
+          </fieldset>
+        </div>
+        <div class="form-row">
+          <input type="radio" name="background" id="colorType3" />
+          <label for="colorType3">Image:</label>
+          <fieldset>
+            <div class="form-row">
+              <input type="radio" name="imageBackground" id="imageBackground1" checked />
+              <label for="imageBackgroundUpload">Upload:</label>
+              <input type="file" id="imageBackgroundUpload" accept="image/*">
+            </div>
+            <div class="form-row">
+              <input type="radio" name="imageBackground" id="imageBackground2" />
+              <label for="imageBackgroundInput">URL:</label>
+              <input type="url" id="imageBackgroundInput" value="">
             </div>
           </fieldset>
         </div>
