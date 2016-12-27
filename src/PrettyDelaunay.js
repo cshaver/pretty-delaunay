@@ -676,9 +676,13 @@
       var centerColor = this.center.canvasColorAtPoint();
 
       if (parseInt(centerColor.split(',')[2]) < 50) {
-        this.options.onDarkBackground(centerColor);
+        if (this.options.onDarkBackground) {
+          this.options.onDarkBackground(centerColor);
+        }
       } else {
-        this.options.onLightBackground(centerColor);
+        if (this.options.onLightBackground) {
+          this.options.onLightBackground(centerColor);
+        }
       }
     }
 
