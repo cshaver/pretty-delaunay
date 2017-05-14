@@ -17,7 +17,9 @@ class PrettyDelaunay {
  */
 constructor(canvas, options) {
   // merge given options with defaults
+  let defaults = PrettyDelaunay.defaults();
   this.options = Object.assign({}, PrettyDelaunay.defaults(), (options || {}));
+  this.options.gradient = Object.assign({}, defaults.gradient, options.gradient || {});
 
   this.canvas = canvas;
   this.ctx = canvas.getContext('2d');
