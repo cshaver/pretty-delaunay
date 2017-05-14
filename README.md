@@ -113,6 +113,3 @@ var options = {
 };
 
 ```
-
-#TODO:
-* Polyfills for old/shit browsers (Object.assign 😫)
