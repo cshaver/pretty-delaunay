@@ -1,6 +1,6 @@
 {
   "author": "Cristina Shaver <cristina.shaver@gmail.com>",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A pretty triangle generator for canvas",
   "repository": "https://github.com/cshaver/pretty-delaunay",
   "license": "MIT",
