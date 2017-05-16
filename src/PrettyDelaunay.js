@@ -111,14 +111,18 @@ static defaults() {
     onDarkBackground: function() { return; },
     onLightBackground: function() { return; },
 
-	gradient: {
-		minX: (width, height) => Math.ceil(Math.sqrt(width)),
-		maxX: (width, height) => Math.ceil(width - Math.sqrt(width)),
-		minY: (width, height) => Math.ceil(Math.sqrt(height)),
-		maxY: (width, height) => Math.ceil(height - Math.sqrt(height)),
-		minRadius : (width, height, numGradients) => Math.ceil(Math.max(height, width) / Math.max(Math.sqrt(numGradients), 2)),
-		maxRadius : (width, height, numGradients) => Math.ceil(Math.max(height, width) / Math.max(Math.log(numGradients), 1))
-	},
+  	gradient: {
+  		minX: (width, height) => Math.ceil(Math.sqrt(width)),
+  		maxX: (width, height) => Math.ceil(width - Math.sqrt(width)),
+  		minY: (width, height) => Math.ceil(Math.sqrt(height)),
+  		maxY: (width, height) => Math.ceil(height - Math.sqrt(height)),
+  		minRadius: (width, height, numGradients) => Math.ceil(Math.max(height, width) / Math.max(Math.sqrt(numGradients), 2)),
+  		maxRadius: (width, height, numGradients) => Math.ceil(Math.max(height, width) / Math.max(Math.log(numGradients), 1)),
+      connected: true
+  	},
+
+    minGradients: 1,
+    maxGradients: 2,
 
     // triggered when hovered over triangle
     onTriangleHover: function(triangle, ctx, options) {
@@ -189,8 +193,8 @@ randomize(min, max, minEdge, maxEdge, minGradients, maxGradients, multiplier, co
   this.options.imageURL = imageURL ? imageURL : this.options.imageURL;
   this.options.imageAsBackground = !!this.options.imageURL;
 
-  this.minGradients = minGradients;
-  this.maxGradients = maxGradients;
+  this.options.minGradients = minGradients || this.options.minGradients;
+  this.options.maxGradients = maxGradients || this.options.maxGradients;
 
   this.resizeCanvas();
 
@@ -199,7 +203,7 @@ randomize(min, max, minEdge, maxEdge, minGradients, maxGradients, multiplier, co
   this.triangulate();
 
   if (!this.options.imageAsBackground) {
-    this.generateGradients(minGradients, maxGradients);
+    this.generateGradients();
 
     // prep for animation
     this.nextGradients = this.radialGradients.slice(0);
@@ -437,8 +441,8 @@ resetPointColors() {
 generateGradients(minGradients, maxGradients) {
   this.radialGradients = [];
 
-  minGradients = minGradients || this.minGradients > 0 ? minGradients || this.minGradients : 1;
-  maxGradients = maxGradients || this.maxGradients > 0 ? maxGradients || this.maxGradients : 2;
+  minGradients = minGradients || this.options.minGradients;
+  maxGradients = maxGradients || this.options.maxGradients;
 
   this.numGradients = Random.randomBetween(minGradients, maxGradients);
 
@@ -478,17 +482,10 @@ generateRadialGradient() {
 
   // origin of the next circle should be contained
   // within the area of its predecessor
-  if (this.radialGradients.length > 0) {
+  if (this.options.gradient.connected && this.radialGradients.length > 0) {
     var lastGradient = this.radialGradients[this.radialGradients.length - 1];
     var pointInLastCircle = Random.randomInCircle(lastGradient.r0, lastGradient.x0, lastGradient.y0);
 
-    // origin must be within the bounds of the canvas
-    while (pointInLastCircle.x < 0 ||
-           pointInLastCircle.y < 0 ||
-           pointInLastCircle.x > this.canvas.width ||
-           pointInLastCircle.y > this.canvas.height) {
-      pointInLastCircle = Random.randomInCircle(lastGradient.r0, lastGradient.x0, lastGradient.y0);
-    }
     x0 = pointInLastCircle.x;
     y0 = pointInLastCircle.y;
   } else {
