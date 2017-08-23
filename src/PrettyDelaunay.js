@@ -30,24 +30,11 @@ class PrettyDelaunay {
     this.pointMap = new PointMap();
 
     this.mousePosition = false;
+    this.mousemove = this.mousemove.bind(this);
+    this.mouseout = this.mouseout.bind(this);
 
     if (this.options.hover) {
-      this.createHoverShadowCanvas();
-
-      this.canvas.addEventListener('mousemove', (e) => {
-        if (!this.options.animate) {
-          var rect = canvas.getBoundingClientRect();
-          this.mousePosition = new Point(e.clientX - rect.left, e.clientY - rect.top);
-          this.hover();
-        }
-      }, false);
-
-      this.canvas.addEventListener('mouseout', () => {
-        if (!this.options.animate) {
-          this.mousePosition = false;
-          this.hover();
-        }
-      }, false);
+      this.initHover();
     }
 
     // throttled window resize
@@ -57,7 +44,7 @@ class PrettyDelaunay {
         return;
       }
       this.resizing = true;
-      requestAnimationFrame(()=> {
+      requestAnimationFrame(() => {
         this.rescale();
         this.resizing = false;
       });
@@ -304,12 +291,39 @@ class PrettyDelaunay {
     }
   }
 
+  initHover() {
+    this.createHoverShadowCanvas();
+
+    this.canvas.addEventListener('mousemove', this.mousemove, false);
+    this.canvas.addEventListener('mouseout', this.mouseout, false);
+  }
+
+  removeHover() {
+    this.canvas.removeEventListener('mousemove', this.mousemove, false);
+    this.canvas.removeEventListener('mouseout', this.mouseout, false);
+  }
+
   // creates a hidden canvas for hover detection
   createHoverShadowCanvas() {
-    this.hoverShadowCanvas = document.createElement('canvas');
-    this.shadowCtx = this.hoverShadowCanvas.getContext('2d');
+    this.hoverShadowCanvas = this.hoverShadowCanvas || document.createElement('canvas');
+    this.shadowCtx = this.shadowCtx || this.hoverShadowCanvas.getContext('2d');
 
     this.hoverShadowCanvas.style.display = 'none';
+  }
+
+  mousemove(event) {
+    if (!this.options.animate) {
+      var rect = canvas.getBoundingClientRect();
+      this.mousePosition = new Point(event.clientX - rect.left, event.clientY - rect.top);
+      this.hover();
+    }
+  }
+
+  mouseout(event) {
+    if (!this.options.animate) {
+      this.mousePosition = false;
+      this.hover();
+    }
   }
 
   generateNewPoints(min, max, minEdge, maxEdge, multiplier) {
@@ -930,6 +944,23 @@ class PrettyDelaunay {
     }
     if (this.options.animate) {
       this.initRenderLoop();
+    }
+  }
+
+  toggleHover(force) {
+    if (typeof force !== 'undefined') {
+      if (this.options.hover === force) {
+        // don't render if the option doesn’t change
+        return;
+      }
+      this.options.hover = force;
+    } else {
+      this.options.hover = !this.options.hover;
+    }
+    if (this.options.hover) {
+      this.initHover();
+    } else {
+      this.removeHover();
     }
   }
 
