@@ -144,62 +144,16 @@ generateButtons.addEventListener('click', (event) => {
 });
 
 renderOptions.addEventListener('change', (event) => {
-  console.log(event.target.name);
   let options = Object.keys(renderOptionElements);
   for (var i = 0; i < options.length; i++) {
     let option = options[i];
-    console.log(option);
+    let element = renderOptionElements[option];
+    let toggleFunctionName = option.replace('show', 'toggle');
+    if (prettyDelaunay[toggleFunctionName]) {
+      prettyDelaunay[toggleFunctionName](element.checked);
+    }
   }
-  prettyDelaunay.render();
 });
-
-// // turn Triangles off/on
-// showTrianglesInput.addEventListener('change', function(event) {
-//   if (event.target.checked !== showTriangles) {
-//     showTriangles = !showTriangles;
-//     prettyDelaunay.toggleTriangles();
-//   }
-// });
-//
-// // turn Points off/on
-// showPointsInput.addEventListener('change', function(event) {
-//   if (event.target.checked !== showPoints) {
-//     showPoints = !showPoints;
-//     prettyDelaunay.togglePoints();
-//   }
-// });
-//
-// // turn Circles off/on
-// showCirclesInput.addEventListener('change', function(event) {
-//   if (event.target.checked !== showCircles) {
-//     showCircles = !showCircles;
-//     prettyDelaunay.toggleCircles();
-//   }
-// });
-//
-// // turn Centroids off/on
-// showCentroidsInput.addEventListener('change', function(event) {
-//   if (event.target.checked !== showCentroids) {
-//     showCentroids = !showCentroids;
-//     prettyDelaunay.toggleCentroids();
-//   }
-// });
-//
-// // turn Edges off/on
-// showEdgesInput.addEventListener('change', function(event) {
-//   if (event.target.checked !== showEdges) {
-//     showEdges = !showEdges;
-//     prettyDelaunay.toggleEdges();
-//   }
-// });
-
-// turn Animation off/on
-// showAnimationInput.addEventListener('change', function(event) {
-//   if (event.target.checked !== showAnimation) {
-//     showAnimation = !showAnimation;
-//     prettyDelaunay.toggleAnimation();
-//   }
-// });
 
 // dont do anything on form submit
 form.addEventListener('submit', function(e) {

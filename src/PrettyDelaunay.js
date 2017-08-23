@@ -855,6 +855,10 @@ class PrettyDelaunay {
 
   toggleTriangles(force) {
     if (typeof force !== 'undefined') {
+      if (this.options.showTriangles === force) {
+        // don't render if the option doesn’t change
+        return;
+      }
       this.options.showTriangles = force;
     } else {
       this.options.showTriangles = !this.options.showTriangles;
@@ -864,6 +868,10 @@ class PrettyDelaunay {
 
   togglePoints(force) {
     if (typeof force !== 'undefined') {
+      if (this.options.showPoints === force) {
+        // don't render if the option doesn’t change
+        return;
+      }
       this.options.showPoints = force;
     } else {
       this.options.showPoints = !this.options.showPoints;
@@ -873,6 +881,10 @@ class PrettyDelaunay {
 
   toggleCircles(force) {
     if (typeof force !== 'undefined') {
+      if (this.options.showCircles === force) {
+        // don't render if the option doesn’t change
+        return;
+      }
       this.options.showCircles = force;
     } else {
       this.options.showCircles = !this.options.showCircles;
@@ -882,6 +894,10 @@ class PrettyDelaunay {
 
   toggleCentroids(force) {
     if (typeof force !== 'undefined') {
+      if (this.options.showCentroids === force) {
+        // don't render if the option doesn’t change
+        return;
+      }
       this.options.showCentroids = force;
     } else {
       this.options.showCentroids = !this.options.showCentroids;
@@ -891,6 +907,10 @@ class PrettyDelaunay {
 
   toggleEdges(force) {
     if (typeof force !== 'undefined') {
+      if (this.options.showEdges === force) {
+        // don't render if the option doesn’t change
+        return;
+      }
       this.options.showEdges = force;
     } else {
       this.options.showEdges = !this.options.showEdges;
@@ -900,6 +920,10 @@ class PrettyDelaunay {
 
   toggleAnimation(force) {
     if (typeof force !== 'undefined') {
+      if (this.options.animate === force) {
+        // don't render if the option doesn’t change
+        return;
+      }
       this.options.animate = force;
     } else {
       this.options.animate = !this.options.animate;
