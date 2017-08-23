@@ -1,21 +1,59 @@
+$row-vertical-spacing: 0.75rem;
+$label-horizontal-spacing: 0.5rem;
+
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   margin: 0;
   padding: 0;
+  position: relative;
+  min-height: 100%;
 
   font-family: sans-serif;
+}
+
+main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
 
   & > * {
     z-index: 1;
     position: relative;
-
-    &.canvas-wrapper {
-      z-index: 0;
-    }
   }
+}
+
+* {
+  box-sizing: border-box;
+
+  & + * {
+    margin-top: $row-vertical-spacing;
+  }
+}
+
+hr {
+  margin: 1rem 0;
+  -webkit-margin-collapse: separate;
+}
+
+h1, h2, h3, h4, h5 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+form {
+  display: inline-block;
+  text-align: left;
 }
 
 .canvas-wrapper {
@@ -27,80 +65,187 @@ body {
   overflow: hidden;
 }
 
-* {
-  box-sizing: border-box;
-
-  & + * {
-    margin-top: .5em;
-  }
-}
-
 canvas, canvas + canvas {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5 {
-  margin-top: 0;
-  margin-bottom: .5em;
-}
-
-form {
-
-  &.light {
-    color: white;
-  }
-
-  &.dark {
-    color: black;
-  }
-
-  &.light,
-  &.dark {
-    input, button {
-      color: black;
-    }
-  }
-
-  & > * {
-    opacity: .3;
-
-    &:hover {
-      opacity: 1.0;
-    }
-  }
-}
-
 .form-row {
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 
   > * {
-    margin-top: 0;
+    flex-grow: 1;
+    flex-basis: 0;
 
-    + * {
-      margin-left: 1em;
+    margin-top: 0;
+    margin-left: $label-horizontal-spacing;
+
+    &:first-child {
+      margin-left: 0;
     }
   }
 
-  input {
-    flex-grow: 1;
+  > input {
+    &[type=radio],
+    &[type=checkbox] {
+      flex-grow: 0;
+      flex-basis: auto;
+      margin-left: 0;
+
+      ~ input {
+        margin-left: 1rem;
+      }
+    }
+
+    &[type=range] {
+      flex-grow: 100;
+
+      ~ label {
+        margin-left: $label-horizontal-spacing;
+        flex-grow: 1;
+        flex-basis: auto;
+      }
+
+      + label {
+        order: -1;
+        margin-left: 0;
+        margin-right: $label-horizontal-spacing;
+      }
+    }
+
+    &[type=number] + label {
+      flex-grow: 0;
+    }
+
+    &[type=url] {
+      flex-grow: 10;
+    }
+
+    &[type=color] {
+      flex-grow: 1.5;
+
+      + input {
+        width: 5em;
+        flex-grow: 0;
+      }
+    }
+
+  }
+
+  legend + & {
+    margin-top: 0.5rem;
+  }
+}
+
+fieldset {
+  > *:first-child {
+    margin-top: $row-vertical-spacing;
   }
 }
 
 input {
   & ~ fieldset {
-    display: none;
-    margin: 1em 0 0;
+    opacity: 0.3;
+    pointer-events: none;
+    margin: 0.5rem 0 1rem;
+
+    .form-row & {
+      margin: 0.5rem 0 1rem;
+      pointer-events: all;
+    }
+
+    *:last-child > &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &:checked ~ fieldset {
-    display: block;
-    flex: 0 0 100%;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &[type=radio],
+  &[type=checkbox] {
+    margin: 0;
+
+    label + & {
+      margin-left: 1em;
+    }
+  }
+
+  &[type=color] {
+    height: 2rem;
+    padding: 2px;
+    border-width: 1px;
+  }
+
+  + label {
+    margin-left: $label-horizontal-spacing;
   }
 }
 
-input[type=color] {
-  height: 4em;
-  max-width: 4em;
+button {
+  padding: 4px 2px 5px 2px;
+  font-size: 0.75rem;
+}
+
+.a11y {
+  position: absolute;
+	clip: rect(1px 1px 1px 1px);
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(0px 0px 99.9% 99.9%);
+	overflow: hidden;
+	height: 1px;
+	width: 1px;
+	padding: 0;
+	border: 0;
+}
+
+.theme-light {
+  color: white;
+}
+
+.theme-dark {
+  color: black;
+}
+
+.theme-light,
+.theme-dark {
+  input, button {
+    color: black;
+  }
+}
+
+.check-toggle {
+  -webkit-appearance: none;
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  overflow: hidden;
+
+  + label:after {
+    content: 'Show';
+  }
+
+  ~ fieldset {
+    visibility: hidden;
+    height: 1px;
+  }
+
+  &:checked {
+    + label:after {
+      content: 'Hide';
+    }
+
+    ~ fieldset {
+      visibility: visible;
+      height: auto;
+    }
+  }
+}
+
+.headline-toggle {
+  display: inline-block;
 }
