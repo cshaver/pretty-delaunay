@@ -31,6 +31,12 @@ const Random = {
     return new Point(x, y);
   },
 
+  randomRgb: function() {
+    return 'rgb(' + Random.randomBetween(255) + ',' +
+                     Random.randomBetween(255) + ',' +
+                     Random.randomBetween(255) + ')';
+  },
+
   randomRgba: function() {
     return 'rgba(' + Random.randomBetween(255) + ',' +
                      Random.randomBetween(255) + ',' +

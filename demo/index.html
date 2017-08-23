@@ -103,21 +103,24 @@
             <input type="radio" name="background" id="color-choose-option" />
             <label for="color-choose-option">Choose colors:</label>
           </div>
-          <fieldset>
+          <fieldset id="color-inputs">
             <legend>Custom colors:</legend>
             <div class="form-row">
               <label for="color-1">Inner color:</label>
-              <input type="color" id="color-1" value="#FFFFFF">
+              <input type="color" id="color-1" data-color-sync="color-1-hex" value="#FFFFFF">
+              <input type="text" id="color-1-hex" data-color-sync="color-1" value="#FFFFFF">
             </div>
 
             <div class="form-row">
               <label for="color-2">Middle color:</label>
-              <input type="color" id="color-2" value="#888888">
+              <input type="color" id="color-2" data-color-sync="color-2-hex" value="#888888">
+              <input type="text" id="color-2-hex" data-color-sync="color-2" value="#888888">
             </div>
 
             <div class="form-row">
               <label for="color-3">Outer color:</label>
-              <input type="color" id="color-3" value="#000000">
+              <input type="color" id="color-3" data-color-sync="color-3-hex" value="#000000">
+              <input type="text" id="color-3-hex" data-color-sync="color-3" value="#000000">
             </div>
           </fieldset>
           <div>

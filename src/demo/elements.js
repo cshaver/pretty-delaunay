@@ -7,7 +7,8 @@ const elements = {
     generateButtons: document.getElementById('generate-buttons'),
     renderOptions: document.getElementById('render-options'),
     pointOptions: document.getElementById('point-options'),
-    backgroundOptions: document.getElementById('background-options')
+    backgroundOptions: document.getElementById('background-options'),
+    colorInputs: document.getElementById('color-inputs')
   },
   renderOptions: {
     showTriangles: document.getElementById('show-triangles'),

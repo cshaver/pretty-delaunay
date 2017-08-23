@@ -58,19 +58,26 @@ function getOptions() {
 function getColors() {
   var colors = [];
 
-  console.log(elements.colorInputs.map((element) => {
-    return element.value;
-  }));
-
   if (elements.colorChooseOption.checked) {
     // use the ones in the inputs
-    colors = elements.colorInputs.map((element) => {
-      Color.rgbToHsla(Color.hexToRgbaArray(element.value));
+    colors = elements.colorInputs.map((input) => {
+      Color.rgbToHsla(Color.hexToRgbaArray(input.value));
     });
   } else {
     // generate random colors
-    colors = elements.colorInputs.map(() => {
-      return Random.randomHsla();
+    colors = elements.colorInputs.map((input) => {
+      let rgb = Random.randomRgba().replace('rgba', 'rgb').replace(/,\s*\d(\.\d+)?\)/, ')');
+      let hsla = Color.rgbToHsla(rgb);
+      let hex = '#' + Color.rgbToHex(rgb);
+
+      input.value = hex;
+      let matchingInput = document.getElementById(input.getAttribute('data-color-sync'));
+
+      if (matchingInput) {
+        matchingInput.value = input.value;
+      }
+
+      return hsla;
     });
   }
 
@@ -136,12 +143,23 @@ elements.sections.renderOptions.addEventListener('change', (event) => {
   let options = Object.keys(elements.renderOptions);
   for (var i = 0; i < options.length; i++) {
     let option = options[i];
-    let element = renderOptionElements[option];
+    let element = elements.renderOptions[option];
     let toggleFunctionName = option.replace('show', 'toggle');
     if (prettyDelaunay[toggleFunctionName]) {
       prettyDelaunay[toggleFunctionName](element.checked);
     }
   }
+});
+
+elements.sections.colorInputs.addEventListener('change', (event) => {
+  let input = event.target;
+  let matchingInput = document.getElementById(event.target.getAttribute('data-color-sync'));
+
+  if (!matchingInput) {
+    return;
+  }
+
+  matchingInput.value = input.value;
 });
 
 // don't do anything on form submit

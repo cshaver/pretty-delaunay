@@ -15,6 +15,10 @@ const Color = {
     var g = parseInt(hex.substring(2, 4), 16);
     var b = parseInt(hex.substring(4, 6), 16);
 
+    if (isNan(r) || isNan(g) || isNan(b)) {
+      return [0, 0, 0];
+    }
+
     return [r, g, b];
   },
 
@@ -30,6 +34,9 @@ const Color = {
    * @return  Array           The HSL representation
    */
   rgbToHsla: function(rgb) {
+    if (typeof rgb === 'string') {
+      rgb = rgb.replace('rgb(', '').replace(')', '').split(',');
+    }
     var r = rgb[0] / 255;
     var g = rgb[1] / 255;
     var b = rgb[2] / 255;

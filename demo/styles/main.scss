@@ -110,7 +110,12 @@ canvas, canvas + canvas {
     }
 
     &[type=color] {
-      flex-grow: 2;
+      flex-grow: 1.5;
+
+      + input {
+        width: 5em;
+        flex-grow: 0;
+      }
     }
 
   }
@@ -158,6 +163,8 @@ input {
 
   &[type=color] {
     height: 2rem;
+    padding: 2px;
+    border-width: 1px;
   }
 
   + label {
