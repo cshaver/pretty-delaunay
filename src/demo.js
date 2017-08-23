@@ -12,13 +12,15 @@ const renderOptions = document.getElementById('render-options');
 const pointOptions = document.getElementById('point-options');
 const backgroundOptions = document.getElementById('background-options');
 
-const showTrianglesInput = document.getElementById('show-triangles');
-const showPointsInput = document.getElementById('show-points');
-const showCirclesInput = document.getElementById('show-circles');
-const showCentroidsInput = document.getElementById('show-centroids');
-const showEdgesInput = document.getElementById('show-edges');
-const showHoverInput = document.getElementById('show-hover');
-const showAnimationInput = document.getElementById('show-animation');
+const renderOptionElements = {
+  showTriangles: document.getElementById('show-triangles'),
+  showPoints: document.getElementById('show-points'),
+  showCircles: document.getElementById('show-circles'),
+  showCentroids: document.getElementById('show-centroids'),
+  showEdges: document.getElementById('show-edges'),
+  showHover: document.getElementById('show-hover'),
+  showAnimation: document.getElementById('show-animation')
+};
 
 const multiplierRadio = document.getElementById('point-gen-option-multiplier');
 const multiplierInput = document.getElementById('points-multiplier');
@@ -141,53 +143,63 @@ generateButtons.addEventListener('click', (event) => {
   }
 });
 
-// turn Triangles off/on
-showTrianglesInput.addEventListener('change', function(event) {
-  if (event.target.checked !== showTriangles) {
-    showTriangles = !showTriangles;
-    prettyDelaunay.toggleTriangles();
+renderOptions.addEventListener('change', (event) => {
+  console.log(event.target.name);
+  let options = Object.keys(renderOptionElements);
+  for (var i = 0; i < options.length; i++) {
+    let option = options[i];
+    console.log(option);
   }
+  prettyDelaunay.render();
 });
 
-// turn Points off/on
-showPointsInput.addEventListener('change', function(event) {
-  if (event.target.checked !== showPoints) {
-    showPoints = !showPoints;
-    prettyDelaunay.togglePoints();
-  }
-});
-
-// turn Circles off/on
-showCirclesInput.addEventListener('change', function(event) {
-  if (event.target.checked !== showCircles) {
-    showCircles = !showCircles;
-    prettyDelaunay.toggleCircles();
-  }
-});
-
-// turn Centroids off/on
-showCentroidsInput.addEventListener('change', function(event) {
-  if (event.target.checked !== showCentroids) {
-    showCentroids = !showCentroids;
-    prettyDelaunay.toggleCentroids();
-  }
-});
-
-// turn Edges off/on
-showEdgesInput.addEventListener('change', function(event) {
-  if (event.target.checked !== showEdges) {
-    showEdges = !showEdges;
-    prettyDelaunay.toggleEdges();
-  }
-});
+// // turn Triangles off/on
+// showTrianglesInput.addEventListener('change', function(event) {
+//   if (event.target.checked !== showTriangles) {
+//     showTriangles = !showTriangles;
+//     prettyDelaunay.toggleTriangles();
+//   }
+// });
+//
+// // turn Points off/on
+// showPointsInput.addEventListener('change', function(event) {
+//   if (event.target.checked !== showPoints) {
+//     showPoints = !showPoints;
+//     prettyDelaunay.togglePoints();
+//   }
+// });
+//
+// // turn Circles off/on
+// showCirclesInput.addEventListener('change', function(event) {
+//   if (event.target.checked !== showCircles) {
+//     showCircles = !showCircles;
+//     prettyDelaunay.toggleCircles();
+//   }
+// });
+//
+// // turn Centroids off/on
+// showCentroidsInput.addEventListener('change', function(event) {
+//   if (event.target.checked !== showCentroids) {
+//     showCentroids = !showCentroids;
+//     prettyDelaunay.toggleCentroids();
+//   }
+// });
+//
+// // turn Edges off/on
+// showEdgesInput.addEventListener('change', function(event) {
+//   if (event.target.checked !== showEdges) {
+//     showEdges = !showEdges;
+//     prettyDelaunay.toggleEdges();
+//   }
+// });
 
 // turn Animation off/on
-showAnimationInput.addEventListener('change', function(event) {
-  if (event.target.checked !== showAnimation) {
-    showAnimation = !showAnimation;
-    prettyDelaunay.toggleAnimation();
-  }
-});
+// showAnimationInput.addEventListener('change', function(event) {
+//   if (event.target.checked !== showAnimation) {
+//     showAnimation = !showAnimation;
+//     prettyDelaunay.toggleAnimation();
+//   }
+// });
 
 // dont do anything on form submit
 form.addEventListener('submit', function(e) {

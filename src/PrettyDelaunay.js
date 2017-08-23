@@ -853,33 +853,57 @@ class PrettyDelaunay {
     }
   }
 
-  toggleTriangles() {
-    this.options.showTriangles = !this.options.showTriangles;
+  toggleTriangles(force) {
+    if (typeof force !== 'undefined') {
+      this.options.showTriangles = force;
+    } else {
+      this.options.showTriangles = !this.options.showTriangles;
+    }
     this.render();
   }
 
-  togglePoints() {
-    this.options.showPoints = !this.options.showPoints;
+  togglePoints(force) {
+    if (typeof force !== 'undefined') {
+      this.options.showPoints = force;
+    } else {
+      this.options.showPoints = !this.options.showPoints;
+    }
     this.render();
   }
 
-  toggleCircles() {
-    this.options.showCircles = !this.options.showCircles;
+  toggleCircles(force) {
+    if (typeof force !== 'undefined') {
+      this.options.showCircles = force;
+    } else {
+      this.options.showCircles = !this.options.showCircles;
+    }
     this.render();
   }
 
-  toggleCentroids() {
-    this.options.showCentroids = !this.options.showCentroids;
+  toggleCentroids(force) {
+    if (typeof force !== 'undefined') {
+      this.options.showCentroids = force;
+    } else {
+      this.options.showCentroids = !this.options.showCentroids;
+    }
     this.render();
   }
 
-  toggleEdges() {
-    this.options.showEdges = !this.options.showEdges;
+  toggleEdges(force) {
+    if (typeof force !== 'undefined') {
+      this.options.showEdges = force;
+    } else {
+      this.options.showEdges = !this.options.showEdges;
+    }
     this.render();
   }
 
-  toggleAnimation() {
-    this.options.animate = !this.options.animate;
+  toggleAnimation(force) {
+    if (typeof force !== 'undefined') {
+      this.options.animate = force;
+    } else {
+      this.options.animate = !this.options.animate;
+    }
     if (this.options.animate) {
       this.initRenderLoop();
     }
