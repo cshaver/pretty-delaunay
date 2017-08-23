@@ -2,149 +2,138 @@ const PrettyDelaunay  = require('./PrettyDelaunay');
 const Color  = require('./PrettyDelaunay/color');
 const Random = require('./PrettyDelaunay/random');
 
-// grab DOM elements
-const main = document.getElementById('main');
-const form = document.getElementById('form');
-const canvas = document.getElementById('canvas');
+const elements = require('./demo/elements');
 
-const generateButtons = document.getElementById('generate-buttons');
-const renderOptions = document.getElementById('render-options');
-const pointOptions = document.getElementById('point-options');
-const backgroundOptions = document.getElementById('background-options');
-
-const renderOptionElements = {
-  showTriangles: document.getElementById('show-triangles'),
-  showPoints: document.getElementById('show-points'),
-  showCircles: document.getElementById('show-circles'),
-  showCentroids: document.getElementById('show-centroids'),
-  showEdges: document.getElementById('show-edges'),
-  showHover: document.getElementById('show-hover'),
-  showAnimation: document.getElementById('show-animation')
-};
-
-const multiplierRadio = document.getElementById('point-gen-option-multiplier');
-const multiplierInput = document.getElementById('points-multiplier');
-const maxInput = document.getElementById('max-points');
-const minInput = document.getElementById('min-points');
-const maxEdgeInput = document.getElementById('max-edge-points');
-const minEdgeInput = document.getElementById('min-edge-points');
-const maxGradientInput = document.getElementById('max-gradients');
-const minGradientInput = document.getElementById('min-gradients');
-
-const imageBackgroundUpload = document.getElementById('image-background-upload');
-const imageBackgroundURL = document.getElementById('image-background-url');
-
-let randomizeOptions = {};
-
-let minPoints, maxPoints, minEdgePoints, maxEdgePoints, minGradients, maxGradients, multiplier, colors, image;
-
-let showTriangles, showPoints, showCircles, showCentroids, showEdges, showAnimation;
-
-const options = {
-  onDarkBackground: function() {
-    main.className = 'theme-light';
+// initialize PrettyDelaunay on the canva
+const prettyDelaunay = new PrettyDelaunay(elements.canvas, {
+  onDarkBackground: () => {
+    elements.main.className = 'theme-light';
   },
-  onLightBackground: function() {
-    main.className = 'theme-dark';
-  },
-};
-
-// initialize the PrettyDelaunay object
-let prettyDelaunay = new PrettyDelaunay(canvas, options);
+  onLightBackground: () => {
+    elements.main.className = 'theme-dark';
+  }
+});
 
 // initial generation
-runDelaunay();
+randomize();
 
 /**
  * util functions
  */
 
 // get options and re-randomize
-function runDelaunay() {
-  getRandomizeOptions();
-  prettyDelaunay.randomize(minPoints, maxPoints, minEdgePoints, maxEdgePoints, minGradients, maxGradients, multiplier, colors, image);
+function randomize() {
+  let options = getOptions();
+  prettyDelaunay.randomize(
+    options.minPoints,
+    options.maxPoints,
+    options.minEdgePoints,
+    options.maxEdgePoints,
+    options.minGradients,
+    options.maxGradients,
+    options.multiplier,
+    options.colors,
+    options.image
+  );
+}
+
+// get options from input fields
+function getOptions() {
+  let useMultiplier = elements.multiplierRadio.checked;
+  let options = {
+    multiplier: parseFloat(elements.multiplierInput.value),
+    minPoints: useMultiplier ? 0 : parseInt(elements.minPointsInput.value),
+    maxPoints: useMultiplier ? 0 : parseInt(elements.maxPointsInput.value),
+    minEdgePoints: useMultiplier ? 0 : parseInt(elements.minEdgesInput.value),
+    maxEdgePoints: useMultiplier ? 0 : parseInt(elements.maxEdgesInput.value),
+    minGradients: parseInt(elements.minGradientsInput.value),
+    maxGradients: parseInt(elements.maxGradientsInput.value),
+    colors: getColors(),
+    image: getImage()
+  };
+
+  return options;
 }
 
 function getColors() {
   var colors = [];
 
-  if (document.getElementById('color-type-1').checked) {
-    // generate random colors
-    for (var i = 0; i < 3; i++) {
-      var color = Random.randomHsla();
-      colors.push(color);
-    }
-  } else {
+  console.log(elements.colorInputs.map((element) => {
+    return element.value;
+  }));
+
+  if (elements.colorChooseOption.checked) {
     // use the ones in the inputs
-    colors.push(Color.rgbToHsla(Color.hexToRgbaArray(document.getElementById('color-1').value)));
-    colors.push(Color.rgbToHsla(Color.hexToRgbaArray(document.getElementById('color-2').value)));
-    colors.push(Color.rgbToHsla(Color.hexToRgbaArray(document.getElementById('color-3').value)));
+    colors = elements.colorInputs.map((element) => {
+      Color.rgbToHsla(Color.hexToRgbaArray(element.value));
+    });
+  } else {
+    // generate random colors
+    colors = elements.colorInputs.map(() => {
+      return Random.randomHsla();
+    });
   }
 
   return colors;
 }
 
 function getImage() {
-  if (!document.getElementById('color-type-3').checked) {
+  if (!elements.colorImageOption.checked) {
     return '';
   }
 
-  if (document.getElementById('image-background-upload-option').checked && imageBackgroundUpload.files.length) {
-    let file = imageBackgroundUpload.files[0];
+  if (elements.imageBackgroundUploadOption.checked && elements.imageBackgroundUpload.files.length) {
+    let file = elements.imageBackgroundUpload.files[0];
     return window.URL.createObjectURL(file);
-  } else if (document.getElementById('image-background-url-option').checked) {
-    return imageBackgroundURL.value;
+  } else if (imageBackgroundURLOption.checked) {
+    return elements.imageBackgroundURL.value;
   } else {
     return '';
   }
-}
-
-// get options from input fields
-function getRandomizeOptions() {
-  var useMultiplier = multiplierRadio.checked;
-  multiplier = parseFloat(multiplierInput.value);
-  minPoints = useMultiplier ? 0 : parseInt(minInput.value);
-  maxPoints = useMultiplier ? 0 : parseInt(maxInput.value);
-  minEdgePoints = useMultiplier ? 0 : parseInt(minEdgeInput.value);
-  maxEdgePoints = useMultiplier ? 0 : parseInt(maxEdgeInput.value);
-  minGradients = parseInt(minGradientInput.value);
-  maxGradients = parseInt(maxGradientInput.value);
-  colors = getColors();
-  image = getImage();
 }
 
 /**
  * set up events
  */
 
-generateButtons.addEventListener('click', (event) => {
+// regenerate the triangulation entirely, or only update the color, shape, or triangles
+elements.sections.generateButtons.addEventListener('click', (event) => {
   let button = event.target;
 
   if (button.hasAttribute('data-generate-colors') &&
       button.hasAttribute('data-generate-gradients') &&
       button.hasAttribute('data-generate-triangles')) {
-    runDelaunay();
+    randomize();
     return;
   }
 
   if (button.hasAttribute('data-generate-colors')) {
-    let newColors = getColors();
-    prettyDelaunay.renderNewColors(newColors);
+    prettyDelaunay.renderNewColors(getColors());
   }
 
   if (button.hasAttribute('data-generate-gradients')) {
-    getRandomizeOptions();
-    prettyDelaunay.renderNewGradient(minGradients, maxGradients);
+    let options = getOptions();
+    prettyDelaunay.renderNewGradient(
+      options.minGradients,
+      options.maxGradients
+    );
   }
 
   if (button.hasAttribute('data-generate-triangles')) {
-    getRandomizeOptions();
-    prettyDelaunay.renderNewTriangles(minPoints, maxPoints, minEdgePoints, maxEdgePoints, multiplier);
+    let options = getOptions();
+    prettyDelaunay.renderNewTriangles(
+      options.minPoints,
+      options.maxPoints,
+      options.minEdgePoints,
+      options.maxEdgePoints,
+      options.multiplier
+    );
   }
 });
 
-renderOptions.addEventListener('change', (event) => {
-  let options = Object.keys(renderOptionElements);
+// update the render when options are changed
+elements.sections.renderOptions.addEventListener('change', (event) => {
+  let options = Object.keys(elements.renderOptions);
   for (var i = 0; i < options.length; i++) {
     let option = options[i];
     let element = renderOptionElements[option];
@@ -155,8 +144,8 @@ renderOptions.addEventListener('change', (event) => {
   }
 });
 
-// dont do anything on form submit
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
+// don't do anything on form submit
+elements.form.addEventListener('submit', (event) => {
+  event.preventDefault();
   return false;
 });
