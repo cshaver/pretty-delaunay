@@ -9,29 +9,29 @@ const canvas = document.getElementById('canvas');
 
 const generateButton = document.getElementById('generate');
 
-const generateColorsButton = document.getElementById('generateColors');
-const generateGradientButton = document.getElementById('generateGradient');
-const generateTrianglesButton = document.getElementById('generateTriangles');
+const generateColorsButton = document.getElementById('generate-colors');
+const generateGradientButton = document.getElementById('generate-gradient');
+const generateTrianglesButton = document.getElementById('generate-triangles');
 
-const showTrianglesInput = document.getElementById('showTriangles');
-const showPointsInput = document.getElementById('showPoints');
-const showCirclesInput = document.getElementById('showCircles');
-const showCentroidsInput = document.getElementById('showCentroids');
-const showEdgesInput = document.getElementById('showEdges');
-const showHoverInput = document.getElementById('showHover');
-const showAnimationInput = document.getElementById('showAnimation');
+const showTrianglesInput = document.getElementById('show-triangles');
+const showPointsInput = document.getElementById('show-points');
+const showCirclesInput = document.getElementById('show-circles');
+const showCentroidsInput = document.getElementById('show-centroids');
+const showEdgesInput = document.getElementById('show-edges');
+const showHoverInput = document.getElementById('show-hover');
+const showAnimationInput = document.getElementById('show-animation');
 
-const multiplierRadio = document.getElementById('pointGen1');
-const multiplierInput = document.getElementById('pointsMultiplier');
-const maxInput = document.getElementById('maxPoints');
-const minInput = document.getElementById('minPoints');
-const maxEdgeInput = document.getElementById('maxEdgePoints');
-const minEdgeInput = document.getElementById('minEdgePoints');
-const maxGradientInput = document.getElementById('maxGradients');
-const minGradientInput = document.getElementById('minGradients');
+const multiplierRadio = document.getElementById('point-gen-option-multiplier');
+const multiplierInput = document.getElementById('points-multiplier');
+const maxInput = document.getElementById('max-points');
+const minInput = document.getElementById('min-points');
+const maxEdgeInput = document.getElementById('max-edge-points');
+const minEdgeInput = document.getElementById('min-edge-points');
+const maxGradientInput = document.getElementById('max-gradients');
+const minGradientInput = document.getElementById('min-gradients');
 
-const imageBackgroundUpload = document.getElementById('imageBackgroundUpload');
-const imageBackgroundInput = document.getElementById('imageBackgroundInput');
+const imageBackgroundUpload = document.getElementById('image-background-upload');
+const imageBackgroundURL = document.getElementById('image-background-url');
 
 let randomizeOptions = {};
 
@@ -67,7 +67,7 @@ function runDelaunay() {
 function getColors() {
   var colors = [];
 
-  if (document.getElementById('colorType1').checked) {
+  if (document.getElementById('color-type-1').checked) {
     // generate random colors
     for (var i = 0; i < 3; i++) {
       var color = Random.randomHsla();
@@ -75,24 +75,24 @@ function getColors() {
     }
   } else {
     // use the ones in the inputs
-    colors.push(Color.rgbToHsla(Color.hexToRgbaArray(document.getElementById('color1').value)));
-    colors.push(Color.rgbToHsla(Color.hexToRgbaArray(document.getElementById('color2').value)));
-    colors.push(Color.rgbToHsla(Color.hexToRgbaArray(document.getElementById('color3').value)));
+    colors.push(Color.rgbToHsla(Color.hexToRgbaArray(document.getElementById('color-1').value)));
+    colors.push(Color.rgbToHsla(Color.hexToRgbaArray(document.getElementById('color-2').value)));
+    colors.push(Color.rgbToHsla(Color.hexToRgbaArray(document.getElementById('color-3').value)));
   }
 
   return colors;
 }
 
 function getImage() {
-  if (!document.getElementById('colorType3').checked) {
+  if (!document.getElementById('color-type-3').checked) {
     return '';
   }
 
-  if (document.getElementById('imageBackground1').checked && imageBackgroundUpload.files.length) {
+  if (document.getElementById('image-background-upload-option').checked && imageBackgroundUpload.files.length) {
     let file = imageBackgroundUpload.files[0];
     return window.URL.createObjectURL(file);
-  } else if (document.getElementById('imageBackground2').checked) {
-    return imageBackgroundInput.value;
+  } else if (document.getElementById('image-background-url-option').checked) {
+    return imageBackgroundURL.value;
   } else {
     return '';
   }

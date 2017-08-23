@@ -144,6 +144,7 @@ input {
 
   &:checked ~ fieldset {
     opacity: 1;
+    pointer-events: all;
   }
 
   &[type=radio],

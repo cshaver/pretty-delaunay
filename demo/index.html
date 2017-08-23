@@ -25,9 +25,9 @@
             <button id="generate" type="submit">Redo all</button>
           </div>
           <div class="form-row">
-            <button id="generateColors">Redo Colors</button>
-            <button id="generateGradient">Redo Gradient</button>
-            <button id="generateTriangles">Redo Triangles</button>
+            <button id="generate-colors">Redo Colors</button>
+            <button id="generate-gradient">Redo Gradient</button>
+            <button id="generate-triangles">Redo Triangles</button>
           </div>
         </fieldset>
 
@@ -35,19 +35,19 @@
           <legend><h3>Render options</h3></legend>
 
           <div class="form-row">
-            <input type="radio" name="showAnimationHover" id="showAnimation" /><label for="showAnimation">Animation</label>
-            <input type="radio" name="showAnimationHover" id="showHover" checked /><label for="showHover">Hover Effect</label>
+            <input type="radio" name="show-animation-hover" id="show-animation" /><label for="show-animation">Animation</label>
+            <input type="radio" name="show-animation-hover" id="show-hover" checked /><label for="show-hover">Hover Effect</label>
           </div>
 
           <div class="form-row">
-            <input type="checkbox" name="showTriangles" id="showTriangles" checked /><label for="showTriangles">Triangles</label>
-            <input type="checkbox" name="showEdges" id="showEdges" checked /><label for="showEdges">Edges</label>
-            <input type="checkbox" name="showPoints" id="showPoints" /><label for="showPoints">Points</label>
-            <input type="checkbox" name="showCentroids" id="showCentroids" checked /><label for="showCentroids">Centroids</label>
+            <input type="checkbox" name="show-triangles" id="show-triangles" checked /><label for="show-triangles">Triangles</label>
+            <input type="checkbox" name="show-edges" id="show-edges" checked /><label for="show-edges">Edges</label>
+            <input type="checkbox" name="show-points" id="show-points" /><label for="show-points">Points</label>
+            <input type="checkbox" name="show-centroids" id="show-centroids" checked /><label for="show-centroids">Centroids</label>
           </div>
 
           <div class="form-row">
-            <input type="checkbox" name="showCircles" id="showCircles" /><label for="showCircles">Gradient circles</label>
+            <input type="checkbox" name="show-circles" id="show-circles" /><label for="show-circles">Gradient circles</label>
           </div>
         </fieldset>
 
@@ -55,33 +55,33 @@
           <legend><h3>Point density options</h3></legend>
 
           <div>
-            <input type="radio" name="pointGen" value="multiplier" id="pointGen1" checked />
-            <label for="pointGen1" id="pointGen1-label">Multiplier (based on size of canvas)</label>
+            <input type="radio" name="point-gen" value="multiplier" id="point-gen-option-multiplier" checked />
+            <label for="point-gen-option-multiplier" id="point-gen-multiplier-label">Multiplier (based on size of canvas)</label>
           </div>
           <div class="form-row">
-            <input type="range" id="pointsMultiplier" value="0.5" min="0.01" max="1" step="0.01" aria-labelledby="pointGen1-label" aria-describedby="pointsMin pointsMax">
-            <label for="pointsMultiplier">0.1</label>
-            <label for="pointsMultiplier">1.0</label>
+            <input type="range" id="points-multiplier" value="0.5" min="0.01" max="1" step="0.01" aria-labelledby="point-gen-multiplier-label" aria-describedby="points-min points-max">
+            <label for="points-multiplier">0.1</label>
+            <label for="points-multiplier">1.0</label>
           </div>
 
           <div>
-            <input type="radio" name="pointGen" value="exactly" id="pointGen2" />
-            <label for="pointGen2">Exact range:</label>
+            <input type="radio" name="point-gen" value="exactly" id="point-gen-option-exact" />
+            <label for="point-gen-option-exact">Exact range:</label>
 
             <fieldset>
               <legend><h4>Point density ranges</h4></legend>
               <div class="form-row">
-                <label for="minPoints">Points</label>
-                <input id="minPoints" type="number" min="1" max="10000" value=""/>
-                <label for="maxPoints">to</label>
-                <input id="maxPoints" type="number" min="1" max="10000" value=""/>
+                <label for="min-points">Points</label>
+                <input id="min-points" type="number" min="1" max="10000" value=""/>
+                <label for="max-points">to</label>
+                <input id="max-points" type="number" min="1" max="10000" value=""/>
               </div>
 
               <div class="form-row">
-                <label for="minEdgePoints">Edge Points</label>
-                <input id="minEdgePoints" type="number" min="1" max="10000" value=""/>
-                <label for="maxEdgePoints">to</label>
-                <input id="maxEdgePoints" type="number" min="1" max="10000" value=""/>
+                <label for="min-edge-points">Edge Points</label>
+                <input id="min-edge-points" type="number" min="1" max="10000" value=""/>
+                <label for="max-edge-points">to</label>
+                <input id="max-edge-points" type="number" min="1" max="10000" value=""/>
               </div>
             </fieldset>
           </div>
@@ -91,48 +91,48 @@
           <legend><h3>Background options</h3></legend>
 
           <div class="form-row">
-            <label for="minGradients">Gradients</label>
-            <input id="minGradients" type="number" min="1" max="100" value="1"/>
-            <label for="maxGradients">to</label>
-            <input id="maxGradients" type="number" min="1" max="100" value="10"/>
+            <label for="min-gradients">Gradients</label>
+            <input id="min-gradients" type="number" min="1" max="100" value="1"/>
+            <label for="max-gradients">to</label>
+            <input id="max-gradients" type="number" min="1" max="100" value="10"/>
           </div>
 
           <div class="form-row">
-            <input type="radio" name="background" value="random" id="colorType1" checked />
-            <label for="colorType1">Random colors</label>
-            <input type="radio" name="background" id="colorType2" />
-            <label for="colorType2">Choose colors:</label>
+            <input type="radio" name="background" value="random" id="color-type-1" checked />
+            <label for="color-type-1">Random colors</label>
+            <input type="radio" name="background" id="color-type-2" />
+            <label for="color-type-2">Choose colors:</label>
           </div>
           <fieldset>
             <legend>Custom colors:</legend>
             <div class="form-row">
-              <label for="color1">Inner color:</label>
-              <input type="color" id="color1" value="#FFFFFF">
+              <label for="color-1">Inner color:</label>
+              <input type="color" id="color-1" value="#FFFFFF">
             </div>
 
             <div class="form-row">
-              <label for="color2">Middle color:</label>
-              <input type="color" id="color2" value="#888888">
+              <label for="color-2">Middle color:</label>
+              <input type="color" id="color-2" value="#888888">
             </div>
 
             <div class="form-row">
-              <label for="color3">Outer color:</label>
-              <input type="color" id="color3" value="#000000">
+              <label for="color-3">Outer color:</label>
+              <input type="color" id="color-3" value="#000000">
             </div>
           </fieldset>
           <div>
-            <input type="radio" name="background" id="colorType3" />
-            <label for="colorType3">Image</label>
+            <input type="radio" name="background" id="color-type-3" />
+            <label for="color-type-3">Image</label>
             <fieldset>
               <div class="form-row">
-                <input type="radio" name="imageBackground" id="imageBackground1" checked />
-                <label for="imageBackgroundUpload">Upload:</label>
-                <input type="file" id="imageBackgroundUpload" accept="image/*">
+                <input type="radio" name="image-background" id="image-background-upload-option" checked />
+                <label for="image-background-upload-option">Upload:</label>
+                <input type="file" id="image-background-upload" accept="image/*">
               </div>
               <div class="form-row">
-                <input type="radio" name="imageBackground" id="imageBackground2" />
-                <label for="imageBackgroundInput">URL:</label>
-                <input type="url" id="imageBackgroundInput" value="">
+                <input type="radio" name="image-background" id="image-background-url-option" />
+                <label for="image-background-url-option" id="image-background-url-label">URL:</label>
+                <input type="url" id="image-background-url" aria-labelledby="image-background-url-label" value="">
               </div>
             </fieldset>
           </div>
