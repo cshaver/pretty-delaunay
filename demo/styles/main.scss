@@ -1,22 +1,32 @@
 $row-vertical-spacing: 0.75rem;
 $label-horizontal-spacing: 0.5rem;
 
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
 body {
   margin: 0;
   padding: 0;
   position: relative;
+  min-height: 100%;
 
   font-family: sans-serif;
 }
 
 main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   margin: 0;
   padding: 1rem;
+  text-align: center;
 
   & > * {
     z-index: 1;
@@ -40,6 +50,10 @@ hr {
 h1, h2, h3, h4, h5 {
   margin-top: 0;
   margin-bottom: 0.5em;
+}
+form {
+  display: inline-block;
+  text-align: left;
 }
 
 .canvas-wrapper {
@@ -172,16 +186,9 @@ input {
   }
 }
 
-.dimmed {
-  > * {
-    opacity: 0.3;
-    pointer-events: none;
-  }
-
-  .undimmed {
-    opacity: 1;
-    pointer-events: all;
-  }
+button {
+  padding: 4px 2px 5px 2px;
+  font-size: 0.75rem;
 }
 
 .a11y {
@@ -209,4 +216,36 @@ input {
   input, button {
     color: black;
   }
+}
+
+.check-toggle {
+  -webkit-appearance: none;
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  overflow: hidden;
+
+  + label:after {
+    content: 'Show';
+  }
+
+  ~ fieldset {
+    visibility: hidden;
+    height: 1px;
+  }
+
+  &:checked {
+    + label:after {
+      content: 'Hide';
+    }
+
+    ~ fieldset {
+      visibility: visible;
+      height: auto;
+    }
+  }
+}
+
+.headline-toggle {
+  display: inline-block;
 }
