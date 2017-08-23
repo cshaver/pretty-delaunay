@@ -7,11 +7,10 @@ const main = document.getElementById('main');
 const form = document.getElementById('form');
 const canvas = document.getElementById('canvas');
 
-const generateButton = document.getElementById('generate');
-
-const generateColorsButton = document.getElementById('generate-colors');
-const generateGradientButton = document.getElementById('generate-gradient');
-const generateTrianglesButton = document.getElementById('generate-triangles');
+const generateButtons = document.getElementById('generate-buttons');
+const renderOptions = document.getElementById('render-options');
+const pointOptions = document.getElementById('point-options');
+const backgroundOptions = document.getElementById('background-options');
 
 const showTrianglesInput = document.getElementById('show-triangles');
 const showPointsInput = document.getElementById('show-points');
@@ -116,27 +115,30 @@ function getRandomizeOptions() {
  * set up events
  */
 
-// click the button to regen
-generateButton.addEventListener('click', function() {
-  runDelaunay();
-});
+generateButtons.addEventListener('click', (event) => {
+  let button = event.target;
 
-// click the button to regen colors only
-generateColorsButton.addEventListener('click', function() {
-  var newColors = getColors();
-  prettyDelaunay.renderNewColors(newColors);
-});
+  if (button.hasAttribute('data-generate-colors') &&
+      button.hasAttribute('data-generate-gradients') &&
+      button.hasAttribute('data-generate-triangles')) {
+    runDelaunay();
+    return;
+  }
 
-// click the button to regen colors only
-generateGradientButton.addEventListener('click', function() {
-  getRandomizeOptions();
-  prettyDelaunay.renderNewGradient(minGradients, maxGradients);
-});
+  if (button.hasAttribute('data-generate-colors')) {
+    let newColors = getColors();
+    prettyDelaunay.renderNewColors(newColors);
+  }
 
-// click the button to regen colors only
-generateTrianglesButton.addEventListener('click', function() {
-  getRandomizeOptions();
-  prettyDelaunay.renderNewTriangles(minPoints, maxPoints, minEdgePoints, maxEdgePoints, multiplier);
+  if (button.hasAttribute('data-generate-gradients')) {
+    getRandomizeOptions();
+    prettyDelaunay.renderNewGradient(minGradients, maxGradients);
+  }
+
+  if (button.hasAttribute('data-generate-triangles')) {
+    getRandomizeOptions();
+    prettyDelaunay.renderNewTriangles(minPoints, maxPoints, minEdgePoints, maxEdgePoints, multiplier);
+  }
 });
 
 // turn Triangles off/on
