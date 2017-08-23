@@ -19,8 +19,40 @@
 
       <form id="form">
         <h2>Configuration</h2>
-        <fieldset>
-          <legend><h3>Point generation</h3></legend>
+        <fieldset id="generate-buttons">
+          <legend><h3>Generate</h3></legend>
+          <div class="form-row">
+            <button id="generate" type="submit">Redo all</button>
+          </div>
+          <div class="form-row">
+            <button id="generateColors">Redo Colors</button>
+            <button id="generateGradient">Redo Gradient</button>
+            <button id="generateTriangles">Redo Triangles</button>
+          </div>
+        </fieldset>
+
+        <fieldset id="render-options">
+          <legend><h3>Render options</h3></legend>
+
+          <div class="form-row">
+            <input type="radio" name="showAnimationHover" id="showAnimation" /><label for="showAnimation">Animation</label>
+            <input type="radio" name="showAnimationHover" id="showHover" checked /><label for="showHover">Hover Effect</label>
+          </div>
+
+          <div class="form-row">
+            <input type="checkbox" name="showTriangles" id="showTriangles" checked /><label for="showTriangles">Triangles</label>
+            <input type="checkbox" name="showEdges" id="showEdges" checked /><label for="showEdges">Edges</label>
+            <input type="checkbox" name="showPoints" id="showPoints" /><label for="showPoints">Points</label>
+            <input type="checkbox" name="showCentroids" id="showCentroids" checked /><label for="showCentroids">Centroids</label>
+          </div>
+
+          <div class="form-row">
+            <input type="checkbox" name="showCircles" id="showCircles" /><label for="showCircles">Gradient circles</label>
+          </div>
+        </fieldset>
+
+        <fieldset id="point-options">
+          <legend><h3>Point density options</h3></legend>
 
           <div>
             <input type="radio" name="pointGen" value="multiplier" id="pointGen1" checked />
@@ -37,7 +69,7 @@
             <label for="pointGen2">Exact range:</label>
 
             <fieldset>
-              <legend><h4>Point ranges</h4></legend>
+              <legend><h4>Point density ranges</h4></legend>
               <div class="form-row">
                 <label for="minPoints">Points</label>
                 <input id="minPoints" type="number" min="1" max="10000" value=""/>
@@ -55,8 +87,8 @@
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend><h3>Background</h3></legend>
+        <fieldset id="background-options">
+          <legend><h3>Background options</h3></legend>
 
           <div class="form-row">
             <label for="minGradients">Gradients</label>
@@ -103,40 +135,6 @@
                 <input type="url" id="imageBackgroundInput" value="">
               </div>
             </fieldset>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend><h3>Generate</h3></legend>
-          <div class="form-row">
-            <button id="button" type="submit">Redo!</button>
-          </div>
-          <div class="form-row">
-            <button id="generateColors">Redo Colors</button>
-            <button id="generateGradient">Redo Gradient</button>
-            <button id="generateTriangles">Redo Triangles</button>
-          </div>
-
-          <div class="form-row">
-            <input type="radio" name="showAnimationHover" id="showAnimation" /><label for="showAnimation">Animation</label>
-            <input type="radio" name="showAnimationHover" id="showHover" checked /><label for="showHover">Hover Effect</label>
-          </div>
-
-          <div class="form-row">
-            <input type="checkbox" name="showTriangles" id="showTriangles" checked /><label for="showTriangles">Triangles</label>
-            <input type="checkbox" name="showEdges" id="showEdges" checked /><label for="showEdges">Edges</label>
-            <input type="checkbox" name="showPoints" id="showPoints" /><label for="showPoints">Points</label>
-            <input type="checkbox" name="showCentroids" id="showCentroids" checked /><label for="showCentroids">Centroids</label>
-          </div>
-
-          <div class="form-row">
-            <input type="checkbox" name="showCircles" id="showCircles" /><label for="showCircles">Gradient circles</label>
-          </div>
-
-          <div class="form-row">
-            <button id="togglePoints">Toggle Points</button>
-            <button id="toggleCircles">Toggle Circles</button>
-            <button id="toggleCentroids">Toggle Centroids</button>
           </div>
         </fieldset>
       </form>
