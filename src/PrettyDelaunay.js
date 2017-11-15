@@ -71,6 +71,8 @@ class PrettyDelaunay {
       multiplier: 0.5,
       // whether to animate the gradients behind the triangles
       animate: false,
+      // fills triangles with gradient instead of solid colors (experimental)
+      fillWithGradient: false,
       // number of frames per gradient color cycle
       loopFrames: 250,
 
@@ -798,28 +800,39 @@ class PrettyDelaunay {
     // save this for later
     this.center.canvasColorAtPoint(this.gradientImageData);
 
+    let lastColor;
+
     for (var i = 0; i < this.triangles.length; i++) {
+      let triangle = this.triangles[i];
       // the color is determined by grabbing the color of the canvas
       // (where we drew the gradient) at the center of the triangle
 
-      this.triangles[i].color = this.triangles[i].colorAtCentroid(this.gradientImageData);
+      triangle.color = triangle.colorAtCentroid(this.gradientImageData);
+
+      if (this.options.fillWithGradient && triangle.color) {
+        var gradient = this.ctx.createLinearGradient(triangle.a.x, triangle.a.y, triangle.b.x, triangle.b.y);
+        gradient.addColorStop(0, triangle.color);
+        gradient.addColorStop(1, lastColor || triangle.color);
+        lastColor = triangle.color;
+        triangle.color = gradient;
+      }
 
       if (triangles && edges) {
-        this.triangles[i].stroke = this.options.edgeColor(this.triangles[i].colorAtCentroid(this.gradientImageData));
-        this.triangles[i].render(this.ctx);
+        triangle.stroke = this.options.edgeColor(triangle.colorAtCentroid(this.gradientImageData));
+        triangle.render(this.ctx);
       } else if (triangles) {
         // triangles only
-        this.triangles[i].stroke = this.triangles[i].color;
-        this.triangles[i].render(this.ctx);
+        triangle.stroke = triangle.color;
+        triangle.render(this.ctx);
       } else if (edges) {
         // edges only
-        this.triangles[i].stroke = this.options.edgeColor(this.triangles[i].colorAtCentroid(this.gradientImageData));
-        this.triangles[i].render(this.ctx, false);
+        triangle.stroke = this.options.edgeColor(triangle.colorAtCentroid(this.gradientImageData));
+        triangle.render(this.ctx, false);
       }
 
       if (this.hoverShadowCanvas) {
         var color = '#' + ('000000' + i.toString(16)).slice(-6);
-        this.triangles[i].render(this.shadowCtx, color, false);
+        triangle.render(this.shadowCtx, color);
       }
     }
 

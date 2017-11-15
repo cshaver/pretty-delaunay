@@ -29,6 +29,9 @@ class Triangle {
     ctx.lineTo(this.c.x, this.c.y);
     ctx.closePath();
     ctx.strokeStyle = stroke || this.stroke || this.color;
+    // var gradient = ctx.createLinearGradient(this.a.x, this.a.y, this.b.x, this.b.y);
+    // gradient.addColorStop(0, color || this.color);
+    // gradient.addColorStop(1, 'white');
     ctx.fillStyle = color || this.color;
     if (color !== false && stroke !== false) {
       // draw the stroke using the fill color first

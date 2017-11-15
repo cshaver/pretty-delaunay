@@ -6,6 +6,10 @@
   "license": "MIT",
   "name": "pretty-delaunay",
   "main": "src/PrettyDelaunay.js",
+  "scripts": {
+    "build": "gulp build",
+    "watch": "gulp dev"
+  },
   "keywords": [
     "canvas",
     "triangles",

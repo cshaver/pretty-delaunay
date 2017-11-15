@@ -37,6 +37,9 @@ const Color = {
     if (typeof rgb === 'string') {
       rgb = rgb.replace('rgb(', '').replace(')', '').split(',');
     }
+    if (!rgb.length) {
+      rgb = [0, 0, 0];
+    }
     var r = rgb[0] / 255;
     var g = rgb[1] / 255;
     var b = rgb[2] / 255;
