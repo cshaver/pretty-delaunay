@@ -11,9 +11,8 @@
     "triangles",
     "delaunay"
   ],
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
-    "delaunay-fast": "git+https://git@github.com/ironwallaby/delaunay.git"
+    "delaunay-fast": "^1.0.1"
   }
 }
