@@ -17,7 +17,8 @@
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
-    "sass": "^1.30.0"
+    "sass": "^1.30.0",
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "delaunay-fast": "^1.0.1"
