@@ -22,4 +22,4 @@ function polyfills() {
   }
 }
 
-module.exports = polyfills;
+export default polyfills;

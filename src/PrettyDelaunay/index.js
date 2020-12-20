@@ -1,11 +1,13 @@
-const Delaunay = require('delaunay-fast');
-const Color = require('./PrettyDelaunay/color');
-const Random = require('./PrettyDelaunay/random');
-const Triangle = require('./PrettyDelaunay/triangle');
-const Point = require('./PrettyDelaunay/point');
-const PointMap = require('./PrettyDelaunay/pointMap');
+import Delaunay from 'delaunay-fast';
 
-require('./PrettyDelaunay/polyfills')();
+import Color from './color';
+import Random from './random';
+import Triangle from './triangle';
+import Point from './point';
+import PointMap from './pointMap';
+import polyfills from './polyfills';
+
+polyfills();
 
 /**
 * Represents a delauney triangulation of random points
@@ -973,4 +975,4 @@ function linearScale(x0, x1, scale) {
   return x0 + (scale * (x1 - x0));
 }
 
-module.exports = PrettyDelaunay;
+export default PrettyDelaunay;

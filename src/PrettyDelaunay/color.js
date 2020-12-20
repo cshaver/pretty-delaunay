@@ -1,4 +1,4 @@
-const Color = {
+export default {
 
   hexToRgba: function(hex) {
     hex = hex.replace('#', '');
@@ -99,5 +99,3 @@ const Color = {
     return rgb.join('');
   },
 };
-
-module.exports = Color;

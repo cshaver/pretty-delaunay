@@ -1,10 +1,10 @@
-const Color = require('./color');
+import Color from './color';
 
 /**
  * Represents a point
  * @class
  */
-class Point {
+export default class Point {
   /**
    * Point consists x and y
    * @constructor
@@ -95,5 +95,3 @@ class Point {
     this._canvasColor = undefined;
   }
 }
-
-module.exports = Point;

@@ -1,8 +1,8 @@
-const PrettyDelaunay  = require('../src/PrettyDelaunay');
-const Color  = require('../src/PrettyDelaunay/color');
-const Random = require('../src/PrettyDelaunay/random');
+import PrettyDelaunay from '../src/PrettyDelaunay/index';
+import Color from '../src/PrettyDelaunay/color';
+import Random from '../src/PrettyDelaunay/random';
 
-const elements = require('./elements');
+import elements from './elements';
 
 // initialize PrettyDelaunay on the canva
 const prettyDelaunay = new PrettyDelaunay(elements.canvas, {

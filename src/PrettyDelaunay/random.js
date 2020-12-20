@@ -1,4 +1,4 @@
-const Point = require('./point');
+import Point from './point';
 
 const Random = {
   // hey look a closure
@@ -50,4 +50,4 @@ const Random = {
   },
 };
 
-module.exports = Random;
+export default Random;

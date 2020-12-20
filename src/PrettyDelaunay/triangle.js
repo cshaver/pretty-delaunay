@@ -1,10 +1,10 @@
-const Point = require('./point');
+import Point from './point';
 
 /**
  * Represents a triangle
  * @class
  */
-class Triangle {
+export default class Triangle {
   /**
    * Triangle consists of three Points
    * @constructor
@@ -133,5 +133,3 @@ class Triangle {
     return [this.p1, this.p2, this.p3];
   }
 }
-
-module.exports = Triangle;

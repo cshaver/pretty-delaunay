@@ -1,5 +1,5 @@
 // grab DOM elements
-const elements = {
+export default {
   main: document.getElementById('main'),
   form: document.getElementById('form'),
   canvas: document.getElementById('canvas'),
@@ -47,5 +47,3 @@ const elements = {
     document.getElementById('color-3')
   ]
 };
-
-module.exports = elements;

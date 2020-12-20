@@ -1,10 +1,10 @@
-const Point = require('./point');
+import Point from './point';
 
 /**
  * Represents a point
  * @class
  */
-class PointMap {
+export default class PointMap {
   constructor() {
     this._map = {};
   }
@@ -43,5 +43,3 @@ class PointMap {
     return this._map[point.toString()] ? true : false;
   }
 }
-
-module.exports = PointMap;
