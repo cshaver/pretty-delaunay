@@ -1,6 +1,6 @@
 export default {
 
-  hexToRgba: function(hex) {
+  hexToRgba: function(hex: string): string {
     hex = hex.replace('#', '');
     var r = parseInt(hex.substring(0, 2), 16);
     var g = parseInt(hex.substring(2, 4), 16);
@@ -9,13 +9,13 @@ export default {
     return 'rgba(' + r + ',' + g + ',' + b + ',1)';
   },
 
-  hexToRgbaArray: function(hex) {
+  hexToRgbaArray: function(hex: string): [number, number, number] {
     hex = hex.replace('#', '');
     var r = parseInt(hex.substring(0, 2), 16);
     var g = parseInt(hex.substring(2, 4), 16);
     var b = parseInt(hex.substring(4, 6), 16);
 
-    if (isNan(r) || isNan(g) || isNan(b)) {
+    if (isNaN(r) || isNaN(g) || isNaN(b)) {
       return [0, 0, 0];
     }
 
@@ -33,18 +33,19 @@ export default {
    * @param   Number  b       The blue color value
    * @return  Array           The HSL representation
    */
-  rgbToHsla: function(rgb) {
-    if (typeof rgb === 'string') {
-      rgb = rgb.replace('rgb(', '').replace(')', '').split(',');
+  rgbToHsla: function (_rgb: string | [number, number, number]): string {
+    let rgb: [number, number, number];
+    if (typeof _rgb === 'string') {
+      rgb = _rgb.replace('rgb(', '').replace(')', '').split(',').map(str => parseInt(str)) as [number, number, number];
     }
-    var r = rgb[0] / 255;
-    var g = rgb[1] / 255;
-    var b = rgb[2] / 255;
-    var max = Math.max(r, g, b);
-    var min = Math.min(r, g, b);
-    var h;
-    var s;
-    var l = (max + min) / 2;
+    const r = rgb[0] / 255;
+    const g = rgb[1] / 255;
+    const b = rgb[2] / 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h: number;
+    let s: number;
+    const l = (max + min) / 2;
 
     if (max === min) {
       h = s = 0; // achromatic
@@ -62,40 +63,40 @@ export default {
     return 'hsla(' + Math.round(h * 360) + ',' + Math.round(s * 100) + '%,' + Math.round(l * 100) + '%,1)';
   },
 
-  hslaAdjustAlpha: function(color, alpha) {
-    color = color.split(',');
+  hslaAdjustAlpha: function(_color: string, alpha: string | ((alpha: number) => number | string)): string {
+    const color = _color.split(',') as [string, string, string, string];
 
     if (typeof alpha !== 'function') {
       color[3] = alpha;
     } else {
-      color[3] = alpha(parseInt(color[3]));
+      color[3] = `${alpha(parseInt(color[3]))}`;
     }
 
     color[3] += ')';
     return color.join(',');
   },
 
-  hslaAdjustLightness: function(color, lightness) {
-    color = color.split(',');
+  hslaAdjustLightness: function(_color: string, lightness: string | ((lightness: number) => number | string)): string {
+    const color = _color.split(',') as [string, string, string, string];
 
     if (typeof lightness !== 'function') {
       color[2] = lightness;
     } else {
-      color[2] = lightness(parseInt(color[2]));
+      color[2] = `${lightness(parseInt(color[2]))}`;
     }
 
     color[2] += '%';
     return color.join(',');
   },
 
-  rgbToHex: function(rgb) {
-    if (typeof rgb === 'string') {
-      rgb = rgb.replace('rgb(', '').replace(')', '').split(',');
-    }
-    rgb = rgb.map(function(x) {
+  rgbToHex: function (_rgb: string | [string, string, string]) {
+    const rgb = typeof _rgb === 'string' ?
+      (_rgb.replace('rgb(', '').replace(')', '').split(',') as [string, string, string])
+      : _rgb;
+
+    return rgb.map(function (x) {
       x = parseInt(x).toString(16);
       return (x.length === 1) ? '0' + x : x;
-    });
-    return rgb.join('');
+    }).join('');
   },
 };
