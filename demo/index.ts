@@ -4,7 +4,7 @@ import Random from '../src/PrettyDelaunay/random';
 
 import elements from './elements';
 
-// initialize PrettyDelaunay on the canva
+// initialize PrettyDelaunay on the canvas
 const prettyDelaunay = new PrettyDelaunay(elements.canvas, {
   onDarkBackground: () => {
     elements.main.className = 'theme-light';
@@ -71,7 +71,7 @@ function getColors() {
       let hex = '#' + Color.rgbToHex(rgb);
 
       input.value = hex;
-      let matchingInput = document.getElementById(input.getAttribute('data-color-sync'));
+      let matchingInput = document.getElementById(input.getAttribute('data-color-sync')) as HTMLInputElement;
 
       if (matchingInput) {
         matchingInput.value = input.value;
@@ -92,7 +92,7 @@ function getImage() {
   if (elements.imageBackgroundUploadOption.checked && elements.imageBackgroundUpload.files.length) {
     let file = elements.imageBackgroundUpload.files[0];
     return window.URL.createObjectURL(file);
-  } else if (imageBackgroundURLOption.checked) {
+  } else if (elements.imageBackgroundURLOption.checked) {
     return elements.imageBackgroundURL.value;
   } else {
     return '';
@@ -105,7 +105,7 @@ function getImage() {
 
 // regenerate the triangulation entirely, or only update the color, shape, or triangles
 elements.sections.generateButtons.addEventListener('click', (event) => {
-  let button = event.target;
+  let button = event.target as HTMLElement;
 
   if (button.hasAttribute('data-generate-colors') &&
       button.hasAttribute('data-generate-gradients') &&
@@ -152,8 +152,8 @@ elements.sections.renderOptions.addEventListener('change', (event) => {
 });
 
 elements.sections.colorInputs.addEventListener('change', (event) => {
-  let input = event.target;
-  let matchingInput = document.getElementById(event.target.getAttribute('data-color-sync'));
+  let input = event.target as HTMLInputElement;
+  let matchingInput = document.getElementById(input.getAttribute('data-color-sync')) as HTMLInputElement;
 
   if (!matchingInput) {
     return;
