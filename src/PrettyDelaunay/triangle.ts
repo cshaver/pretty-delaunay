@@ -5,6 +5,21 @@ import Point from './point';
  * @class
  */
 export default class Triangle {
+
+  a: Point;
+  b: Point
+  c: Point
+
+  // alias for a, b, c
+  p1: Point;
+  p2: Point
+  p3: Point;
+
+  color: string = 'black';
+  stroke: string = 'black';
+
+  private _centroid?: Point;
+
   /**
    * Triangle consists of three Points
    * @constructor
@@ -12,17 +27,14 @@ export default class Triangle {
    * @param {Object} b
    * @param {Object} c
    */
-  constructor(a, b, c) {
+  constructor(a: Point, b: Point, c: Point) {
     this.p1 = this.a = a;
     this.p2 = this.b = b;
     this.p3 = this.c = c;
-
-    this.color = 'black';
-    this.stroke = 'black';
   }
 
   // draw the triangle with differing edge colors optional
-  render(ctx, color, stroke) {
+  render(ctx: CanvasRenderingContext2D, color: string, stroke: string) {
     ctx.beginPath();
     ctx.moveTo(this.a.x, this.a.y);
     ctx.lineTo(this.b.x, this.b.y);
@@ -30,26 +42,26 @@ export default class Triangle {
     ctx.closePath();
     ctx.strokeStyle = stroke || this.stroke || this.color;
     ctx.fillStyle = color || this.color;
-    if (color !== false && stroke !== false) {
+    if (color && stroke) {
       // draw the stroke using the fill color first
       // so that the points of adjacent triangles
       // dont overlap a bunch and look "starry"
-      var tempStroke = ctx.strokeStyle;
+      const tempStroke = ctx.strokeStyle;
       ctx.strokeStyle = ctx.fillStyle;
       ctx.stroke();
       ctx.strokeStyle = tempStroke;
     }
-    if (color !== false) {
+    if (color) {
       ctx.fill();
     }
-    if (stroke !== false) {
+    if (stroke) {
       ctx.stroke();
     }
     ctx.closePath();
   }
 
   // random point inside triangle
-  randomInside() {
+  randomInside(): Point {
     var r1 = Math.random();
     var r2 = Math.random();
     var x = (1 - Math.sqrt(r1)) *
@@ -65,18 +77,18 @@ export default class Triangle {
     return new Point(x, y);
   }
 
-  colorAtCentroid(imageData) {
+  colorAtCentroid(imageData: ImageData): string {
     return this.centroid().canvasColorAtPoint(imageData);
   }
 
-  resetPointColors() {
+  resetPointColors(): void {
     this.centroid().resetColor();
     this.p1.resetColor();
     this.p2.resetColor();
     this.p3.resetColor();
   }
 
-  centroid() {
+  centroid(): Point {
     // only calc the centroid if we dont already know it
     if (this._centroid) {
       return this._centroid;
@@ -90,7 +102,7 @@ export default class Triangle {
   }
 
   // http://stackoverflow.com/questions/13300904/determine-whether-point-lies-inside-triangle
-  pointInTriangle(point) {
+  pointInTriangle(point: Point): boolean {
     var alpha = ((this.p2.y - this.p3.y) * (point.x - this.p3.x) + (this.p3.x - this.p2.x) * (point.y - this.p3.y)) /
               ((this.p2.y - this.p3.y) * (this.p1.x - this.p3.x) + (this.p3.x - this.p2.x) * (this.p1.y - this.p3.y));
     var beta = ((this.p3.y - this.p1.y) * (point.x - this.p3.x) + (this.p1.x - this.p3.x) * (point.y - this.p3.y)) /
@@ -105,7 +117,7 @@ export default class Triangle {
   // yA => old y min, yB => old y max
   // xC => new x min, xD => new x max
   // yC => new y min, yD => new y max
-  rescalePoints(xA, xB, yA, yB, xC, xD, yC, yD) {
+  rescalePoints(xA: number, xB: number, yA: number, yB: number, xC: number, xD: number, yC: number, yD: number): void {
     this.p1.rescale(xA, xB, yA, yB, xC, xD, yC, yD);
     this.p2.rescale(xA, xB, yA, yB, xC, xD, yC, yD);
     this.p3.rescale(xA, xB, yA, yB, xC, xD, yC, yD);
@@ -113,23 +125,23 @@ export default class Triangle {
     this.centroid();
   }
 
-  maxX() {
+  maxX(): number {
     return Math.max(this.p1.x, this.p2.x, this.p3.x);
   }
 
-  maxY() {
+  maxY(): number {
     return Math.max(this.p1.y, this.p2.y, this.p3.y);
   }
 
-  minX() {
+  minX(): number {
     return Math.min(this.p1.x, this.p2.x, this.p3.x);
   }
 
-  minY() {
+  minY(): number {
     return Math.min(this.p1.y, this.p2.y, this.p3.y);
   }
 
-  getPoints() {
+  getPoints(): [Point, Point, Point] {
     return [this.p1, this.p2, this.p3];
   }
 }
