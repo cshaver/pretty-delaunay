@@ -5,6 +5,12 @@ import Color from './color';
  * @class
  */
 export default class Point {
+  x: number;
+  y: number;
+  radius: number = 1;
+  color: string = 'black';
+
+  private _canvasColor?: string;
   /**
    * Point consists x and y
    * @constructor
@@ -14,19 +20,20 @@ export default class Point {
    * @param {Number[]} x
    * where x is length-2 array
    */
-  constructor(x, y) {
+  constructor(x: [number, number]);
+  constructor(x: number, y: number);
+  constructor(x: [number, number] | number, y?: number) {
     if (Array.isArray(x)) {
-      y = x[1];
-      x = x[0];
+      this.x = x[0];
+      this.y = x[1];
+    } else {
+      this.x = x;
+      this.y = y;
     }
-    this.x = x;
-    this.y = y;
-    this.radius = 1;
-    this.color = 'black';
   }
 
   // draw the point
-  render(ctx, color) {
+  render(ctx: CanvasRenderingContext2D, color?: string) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
     ctx.fillStyle = color || this.color;
@@ -45,8 +52,7 @@ export default class Point {
   // grab the color of the canvas at the point
   // requires imagedata from canvas so we dont grab
   // each point individually, which is really expensive
-  canvasColorAtPoint(imageData, colorSpace) {
-    colorSpace = colorSpace || 'hsla';
+  canvasColorAtPoint(imageData: ImageData, colorSpace: 'hsla' | 'rgb' = 'hsla'): string {
     // only find the canvas color if we dont already know it
     if (!this._canvasColor) {
       // imageData array is flat, goes by rows then cols, four values per pixel
@@ -57,19 +63,17 @@ export default class Point {
       } else {
         this._canvasColor = 'rgb(' + Array.prototype.slice.call(imageData.data, idx, idx + 3).join() + ')';
       }
-    } else {
-      return this._canvasColor;
     }
     return this._canvasColor;
   }
 
-  getCoords() {
+  getCoords(): [number, number] {
     return [this.x, this.y];
   }
 
   // distance to another point
-  getDistanceTo(point) {
-    // √(x2−x1)2+(y2−y1)2
+  getDistanceTo(point: Point): number {
+    // √(x2−x1)^2+(y2−y1)^2
     return Math.sqrt(Math.pow(this.x - point.x, 2) + Math.pow(this.y - point.y, 2));
   }
 
@@ -78,20 +82,20 @@ export default class Point {
   // yA => old y min, yB => old y max
   // xC => new x min, xD => new x max
   // yC => new y min, yD => new y max
-  rescale(xA, xB, yA, yB, xC, xD, yC, yD) {
+  rescale(xA:number, xB:number, yA:number, yB:number, xC:number, xD:number, yC:number, yD:number): void {
     // NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
 
-    var xOldRange = xB - xA;
-    var yOldRange = yB - yA;
+    const xOldRange = xB - xA;
+    const yOldRange = yB - yA;
 
-    var xNewRange = xD - xC;
-    var yNewRange = yD - yC;
+    const xNewRange = xD - xC;
+    const yNewRange = yD - yC;
 
     this.x = (((this.x - xA) * xNewRange) / xOldRange) + xC;
     this.y = (((this.y - yA) * yNewRange) / yOldRange) + yC;
   }
 
-  resetColor() {
+  resetColor(): void {
     this._canvasColor = undefined;
   }
 }
