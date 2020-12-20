@@ -11,7 +11,14 @@
     "triangles",
     "delaunay"
   ],
-  "devDependencies": {},
+  "scripts": {
+    "dev": "parcel demo/index.html",
+    "build": "parcel build demo/index.html"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.30.0"
+  },
   "dependencies": {
     "delaunay-fast": "^1.0.1"
   }
