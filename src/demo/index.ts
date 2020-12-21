@@ -1,6 +1,6 @@
-import PrettyDelaunay from '../src/PrettyDelaunay/index';
-import Color from '../src/PrettyDelaunay/color';
-import Random from '../src/PrettyDelaunay/random';
+import PrettyDelaunay from '../PrettyDelaunay/index';
+import Color from '../PrettyDelaunay/color';
+import Random from '../PrettyDelaunay/random';
 
 import elements from './elements';
 
@@ -67,7 +67,7 @@ function getColors(): [string, string, string] {
       const hex = '#' + Color.rgbToHex(rgb);
 
       input.value = hex;
-      const matchingInput = document.getElementById(input.getAttribute('data-color-sync')) as HTMLInputElement;
+      const matchingInput = document.getElementById(input.getAttribute('data-color-sync')!) as HTMLInputElement;
 
       if (matchingInput) {
         matchingInput.value = input.value;
@@ -83,7 +83,7 @@ function getImage() {
     return '';
   }
 
-  if (elements.imageBackgroundUploadOption.checked && elements.imageBackgroundUpload.files.length) {
+  if (elements.imageBackgroundUploadOption.checked && elements.imageBackgroundUpload.files?.length) {
     const file = elements.imageBackgroundUpload.files[0];
     return window.URL.createObjectURL(file);
   } else if (elements.imageBackgroundURLOption.checked) {

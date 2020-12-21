@@ -1,14 +1,14 @@
 // grab DOM elements
 export default {
-  main: document.getElementById('main'),
+  main: document.getElementById('main') as HTMLElement,
   form: document.getElementById('form') as HTMLFormElement,
   canvas: document.getElementById('canvas') as HTMLCanvasElement,
   sections: {
-    generateButtons: document.getElementById('generate-buttons'),
-    renderOptions: document.getElementById('render-options'),
-    pointOptions: document.getElementById('point-options'),
-    backgroundOptions: document.getElementById('background-options'),
-    colorInputs: document.getElementById('color-inputs')
+    generateButtons: document.getElementById('generate-buttons') as HTMLElement,
+    renderOptions: document.getElementById('render-options') as HTMLElement,
+    pointOptions: document.getElementById('point-options') as HTMLElement,
+    backgroundOptions: document.getElementById('background-options') as HTMLElement,
+    colorInputs: document.getElementById('color-inputs') as HTMLElement,
   },
   renderOptions: {
     showTriangles: document.getElementById('show-triangles') as HTMLInputElement,

@@ -5,7 +5,7 @@
     "sourceMap": true,
     "declarationMap": true,
     "declaration": true,
-    "allowJs": true,
+    "allowJs": false,
     "target": "es5",
     "lib": ["ES2015", "DOM"],
     "esModuleInterop": true,

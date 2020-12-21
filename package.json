@@ -13,8 +13,8 @@
     "delaunay"
   ],
   "scripts": {
-    "lint": "eslint src demo --ext '.js,.ts'",
-    "dev": "parcel demo/index.html",
+    "lint": "eslint src --ext '.ts'",
+    "dev": "parcel src/demo/index.html",
     "build": "yarn clean && yarn tsc",
     "clean": "rimraf dist/ lib/"
   },
