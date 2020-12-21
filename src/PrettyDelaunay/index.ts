@@ -124,11 +124,8 @@ export default class PrettyDelaunay {
   renderedImageData: ImageData;
   shadowImageData: ImageData;
 
-  hoverShadowCanvas: HTMLCanvasElement = document.createElement('canvas');
-  shadowCtx: CanvasRenderingContext2D = this.hoverShadowCanvas.getContext('2d')!;
-
-  // shadowCtx?: CanvasRenderingContext2D;
-  // hoverShadowCanvas?: HTMLCanvasElement;
+  shadowCtx?: CanvasRenderingContext2D;
+  hoverShadowCanvas?: HTMLCanvasElement;
 
   mousePosition?: Point; // set on mousemove
   image?: HTMLImageElement; // set by loadImageBackground
@@ -179,7 +176,6 @@ export default class PrettyDelaunay {
 
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d')!;
-    this.hoverShadowCanvas.style.display = 'none';
 
     this.resizeCanvas();
     this.colors = this.options.colors;
@@ -454,7 +450,7 @@ export default class PrettyDelaunay {
   }
 
   initHover(): void {
-    // this.createHoverShadowCanvas();
+    this.createHoverShadowCanvas();
 
     this.canvas.addEventListener('mousemove', this.mousemove, false);
     this.canvas.addEventListener('mouseout', this.mouseout, false);
@@ -466,12 +462,12 @@ export default class PrettyDelaunay {
   }
 
   // creates a hidden canvas for hover detection
-  // createHoverShadowCanvas(): void {
-  //   this.hoverShadowCanvas = this.hoverShadowCanvas || document.createElement('canvas');
-  //   this.shadowCtx = this.shadowCtx || this.hoverShadowCanvas.getContext('2d')!;
+  createHoverShadowCanvas(): void {
+    this.hoverShadowCanvas = this.hoverShadowCanvas || document.createElement('canvas');
+    this.shadowCtx = this.shadowCtx || this.hoverShadowCanvas.getContext('2d')!;
 
-  //   this.hoverShadowCanvas.style.display = 'none';
-  // }
+    this.hoverShadowCanvas.style.display = 'none';
+  }
 
   mousemove = (event: MouseEvent) => {
     if (!this.options.animate) {
@@ -976,12 +972,12 @@ export default class PrettyDelaunay {
 
       if (this.hoverShadowCanvas) {
         var color = '#' + ('000000' + i.toString(16)).slice(-6);
-        this.triangles[i].render(this.shadowCtx, color);
+        this.triangles[i].render(this.shadowCtx!, color);
       }
     }
 
     if (this.hoverShadowCanvas) {
-      this.shadowImageData = this.shadowCtx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+      this.shadowImageData = this.shadowCtx!.getImageData(0, 0, this.canvas.width, this.canvas.height);
     }
   }
 
