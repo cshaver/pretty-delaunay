@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "outDir": "./lib",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "declarationMap": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
     "allowJs": true,
     "target": "es5",
     "lib": ["ES2015", "DOM"],
