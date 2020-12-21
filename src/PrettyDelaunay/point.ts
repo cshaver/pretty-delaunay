@@ -28,7 +28,7 @@ export default class Point {
       this.y = x[1];
     } else {
       this.x = x;
-      this.y = y;
+      this.y = y!;
     }
   }
 
@@ -59,6 +59,7 @@ export default class Point {
       var idx = (Math.floor(this.y) * imageData.width * 4) + (Math.floor(this.x) * 4);
 
       if (colorSpace === 'hsla') {
+        // TODO
         this._canvasColor = Color.rgbToHsla(Array.prototype.slice.call(imageData.data, idx, idx + 4));
       } else {
         this._canvasColor = 'rgb(' + Array.prototype.slice.call(imageData.data, idx, idx + 3).join() + ')';
