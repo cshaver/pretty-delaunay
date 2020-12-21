@@ -34,7 +34,7 @@ export default class Triangle {
   }
 
   // draw the triangle with differing edge colors optional
-  render(ctx: CanvasRenderingContext2D, color: string, stroke: string) {
+  render(ctx: CanvasRenderingContext2D, color?: string, stroke?: string) {
     ctx.beginPath();
     ctx.moveTo(this.a.x, this.a.y);
     ctx.lineTo(this.b.x, this.b.y);
