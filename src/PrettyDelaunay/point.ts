@@ -44,23 +44,22 @@ export default class Point {
   // converts to string
   // returns something like:
   // "(X,Y)"
-  // used in the pointmap to detect unique points
+  // used in the pointMap to detect unique points
   toString() {
     return '(' + this.x + ',' + this.y + ')';
   }
 
   // grab the color of the canvas at the point
-  // requires imagedata from canvas so we dont grab
+  // requires imagedata from canvas so we don’t grab
   // each point individually, which is really expensive
   canvasColorAtPoint(imageData: ImageData, colorSpace: 'hsla' | 'rgb' = 'hsla'): string {
-    // only find the canvas color if we dont already know it
+    // only find the canvas color if we don’t already know it
     if (!this._canvasColor) {
       // imageData array is flat, goes by rows then cols, four values per pixel
       var idx = (Math.floor(this.y) * imageData.width * 4) + (Math.floor(this.x) * 4);
 
       if (colorSpace === 'hsla') {
-        // TODO
-        this._canvasColor = Color.rgbToHsla(Array.prototype.slice.call(imageData.data, idx, idx + 4));
+        this._canvasColor = Color.rgbToHsla(Array.prototype.slice.call(imageData.data, idx, idx + 3) as [number, number, number]);
       } else {
         this._canvasColor = 'rgb(' + Array.prototype.slice.call(imageData.data, idx, idx + 3).join() + ')';
       }
