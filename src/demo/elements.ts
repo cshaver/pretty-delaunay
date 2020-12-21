@@ -46,4 +46,4 @@ export default {
     document.getElementById('color-2') as HTMLInputElement,
     document.getElementById('color-3') as HTMLInputElement,
   ],
-};
+} as const;

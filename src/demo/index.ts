@@ -137,9 +137,12 @@ elements.sections.renderOptions.addEventListener('change', () => {
   const options = Object.keys(elements.renderOptions);
   for (let i = 0; i < options.length; i++) {
     const option = options[i];
+    // @ts-ignore
     const element = elements.renderOptions[option];
     const toggleFunctionName = option.replace('show', 'toggle');
+    // @ts-ignore
     if (prettyDelaunay[toggleFunctionName]) {
+      // @ts-ignore
       prettyDelaunay[toggleFunctionName](element.checked);
     }
   }
@@ -147,7 +150,7 @@ elements.sections.renderOptions.addEventListener('change', () => {
 
 elements.sections.colorInputs.addEventListener('change', (event) => {
   const input = event.target as HTMLInputElement;
-  const matchingInput = document.getElementById(input.getAttribute('data-color-sync')) as HTMLInputElement;
+  const matchingInput = document.getElementById(input.getAttribute('data-color-sync')!) as HTMLInputElement;
 
   if (!matchingInput) {
     return;
