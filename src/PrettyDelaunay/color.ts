@@ -1,5 +1,4 @@
 export default {
-
   hexToRgba: function(hex: string): string {
     hex = hex.replace('#', '');
     var r = parseInt(hex.substring(0, 2), 16);
@@ -63,11 +62,11 @@ export default {
     return 'hsla(' + Math.round(h * 360) + ',' + Math.round(s * 100) + '%,' + Math.round(l * 100) + '%,1)';
   },
 
-  hslaAdjustAlpha: function(_color: string, alpha: string | ((alpha: number) => number | string)): string {
+  hslaAdjustAlpha: function(_color: string, alpha: number | string | ((alpha: number) => number | string)): string {
     const color = _color.split(',') as [string, string, string, string];
 
     if (typeof alpha !== 'function') {
-      color[3] = alpha;
+      color[3] = `${alpha}`;
     } else {
       color[3] = `${alpha(parseInt(color[3]))}`;
     }
@@ -76,11 +75,11 @@ export default {
     return color.join(',');
   },
 
-  hslaAdjustLightness: function(_color: string, lightness: string | ((lightness: number) => number | string)): string {
+  hslaAdjustLightness: function(_color: string, lightness: number | string | ((lightness: number) => number | string)): string {
     const color = _color.split(',') as [string, string, string, string];
 
     if (typeof lightness !== 'function') {
-      color[2] = lightness;
+      color[2] = `${lightness}`;
     } else {
       color[2] = `${lightness(parseInt(color[2]))}`;
     }
