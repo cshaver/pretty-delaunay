@@ -5,9 +5,6 @@ import Random from './random';
 import Triangle from './triangle';
 import Point from './point';
 import PointMap from './pointMap';
-import polyfills from './polyfills';
-
-polyfills();
 
 interface RadialGradient {
   x0: number;
