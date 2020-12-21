@@ -86,7 +86,7 @@ export default {
     return color.join(',');
   },
 
-  rgbToHex: function (_rgb: string | [string, string, string]) {
+  rgbToHex: function (_rgb: string | [string, string, string]): string {
     const rgb = typeof _rgb === 'string' ?
       (_rgb.replace('rgb(', '').replace(')', '').split(',') as [string, string, string])
       : _rgb;

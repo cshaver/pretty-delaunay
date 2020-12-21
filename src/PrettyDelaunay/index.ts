@@ -322,7 +322,7 @@ export default class PrettyDelaunay {
     multiplier?: number,
     colors?: PrettyDelaunayOptions['colors'],
     imageURL?: string,
-  ) {
+  ): void {
     // colors param is optional
     this.colors = colors ?
                     colors :
@@ -465,7 +465,7 @@ export default class PrettyDelaunay {
     this.hoverShadowCanvas.style.display = 'none';
   }
 
-  mousemove = (event: MouseEvent) => {
+  mousemove = (event: MouseEvent): void => {
     if (!this.options.animate) {
       const rect = this.canvas.getBoundingClientRect();
       this.mousePosition = new Point(event.clientX - rect.left, event.clientY - rect.top);
@@ -473,7 +473,7 @@ export default class PrettyDelaunay {
     }
   }
 
-  mouseout = (_: MouseEvent) => {
+  mouseout = ():void => {
     if (!this.options.animate) {
       this.mousePosition = undefined;
       this.hover();
@@ -760,7 +760,7 @@ export default class PrettyDelaunay {
     }
   }
 
-  hover() {
+  hover(): void {
     if (this.mousePosition) {
       const rgb = this.mousePosition.canvasColorAtPoint(this.shadowImageData, 'rgb');
       const hex = Color.rgbToHex(rgb);
@@ -784,7 +784,7 @@ export default class PrettyDelaunay {
     }
   }
 
-  resetTriangle() {
+  resetTriangle(): void {
     // redraw the last triangle that was hovered over
     if (this.lastTriangle && this.lastTriangle >= 0 && this.lastTriangle < this.triangles.length) {
       const lastTriangle = this.triangles[this.lastTriangle];
@@ -933,7 +933,7 @@ export default class PrettyDelaunay {
     });
   }
 
-  loadImageBackground = (callback: () => void) => {
+  loadImageBackground = (callback: () => void): void => {
     if (this.image && this.image.src === this.options.imageURL) {
       callback();
     } else {
@@ -1017,7 +1017,7 @@ export default class PrettyDelaunay {
     }
   }
 
-  toggleTriangles(force?: boolean) {
+  toggleTriangles(force?: boolean): void {
     if (typeof force !== 'undefined') {
       if (this.options.showTriangles === force) {
         // don't render if the option doesn’t change
@@ -1030,7 +1030,7 @@ export default class PrettyDelaunay {
     this.render();
   }
 
-  togglePoints(force?: boolean) {
+  togglePoints(force?: boolean): void {
     if (typeof force !== 'undefined') {
       if (this.options.showPoints === force) {
         // don't render if the option doesn’t change
@@ -1043,7 +1043,7 @@ export default class PrettyDelaunay {
     this.render();
   }
 
-  toggleCircles(force?: boolean) {
+  toggleCircles(force?: boolean): void {
     if (typeof force !== 'undefined') {
       if (this.options.showCircles === force) {
         // don't render if the option doesn’t change
@@ -1056,7 +1056,7 @@ export default class PrettyDelaunay {
     this.render();
   }
 
-  toggleCentroids(force?: boolean) {
+  toggleCentroids(force?: boolean): void {
     if (typeof force !== 'undefined') {
       if (this.options.showCentroids === force) {
         // don't render if the option doesn’t change
@@ -1069,7 +1069,7 @@ export default class PrettyDelaunay {
     this.render();
   }
 
-  toggleEdges(force?: boolean) {
+  toggleEdges(force?: boolean): void {
     if (typeof force !== 'undefined') {
       if (this.options.showEdges === force) {
         // don't render if the option doesn’t change
@@ -1082,7 +1082,7 @@ export default class PrettyDelaunay {
     this.render();
   }
 
-  toggleAnimation(force?: boolean) {
+  toggleAnimation(force?: boolean): void {
     if (typeof force !== 'undefined') {
       if (this.options.animate === force) {
         // don't render if the option doesn’t change
@@ -1097,7 +1097,7 @@ export default class PrettyDelaunay {
     }
   }
 
-  toggleHover(force?: boolean) {
+  toggleHover(force?: boolean): void {
     if (typeof force !== 'undefined') {
       if (this.options.hover === force) {
         // don't render if the option doesn’t change
@@ -1114,7 +1114,7 @@ export default class PrettyDelaunay {
     }
   }
 
-  getColors() {
+  getColors(): [string, string, string] {
     return this.colors;
   }
 }

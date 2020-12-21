@@ -33,7 +33,7 @@ export default class Point {
   }
 
   // draw the point
-  render(ctx: CanvasRenderingContext2D, color?: string) {
+  render(ctx: CanvasRenderingContext2D, color?: string): void {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
     ctx.fillStyle = color || this.color;
@@ -45,7 +45,7 @@ export default class Point {
   // returns something like:
   // "(X,Y)"
   // used in the pointMap to detect unique points
-  toString() {
+  toString(): string {
     return '(' + this.x + ',' + this.y + ')';
   }
 

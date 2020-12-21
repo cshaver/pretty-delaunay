@@ -133,7 +133,7 @@ elements.sections.generateButtons.addEventListener('click', (event) => {
 });
 
 // update the render when options are changed
-elements.sections.renderOptions.addEventListener('change', (event) => {
+elements.sections.renderOptions.addEventListener('change', () => {
   const options = Object.keys(elements.renderOptions);
   for (let i = 0; i < options.length; i++) {
     const option = options[i];
