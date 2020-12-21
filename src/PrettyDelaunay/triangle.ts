@@ -34,7 +34,7 @@ export default class Triangle {
   }
 
   // draw the triangle with differing edge colors optional
-  render(ctx: CanvasRenderingContext2D, color?: string, stroke?: string) {
+  render(ctx: CanvasRenderingContext2D, color?: string | false, stroke?: string | false) {
     ctx.beginPath();
     ctx.moveTo(this.a.x, this.a.y);
     ctx.lineTo(this.b.x, this.b.y);
@@ -42,7 +42,7 @@ export default class Triangle {
     ctx.closePath();
     ctx.strokeStyle = stroke || this.stroke || this.color;
     ctx.fillStyle = color || this.color;
-    if (color && stroke) {
+    if (color !== false && stroke !== false) {
       // draw the stroke using the fill color first
       // so that the points of adjacent triangles
       // don’t overlap a bunch and look "starry"
@@ -51,10 +51,10 @@ export default class Triangle {
       ctx.stroke();
       ctx.strokeStyle = tempStroke;
     }
-    if (color) {
+    if (color !== false) {
       ctx.fill();
     }
-    if (stroke) {
+    if (stroke !== false) {
       ctx.stroke();
     }
     ctx.closePath();

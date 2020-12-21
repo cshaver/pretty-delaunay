@@ -961,18 +961,18 @@ export default class PrettyDelaunay {
         this.triangles[i].stroke = this.options.edgeColor(this.triangles[i].colorAtCentroid(this.gradientImageData));
         this.triangles[i].render(this.ctx);
       } else if (showTriangles) {
-        // triangles only
+        // triangles only, no edges - render with the same stroke as the fill
         this.triangles[i].stroke = this.triangles[i].color;
         this.triangles[i].render(this.ctx);
       } else if (showEdges) {
-        // edges only
+        // edges only, no fill
         this.triangles[i].stroke = this.options.edgeColor(this.triangles[i].colorAtCentroid(this.gradientImageData));
-        this.triangles[i].render(this.ctx);
+        this.triangles[i].render(this.ctx, false);
       }
 
       if (this.hoverShadowCanvas) {
         var color = '#' + ('000000' + i.toString(16)).slice(-6);
-        this.triangles[i].render(this.shadowCtx!, color);
+        this.triangles[i].render(this.shadowCtx!, color, false);
       }
     }
 
