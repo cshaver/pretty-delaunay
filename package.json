@@ -5,7 +5,8 @@
   "repository": "https://github.com/cshaver/pretty-delaunay",
   "license": "MIT",
   "name": "pretty-delaunay",
-  "main": "src/PrettyDelaunay.ts",
+  "main": "./lib/PrettyDelaunay.ts",
+  "types": "./lib/PrettyDelaunay.ts",
   "keywords": [
     "canvas",
     "triangles",
@@ -13,11 +14,9 @@
   ],
   "scripts": {
     "lint": "eslint src demo --ext '.js,.ts'",
-    "dev": "yarn clean && parcel src/PrettyDelaunay/index.ts",
-    "build": "yarn clean && parcel build src/PrettyDelaunay/index.ts",
-    "demo:dev": "parcel demo/index.html",
-    "demo:build": "parcel build demo/index.html",
-    "clean": "rimraf dist/"
+    "dev": "parcel demo/index.html",
+    "build": "yarn clean && yarn tsc",
+    "clean": "rimraf dist/ lib/"
   },
   "devDependencies": {
     "@types/delaunator": "^3.0.0",

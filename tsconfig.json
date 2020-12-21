@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "outDir": "./built",
+    "outDir": "./lib",
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "allowJs": true,
     "target": "es5",
     "lib": ["ES2015", "DOM"],
