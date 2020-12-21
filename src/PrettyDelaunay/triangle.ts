@@ -45,7 +45,7 @@ export default class Triangle {
     if (color && stroke) {
       // draw the stroke using the fill color first
       // so that the points of adjacent triangles
-      // dont overlap a bunch and look "starry"
+      // don’t overlap a bunch and look "starry"
       const tempStroke = ctx.strokeStyle;
       ctx.strokeStyle = ctx.fillStyle;
       ctx.stroke();
@@ -89,7 +89,7 @@ export default class Triangle {
   }
 
   centroid(): Point {
-    // only calc the centroid if we dont already know it
+    // only calc the centroid if we don’t already know it
     if (this._centroid) {
       return this._centroid;
     } else {
