@@ -60,9 +60,7 @@ function getColors() {
 
   if (elements.colorChooseOption.checked) {
     // use the ones in the inputs
-    colors = elements.colorInputs.map((input) => {
-      Color.rgbToHsla(Color.hexToRgbaArray(input.value));
-    });
+    colors = elements.colorInputs.map((input) => Color.rgbToHsla(Color.hexToRgbaArray(input.value)));
   } else {
     // generate random colors
     colors = elements.colorInputs.map((input) => {
