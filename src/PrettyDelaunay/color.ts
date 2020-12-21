@@ -33,17 +33,15 @@ export default {
    * @return  Array           The HSL representation
    */
   rgbToHsla: function (_rgb: string | [number, number, number]): string {
-    let rgb: [number, number, number];
-    if (typeof _rgb === 'string') {
-      rgb = _rgb.replace('rgb(', '').replace(')', '').split(',').map(str => parseInt(str)) as [number, number, number];
-    }
+    const rgb: [number, number, number] = Array.isArray(_rgb) ? _rgb :
+      _rgb.replace('rgb(', '').replace(')', '').split(',').map(str => parseInt(str)) as [number, number, number];
     const r = rgb[0] / 255;
     const g = rgb[1] / 255;
     const b = rgb[2] / 255;
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
-    let h: number;
-    let s: number;
+    let h = 0;
+    let s = 0;
     const l = (max + min) / 2;
 
     if (max === min) {
