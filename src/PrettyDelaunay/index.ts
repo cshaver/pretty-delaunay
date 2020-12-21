@@ -114,7 +114,7 @@ interface PrettyDelaunayOptions {
 * Represents a Delaunay triangulation of random points
 * https://en.wikipedia.org/wiki/Delaunay_triangulation
 */
-class PrettyDelaunay {
+export default class PrettyDelaunay {
 
   options: PrettyDelaunayOptions;
 
@@ -131,6 +131,7 @@ class PrettyDelaunay {
   // hoverShadowCanvas?: HTMLCanvasElement;
 
   mousePosition?: Point; // set on mousemove
+  image?: HTMLImageElement; // set by loadImageBackground
 
   // geometry
   pointMap: PointMap = new PointMap();
@@ -141,7 +142,6 @@ class PrettyDelaunay {
   width: number;
   height: number;
   gradientImageData: ImageData;
-  image: boolean;
 
   radialGradients: RadialGradient[] = [];
   // for animation
@@ -810,11 +810,11 @@ class PrettyDelaunay {
     }
   }
 
-  render() {
+  render(): void {
     this.renderBackground(this.renderForeground.bind(this));
   }
 
-  renderBackground(callback) {
+  renderBackground(callback: () => void): void {
     // render the base to get triangle colors
     if (this.options.imageAsBackground) {
       this.renderImageBackground(callback);
@@ -824,7 +824,7 @@ class PrettyDelaunay {
     }
   }
 
-  renderForeground() {
+  renderForeground(): void {
     // get entire canvas image data of in a big typed array
     // this way we don’t have to pick for each point individually
     // it's like 50x faster this way
@@ -851,7 +851,7 @@ class PrettyDelaunay {
     }
   }
 
-  renderExtras() {
+  renderExtras(): void {
     if (this.options.showPoints) {
       this.renderPoints();
     }
@@ -865,14 +865,14 @@ class PrettyDelaunay {
     }
   }
 
-  renderNewColors(colors) {
-    this.colors = colors || this.colors;
+  renderNewColors(colors?: [string, string, string]): void {
+    this.colors = colors ?? this.colors;
     // triangle centroids need new colors
     this.resetPointColors();
     this.render();
   }
 
-  renderNewGradient(minGradients, maxGradients) {
+  renderNewGradient(minGradients?: number, maxGradients?: number): void {
     this.generateGradients(minGradients, maxGradients);
 
     // prep for animation
@@ -884,17 +884,17 @@ class PrettyDelaunay {
     this.render();
   }
 
-  renderNewTriangles(min, max, minEdge, maxEdge, multiplier) {
+  renderNewTriangles(min?: number, max?: number, minEdge?: number, maxEdge?: number, multiplier?: number): void {
     this.generateNewPoints(min, max, minEdge, maxEdge, multiplier);
     this.triangulate();
     this.render();
   }
 
-  renderGradient() {
+  renderGradient(): void {
     for (let i = 0; i < this.radialGradients.length; i++) {
       // create the radial gradient based on
       // the generated circles' radii and origins
-      var radialGradient = this.ctx.createRadialGradient(
+      const radialGradient = this.ctx.createRadialGradient(
         this.radialGradients[i].x0,
         this.radialGradients[i].y0,
         this.radialGradients[i].r0,
@@ -903,29 +903,31 @@ class PrettyDelaunay {
         this.radialGradients[i].r1
       );
 
-      var outerColor = this.colors[2];
+      let outerColor: string = this.colors[2];
 
-      // must be transparent version of middle color
-      // this works for rgba and hsla
       if (i > 0) {
-        outerColor = this.colors[1].split(',');
-        outerColor[3] = '0)';
-        outerColor = outerColor.join(',');
+        // must be transparent version of middle color
+        // this works for rgba and hsla
+        const middleColorParts = this.colors[1].split(',');
+        middleColorParts[3] = '0)';
+        outerColor = middleColorParts.join(',');
       }
 
       radialGradient.addColorStop(1, this.colors[0]);
       radialGradient.addColorStop(this.radialGradients[i].colorStop, this.colors[1]);
       radialGradient.addColorStop(0, outerColor);
 
-      this.canvas.parentElement.style.backgroundColor = this.colors[2];
+      this.canvas.parentElement!.style.backgroundColor = this.colors[2];
 
       this.ctx.fillStyle = radialGradient;
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
   }
 
-  renderImageBackground(callback) {
-    this.loadImageBackground((function() {
+  renderImageBackground = (callback: () => void): void => {
+    this.loadImageBackground(() => {
+      if (!this.image) return callback();
+
       // scale image to fit width/height of canvas
       let heightMultiplier = this.canvas.height / this.image.height;
       let widthMultiplier = this.canvas.width / this.image.width;
@@ -935,22 +937,21 @@ class PrettyDelaunay {
       this.ctx.drawImage(this.image, 0, 0, this.image.width * multiplier, this.image.height * multiplier);
 
       callback();
-    }).bind(this));
+    });
   }
 
-  loadImageBackground(callback) {
+  loadImageBackground = (callback: () => void) => {
     if (this.image && this.image.src === this.options.imageURL) {
       callback();
     } else {
       this.image = new Image();
       this.image.crossOrigin = 'Anonymous';
-      this.image.src = this.options.imageURL;
-
+      this.image.src = this.options.imageURL ?? '';
       this.image.onload = callback;
     }
   }
 
-  renderTriangles(triangles, edges) {
+  renderTriangles(showTriangles?: boolean, showEdges?: boolean): void {
     // save this for later
     this.center.canvasColorAtPoint(this.gradientImageData);
 
@@ -960,22 +961,22 @@ class PrettyDelaunay {
 
       this.triangles[i].color = this.triangles[i].colorAtCentroid(this.gradientImageData);
 
-      if (triangles && edges) {
+      if (showTriangles && showEdges) {
         this.triangles[i].stroke = this.options.edgeColor(this.triangles[i].colorAtCentroid(this.gradientImageData));
         this.triangles[i].render(this.ctx);
-      } else if (triangles) {
+      } else if (showTriangles) {
         // triangles only
         this.triangles[i].stroke = this.triangles[i].color;
         this.triangles[i].render(this.ctx);
-      } else if (edges) {
+      } else if (showEdges) {
         // edges only
         this.triangles[i].stroke = this.options.edgeColor(this.triangles[i].colorAtCentroid(this.gradientImageData));
-        this.triangles[i].render(this.ctx, false);
+        this.triangles[i].render(this.ctx);
       }
 
       if (this.hoverShadowCanvas) {
         var color = '#' + ('000000' + i.toString(16)).slice(-6);
-        this.triangles[i].render(this.shadowCtx, color, false);
+        this.triangles[i].render(this.shadowCtx, color);
       }
     }
 
@@ -985,7 +986,7 @@ class PrettyDelaunay {
   }
 
   // renders the points of the triangles
-  renderPoints() {
+  renderPoints(): void {
     for (let i = 0; i < this.points.length; i++) {
       var color = this.options.pointColor(this.points[i].canvasColorAtPoint(this.gradientImageData));
       this.points[i].render(this.ctx, color);
@@ -993,7 +994,7 @@ class PrettyDelaunay {
   }
 
   // draws the circles that define the gradients
-  renderGradientCircles() {
+  renderGradientCircles(): void {
     for (let i = 0; i < this.radialGradients.length; i++) {
       this.ctx.beginPath();
       this.ctx.arc(this.radialGradients[i].x0,
@@ -1016,14 +1017,14 @@ class PrettyDelaunay {
   }
 
   // render triangle centroids
-  renderCentroids() {
+  renderCentroids(): void {
     for (let i = 0; i < this.triangles.length; i++) {
-      var color = this.options.centroidColor(this.triangles[i].colorAtCentroid(this.gradientImageData));
+      const color = this.options.centroidColor(this.triangles[i].colorAtCentroid(this.gradientImageData));
       this.triangles[i].centroid().render(this.ctx, color);
     }
   }
 
-  toggleTriangles(force) {
+  toggleTriangles(force?: boolean) {
     if (typeof force !== 'undefined') {
       if (this.options.showTriangles === force) {
         // don't render if the option doesn’t change
@@ -1036,7 +1037,7 @@ class PrettyDelaunay {
     this.render();
   }
 
-  togglePoints(force) {
+  togglePoints(force?: boolean) {
     if (typeof force !== 'undefined') {
       if (this.options.showPoints === force) {
         // don't render if the option doesn’t change
@@ -1049,7 +1050,7 @@ class PrettyDelaunay {
     this.render();
   }
 
-  toggleCircles(force) {
+  toggleCircles(force?: boolean) {
     if (typeof force !== 'undefined') {
       if (this.options.showCircles === force) {
         // don't render if the option doesn’t change
@@ -1062,7 +1063,7 @@ class PrettyDelaunay {
     this.render();
   }
 
-  toggleCentroids(force) {
+  toggleCentroids(force?: boolean) {
     if (typeof force !== 'undefined') {
       if (this.options.showCentroids === force) {
         // don't render if the option doesn’t change
@@ -1075,7 +1076,7 @@ class PrettyDelaunay {
     this.render();
   }
 
-  toggleEdges(force) {
+  toggleEdges(force?: boolean) {
     if (typeof force !== 'undefined') {
       if (this.options.showEdges === force) {
         // don't render if the option doesn’t change
@@ -1088,7 +1089,7 @@ class PrettyDelaunay {
     this.render();
   }
 
-  toggleAnimation(force) {
+  toggleAnimation(force?: boolean) {
     if (typeof force !== 'undefined') {
       if (this.options.animate === force) {
         // don't render if the option doesn’t change
@@ -1103,7 +1104,7 @@ class PrettyDelaunay {
     }
   }
 
-  toggleHover(force) {
+  toggleHover(force?: boolean) {
     if (typeof force !== 'undefined') {
       if (this.options.hover === force) {
         // don't render if the option doesn’t change
@@ -1125,8 +1126,6 @@ class PrettyDelaunay {
   }
 }
 
-function linearScale(x0, x1, scale) {
+function linearScale(x0: number, x1: number, scale: number): number {
   return x0 + (scale * (x1 - x0));
 }
-
-export default PrettyDelaunay;
