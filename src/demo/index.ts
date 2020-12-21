@@ -1,10 +1,11 @@
-const PrettyDelaunay  = require('./PrettyDelaunay');
-const Color  = require('./PrettyDelaunay/color');
-const Random = require('./PrettyDelaunay/random');
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import PrettyDelaunay from '../PrettyDelaunay/index';
+import Color from '../PrettyDelaunay/color';
+import Random from '../PrettyDelaunay/random';
 
-const elements = require('./demo/elements');
+import elements from './elements';
 
-// initialize PrettyDelaunay on the canva
+// initialize PrettyDelaunay on the canvas
 const prettyDelaunay = new PrettyDelaunay(elements.canvas, {
   onDarkBackground: () => {
     elements.main.className = 'theme-light';
@@ -23,7 +24,7 @@ randomize();
 
 // get options and re-randomize
 function randomize() {
-  let options = getOptions();
+  const options = getOptions();
   prettyDelaunay.randomize(
     options.minPoints,
     options.maxPoints,
@@ -39,8 +40,8 @@ function randomize() {
 
 // get options from input fields
 function getOptions() {
-  let useMultiplier = elements.multiplierRadio.checked;
-  let options = {
+  const useMultiplier = elements.multiplierRadio.checked;
+  const options = {
     multiplier: parseFloat(elements.multiplierInput.value),
     minPoints: useMultiplier ? 0 : parseInt(elements.minPointsInput.value),
     maxPoints: useMultiplier ? 0 : parseInt(elements.maxPointsInput.value),
@@ -55,33 +56,27 @@ function getOptions() {
   return options;
 }
 
-function getColors() {
-  var colors = [];
-
+function getColors(): [string, string, string] {
   if (elements.colorChooseOption.checked) {
     // use the ones in the inputs
-    colors = elements.colorInputs.map((input) => {
-      Color.rgbToHsla(Color.hexToRgbaArray(input.value));
-    });
+    return elements.colorInputs.map((input) => Color.rgbToHsla(Color.hexToRgbaArray(input.value))) as [string, string, string];
   } else {
     // generate random colors
-    colors = elements.colorInputs.map((input) => {
-      let rgb = Random.randomRgba().replace('rgba', 'rgb').replace(/,\s*\d(\.\d+)?\)/, ')');
-      let hsla = Color.rgbToHsla(rgb);
-      let hex = '#' + Color.rgbToHex(rgb);
+    return elements.colorInputs.map((input) => {
+      const rgb = Random.randomRgba().replace('rgba', 'rgb').replace(/,\s*\d(\.\d+)?\)/, ')');
+      const hsla = Color.rgbToHsla(rgb);
+      const hex = '#' + Color.rgbToHex(rgb);
 
       input.value = hex;
-      let matchingInput = document.getElementById(input.getAttribute('data-color-sync'));
+      const matchingInput = document.getElementById(input.getAttribute('data-color-sync')!) as HTMLInputElement;
 
       if (matchingInput) {
         matchingInput.value = input.value;
       }
 
       return hsla;
-    });
+    }) as [string, string, string];
   }
-
-  return colors;
 }
 
 function getImage() {
@@ -89,10 +84,10 @@ function getImage() {
     return '';
   }
 
-  if (elements.imageBackgroundUploadOption.checked && elements.imageBackgroundUpload.files.length) {
-    let file = elements.imageBackgroundUpload.files[0];
+  if (elements.imageBackgroundUploadOption.checked && elements.imageBackgroundUpload.files?.length) {
+    const file = elements.imageBackgroundUpload.files[0];
     return window.URL.createObjectURL(file);
-  } else if (imageBackgroundURLOption.checked) {
+  } else if (elements.imageBackgroundURLOption.checked) {
     return elements.imageBackgroundURL.value;
   } else {
     return '';
@@ -105,7 +100,7 @@ function getImage() {
 
 // regenerate the triangulation entirely, or only update the color, shape, or triangles
 elements.sections.generateButtons.addEventListener('click', (event) => {
-  let button = event.target;
+  const button = event.target as HTMLElement;
 
   if (button.hasAttribute('data-generate-colors') &&
       button.hasAttribute('data-generate-gradients') &&
@@ -119,7 +114,7 @@ elements.sections.generateButtons.addEventListener('click', (event) => {
   }
 
   if (button.hasAttribute('data-generate-gradients')) {
-    let options = getOptions();
+    const options = getOptions();
     prettyDelaunay.renderNewGradient(
       options.minGradients,
       options.maxGradients
@@ -127,7 +122,7 @@ elements.sections.generateButtons.addEventListener('click', (event) => {
   }
 
   if (button.hasAttribute('data-generate-triangles')) {
-    let options = getOptions();
+    const options = getOptions();
     prettyDelaunay.renderNewTriangles(
       options.minPoints,
       options.maxPoints,
@@ -139,21 +134,24 @@ elements.sections.generateButtons.addEventListener('click', (event) => {
 });
 
 // update the render when options are changed
-elements.sections.renderOptions.addEventListener('change', (event) => {
-  let options = Object.keys(elements.renderOptions);
-  for (var i = 0; i < options.length; i++) {
-    let option = options[i];
-    let element = elements.renderOptions[option];
-    let toggleFunctionName = option.replace('show', 'toggle');
+elements.sections.renderOptions.addEventListener('change', () => {
+  const options = Object.keys(elements.renderOptions);
+  for (let i = 0; i < options.length; i++) {
+    const option = options[i];
+    // @ts-ignore
+    const element = elements.renderOptions[option];
+    const toggleFunctionName = option.replace('show', 'toggle');
+    // @ts-ignore
     if (prettyDelaunay[toggleFunctionName]) {
+      // @ts-ignore
       prettyDelaunay[toggleFunctionName](element.checked);
     }
   }
 });
 
 elements.sections.colorInputs.addEventListener('change', (event) => {
-  let input = event.target;
-  let matchingInput = document.getElementById(event.target.getAttribute('data-color-sync'));
+  const input = event.target as HTMLInputElement;
+  const matchingInput = document.getElementById(input.getAttribute('data-color-sync')!) as HTMLInputElement;
 
   if (!matchingInput) {
     return;
