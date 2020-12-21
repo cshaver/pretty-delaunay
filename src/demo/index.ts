@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import PrettyDelaunay from '../PrettyDelaunay/index';
 import Color from '../PrettyDelaunay/color';
 import Random from '../PrettyDelaunay/random';
