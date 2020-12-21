@@ -1,18 +1,18 @@
 export default {
   hexToRgba: function(hex: string): string {
     hex = hex.replace('#', '');
-    var r = parseInt(hex.substring(0, 2), 16);
-    var g = parseInt(hex.substring(2, 4), 16);
-    var b = parseInt(hex.substring(4, 6), 16);
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
 
     return 'rgba(' + r + ',' + g + ',' + b + ',1)';
   },
 
   hexToRgbaArray: function(hex: string): [number, number, number] {
     hex = hex.replace('#', '');
-    var r = parseInt(hex.substring(0, 2), 16);
-    var g = parseInt(hex.substring(2, 4), 16);
-    var b = parseInt(hex.substring(4, 6), 16);
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
 
     if (isNaN(r) || isNaN(g) || isNaN(b)) {
       return [0, 0, 0];
@@ -47,7 +47,7 @@ export default {
     if (max === min) {
       h = s = 0; // achromatic
     } else {
-      var d = max - min;
+      const d = max - min;
       s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
       switch (max){
         case r: h = (g - b) / d + (g < b ? 6 : 0); break;

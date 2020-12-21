@@ -15,8 +15,8 @@ export default class Triangle {
   p2: Point
   p3: Point;
 
-  color: string = 'black';
-  stroke: string = 'black';
+  color = 'black';
+  stroke = 'black';
 
   private _centroid?: Point;
 
@@ -62,14 +62,14 @@ export default class Triangle {
 
   // random point inside triangle
   randomInside(): Point {
-    var r1 = Math.random();
-    var r2 = Math.random();
-    var x = (1 - Math.sqrt(r1)) *
+    const r1 = Math.random();
+    const r2 = Math.random();
+    const x = (1 - Math.sqrt(r1)) *
             this.p1.x + (Math.sqrt(r1) *
             (1 - r2)) *
             this.p2.x + (Math.sqrt(r1) * r2) *
             this.p3.x;
-    var y = (1 - Math.sqrt(r1)) *
+    const y = (1 - Math.sqrt(r1)) *
             this.p1.y + (Math.sqrt(r1) *
             (1 - r2)) *
             this.p2.y + (Math.sqrt(r1) * r2) *
@@ -93,8 +93,8 @@ export default class Triangle {
     if (this._centroid) {
       return this._centroid;
     } else {
-      var x = Math.round((this.p1.x + this.p2.x + this.p3.x) / 3);
-      var y = Math.round((this.p1.y + this.p2.y + this.p3.y) / 3);
+      const x = Math.round((this.p1.x + this.p2.x + this.p3.x) / 3);
+      const y = Math.round((this.p1.y + this.p2.y + this.p3.y) / 3);
       this._centroid = new Point(x, y);
 
       return this._centroid;
@@ -103,11 +103,11 @@ export default class Triangle {
 
   // http://stackoverflow.com/questions/13300904/determine-whether-point-lies-inside-triangle
   pointInTriangle(point: Point): boolean {
-    var alpha = ((this.p2.y - this.p3.y) * (point.x - this.p3.x) + (this.p3.x - this.p2.x) * (point.y - this.p3.y)) /
+    const alpha = ((this.p2.y - this.p3.y) * (point.x - this.p3.x) + (this.p3.x - this.p2.x) * (point.y - this.p3.y)) /
               ((this.p2.y - this.p3.y) * (this.p1.x - this.p3.x) + (this.p3.x - this.p2.x) * (this.p1.y - this.p3.y));
-    var beta = ((this.p3.y - this.p1.y) * (point.x - this.p3.x) + (this.p1.x - this.p3.x) * (point.y - this.p3.y)) /
+    const beta = ((this.p3.y - this.p1.y) * (point.x - this.p3.x) + (this.p1.x - this.p3.x) * (point.y - this.p3.y)) /
              ((this.p2.y - this.p3.y) * (this.p1.x - this.p3.x) + (this.p3.x - this.p2.x) * (this.p1.y - this.p3.y));
-    var gamma = 1.0 - alpha - beta;
+    const gamma = 1.0 - alpha - beta;
 
     return (alpha > 0 && beta > 0 && gamma > 0);
   }

@@ -3,9 +3,9 @@ import Point from './point';
 const Random = {
   // hey look a closure
   // returns function for random numbers with pre-set max and min
-  randomNumberFunction: function(max: number, min: number = 0): () => number {
+  randomNumberFunction: function(max: number, min = 0): () => number {
     if (min > max) {
-      var temp = max;
+      const temp = max;
       max = min;
       min = temp;
     }
@@ -16,7 +16,7 @@ const Random = {
 
   // returns a random integer
   // between the max and min
-  randomBetween: function(max: number, min: number = 0): number {
+  randomBetween: function(max: number, min = 0): number {
     return Random.randomNumberFunction(max, min)();
   },
 

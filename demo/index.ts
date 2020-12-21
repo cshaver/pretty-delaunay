@@ -23,7 +23,7 @@ randomize();
 
 // get options and re-randomize
 function randomize() {
-  let options = getOptions();
+  const options = getOptions();
   prettyDelaunay.randomize(
     options.minPoints,
     options.maxPoints,
@@ -39,8 +39,8 @@ function randomize() {
 
 // get options from input fields
 function getOptions() {
-  let useMultiplier = elements.multiplierRadio.checked;
-  let options = {
+  const useMultiplier = elements.multiplierRadio.checked;
+  const options = {
     multiplier: parseFloat(elements.multiplierInput.value),
     minPoints: useMultiplier ? 0 : parseInt(elements.minPointsInput.value),
     maxPoints: useMultiplier ? 0 : parseInt(elements.maxPointsInput.value),
@@ -62,12 +62,12 @@ function getColors(): [string, string, string] {
   } else {
     // generate random colors
     return elements.colorInputs.map((input) => {
-      let rgb = Random.randomRgba().replace('rgba', 'rgb').replace(/,\s*\d(\.\d+)?\)/, ')');
-      let hsla = Color.rgbToHsla(rgb);
-      let hex = '#' + Color.rgbToHex(rgb);
+      const rgb = Random.randomRgba().replace('rgba', 'rgb').replace(/,\s*\d(\.\d+)?\)/, ')');
+      const hsla = Color.rgbToHsla(rgb);
+      const hex = '#' + Color.rgbToHex(rgb);
 
       input.value = hex;
-      let matchingInput = document.getElementById(input.getAttribute('data-color-sync')) as HTMLInputElement;
+      const matchingInput = document.getElementById(input.getAttribute('data-color-sync')) as HTMLInputElement;
 
       if (matchingInput) {
         matchingInput.value = input.value;
@@ -84,7 +84,7 @@ function getImage() {
   }
 
   if (elements.imageBackgroundUploadOption.checked && elements.imageBackgroundUpload.files.length) {
-    let file = elements.imageBackgroundUpload.files[0];
+    const file = elements.imageBackgroundUpload.files[0];
     return window.URL.createObjectURL(file);
   } else if (elements.imageBackgroundURLOption.checked) {
     return elements.imageBackgroundURL.value;
@@ -99,7 +99,7 @@ function getImage() {
 
 // regenerate the triangulation entirely, or only update the color, shape, or triangles
 elements.sections.generateButtons.addEventListener('click', (event) => {
-  let button = event.target as HTMLElement;
+  const button = event.target as HTMLElement;
 
   if (button.hasAttribute('data-generate-colors') &&
       button.hasAttribute('data-generate-gradients') &&
@@ -113,7 +113,7 @@ elements.sections.generateButtons.addEventListener('click', (event) => {
   }
 
   if (button.hasAttribute('data-generate-gradients')) {
-    let options = getOptions();
+    const options = getOptions();
     prettyDelaunay.renderNewGradient(
       options.minGradients,
       options.maxGradients
@@ -121,7 +121,7 @@ elements.sections.generateButtons.addEventListener('click', (event) => {
   }
 
   if (button.hasAttribute('data-generate-triangles')) {
-    let options = getOptions();
+    const options = getOptions();
     prettyDelaunay.renderNewTriangles(
       options.minPoints,
       options.maxPoints,
@@ -134,11 +134,11 @@ elements.sections.generateButtons.addEventListener('click', (event) => {
 
 // update the render when options are changed
 elements.sections.renderOptions.addEventListener('change', (event) => {
-  let options = Object.keys(elements.renderOptions);
-  for (var i = 0; i < options.length; i++) {
-    let option = options[i];
-    let element = elements.renderOptions[option];
-    let toggleFunctionName = option.replace('show', 'toggle');
+  const options = Object.keys(elements.renderOptions);
+  for (let i = 0; i < options.length; i++) {
+    const option = options[i];
+    const element = elements.renderOptions[option];
+    const toggleFunctionName = option.replace('show', 'toggle');
     if (prettyDelaunay[toggleFunctionName]) {
       prettyDelaunay[toggleFunctionName](element.checked);
     }
@@ -146,8 +146,8 @@ elements.sections.renderOptions.addEventListener('change', (event) => {
 });
 
 elements.sections.colorInputs.addEventListener('change', (event) => {
-  let input = event.target as HTMLInputElement;
-  let matchingInput = document.getElementById(input.getAttribute('data-color-sync')) as HTMLInputElement;
+  const input = event.target as HTMLInputElement;
+  const matchingInput = document.getElementById(input.getAttribute('data-color-sync')) as HTMLInputElement;
 
   if (!matchingInput) {
     return;

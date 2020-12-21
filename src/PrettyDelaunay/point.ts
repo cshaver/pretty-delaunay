@@ -7,8 +7,8 @@ import Color from './color';
 export default class Point {
   x: number;
   y: number;
-  radius: number = 1;
-  color: string = 'black';
+  radius = 1;
+  color = 'black';
 
   private _canvasColor?: string;
   /**
@@ -56,7 +56,7 @@ export default class Point {
     // only find the canvas color if we don’t already know it
     if (!this._canvasColor) {
       // imageData array is flat, goes by rows then cols, four values per pixel
-      var idx = (Math.floor(this.y) * imageData.width * 4) + (Math.floor(this.x) * 4);
+      const idx = (Math.floor(this.y) * imageData.width * 4) + (Math.floor(this.x) * 4);
 
       if (colorSpace === 'hsla') {
         this._canvasColor = Color.rgbToHsla(Array.prototype.slice.call(imageData.data, idx, idx + 3) as [number, number, number]);

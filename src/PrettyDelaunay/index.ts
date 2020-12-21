@@ -144,8 +144,8 @@ export default class PrettyDelaunay {
   // animation state
   resizing?: boolean;
   looping?: boolean;
-  frameSteps: number = 0;
-  frame: number = 0;
+  frameSteps = 0;
+  frame = 0;
 
   // generateNewPoints
   numPoints: number;
@@ -256,8 +256,8 @@ export default class PrettyDelaunay {
 
       // triggered when hovered over triangle
       onTriangleHover: function(triangle, ctx, options) {
-        var fill = options.hoverColor(triangle.color);
-        var stroke = fill;
+        const fill = options.hoverColor(triangle.color);
+        const stroke = fill;
         triangle.render(ctx, options.showEdges ? fill : undefined, options.showEdges ? undefined : stroke);
       },
 
@@ -418,7 +418,7 @@ export default class PrettyDelaunay {
         }
 
         // scale the difference between current and next gradient based on step in frames
-        var scale = this.frame / this.frameSteps;
+        const scale = this.frame / this.frameSteps;
 
         const updatedGradient: RadialGradient = {
           x0: Math.round(linearScale(currentGradient.x0, nextGradient.x0, scale)),
@@ -467,7 +467,7 @@ export default class PrettyDelaunay {
 
   mousemove = (event: MouseEvent) => {
     if (!this.options.animate) {
-      var rect = this.canvas.getBoundingClientRect();
+      const rect = this.canvas.getBoundingClientRect();
       this.mousePosition = new Point(event.clientX - rect.left, event.clientY - rect.top);
       this.hover();
     }
@@ -481,16 +481,16 @@ export default class PrettyDelaunay {
   }
 
   generateNewPoints(
-    min: number = 0,
-    max: number = 0,
-    minEdge: number = 0,
-    maxEdge: number = 0,
+    min = 0,
+    max = 0,
+    minEdge = 0,
+    maxEdge = 0,
     multiplier: number = this.options.multiplier
   ): void {
     // defaults to generic number of points based on canvas dimensions
     // this generally looks pretty nice
-    var area = this.canvas.width * this.canvas.height;
-    var perimeter = (this.canvas.width + this.canvas.height) * 2;
+    const area = this.canvas.width * this.canvas.height;
+    const perimeter = (this.canvas.width + this.canvas.height) * 2;
 
     min = min > 0 ? Math.ceil(min) : Math.max(Math.ceil((area / 1250) * multiplier), 50);
     max = max > 0 ? Math.ceil(max) : Math.max(Math.ceil((area / 500) * multiplier), 50);
@@ -624,30 +624,30 @@ export default class PrettyDelaunay {
       * circle2's radius can be between 0 and this dist
       */
 
-    var minX = this.options.gradient.minX(this.canvas.width, this.canvas.height);
-    var maxX = this.options.gradient.maxX(this.canvas.width, this.canvas.height);
+    const minX = this.options.gradient.minX(this.canvas.width, this.canvas.height);
+    const maxX = this.options.gradient.maxX(this.canvas.width, this.canvas.height);
 
-    var minY = this.options.gradient.minY(this.canvas.width, this.canvas.height);
-    var maxY = this.options.gradient.maxY(this.canvas.width, this.canvas.height);
+    const minY = this.options.gradient.minY(this.canvas.width, this.canvas.height);
+    const maxY = this.options.gradient.maxY(this.canvas.width, this.canvas.height);
 
-    var minRadius = this.options.gradient.minRadius(this.canvas.width, this.canvas.height, this.numGradients);
-    var maxRadius = this.options.gradient.maxRadius(this.canvas.width, this.canvas.height, this.numGradients);
+    const minRadius = this.options.gradient.minRadius(this.canvas.width, this.canvas.height, this.numGradients);
+    const maxRadius = this.options.gradient.maxRadius(this.canvas.width, this.canvas.height, this.numGradients);
 
     // helper random functions
-    var randomCanvasX = Random.randomNumberFunction(minX, maxX);
-    var randomCanvasY = Random.randomNumberFunction(minY, maxY);
-    var randomCanvasRadius = Random.randomNumberFunction(minRadius, maxRadius);
+    const randomCanvasX = Random.randomNumberFunction(minX, maxX);
+    const randomCanvasY = Random.randomNumberFunction(minY, maxY);
+    const randomCanvasRadius = Random.randomNumberFunction(minRadius, maxRadius);
 
     // generate circle1 origin and radius
-    var x0;
-    var y0;
-    var r0 = randomCanvasRadius();
+    let x0;
+    let y0;
+    const r0 = randomCanvasRadius();
 
     // origin of the next circle should be contained
     // within the area of its predecessor
     if (this.options.gradient.connected && this.radialGradients.length > 0) {
-      var lastGradient = this.radialGradients[this.radialGradients.length - 1];
-      var pointInLastCircle = Random.randomInCircle(lastGradient.r0, lastGradient.x0, lastGradient.y0);
+      const lastGradient = this.radialGradients[this.radialGradients.length - 1];
+      const pointInLastCircle = Random.randomInCircle(lastGradient.r0, lastGradient.x0, lastGradient.y0);
 
       x0 = pointInLastCircle.x;
       y0 = pointInLastCircle.y;
@@ -659,27 +659,27 @@ export default class PrettyDelaunay {
 
     // find a random point inside circle1
     // this is the origin of circle 2
-    var pointInCircle = Random.randomInCircle(r0 * 0.09, x0, y0);
+    const pointInCircle = Random.randomInCircle(r0 * 0.09, x0, y0);
 
     // grab the x/y coords
-    var x1 = pointInCircle.x;
-    var y1 = pointInCircle.y;
+    const x1 = pointInCircle.x;
+    const y1 = pointInCircle.y;
 
     // find distance between the point and the circumference of circle1
     // the radius of the second circle will be a function of this distance
-    var vX = x1 - x0;
-    var vY = y1 - y0;
-    var magV = Math.sqrt(vX * vX + vY * vY);
-    var aX = x0 + vX / magV * r0;
-    var aY = y0 + vY / magV * r0;
+    const vX = x1 - x0;
+    const vY = y1 - y0;
+    const magV = Math.sqrt(vX * vX + vY * vY);
+    const aX = x0 + vX / magV * r0;
+    const aY = y0 + vY / magV * r0;
 
-    var dist = Math.sqrt((x1 - aX) * (x1 - aX) + (y1 - aY) * (y1 - aY));
+    const dist = Math.sqrt((x1 - aX) * (x1 - aX) + (y1 - aY) * (y1 - aY));
 
     // generate the radius of circle2 based on this distance
-    var r1 = Random.randomBetween(1, Math.sqrt(dist));
+    const r1 = Random.randomBetween(1, Math.sqrt(dist));
 
     // random but nice looking color stop
-    var colorStop = Random.randomBetween(2, 8) / 10;
+    const colorStop = Random.randomBetween(2, 8) / 10;
 
     this.radialGradients.push({x0, y0, r0, x1, y1, r1, colorStop});
   }
@@ -747,8 +747,8 @@ export default class PrettyDelaunay {
 
   rescaleGradients(array: RadialGradient[], xMin: number, xMax: number, yMin: number, yMax: number): void {
     for (let i = 0; i < array.length; i++) {
-      var circle0 = new Point(array[i].x0, array[i].y0);
-      var circle1 = new Point(array[i].x1, array[i].y1);
+      const circle0 = new Point(array[i].x0, array[i].y0);
+      const circle1 = new Point(array[i].x1, array[i].y1);
 
       circle0.rescale(xMin, xMax, yMin, yMax, 0, this.canvas.width, 0, this.canvas.height);
       circle1.rescale(xMin, xMax, yMin, yMax, 0, this.canvas.width, 0, this.canvas.height);
@@ -762,9 +762,9 @@ export default class PrettyDelaunay {
 
   hover() {
     if (this.mousePosition) {
-      var rgb = this.mousePosition.canvasColorAtPoint(this.shadowImageData, 'rgb');
-      var hex = Color.rgbToHex(rgb);
-      var dec = parseInt(hex, 16);
+      const rgb = this.mousePosition.canvasColorAtPoint(this.shadowImageData, 'rgb');
+      const hex = Color.rgbToHex(rgb);
+      const dec = parseInt(hex, 16);
 
       // is probably triangle with that index, but
       // edges can be fuzzy so double check
@@ -787,14 +787,14 @@ export default class PrettyDelaunay {
   resetTriangle() {
     // redraw the last triangle that was hovered over
     if (this.lastTriangle && this.lastTriangle >= 0 && this.lastTriangle < this.triangles.length) {
-      var lastTriangle = this.triangles[this.lastTriangle];
+      const lastTriangle = this.triangles[this.lastTriangle];
 
       // find the bounding points of the last triangle
       // expand a bit for edges
-      var minX = lastTriangle.minX() - 1;
-      var minY = lastTriangle.minY() - 1;
-      var maxX = lastTriangle.maxX() + 1;
-      var maxY = lastTriangle.maxY() + 1;
+      const minX = lastTriangle.minX() - 1;
+      const minY = lastTriangle.minY() - 1;
+      const maxX = lastTriangle.maxX() + 1;
+      const maxY = lastTriangle.maxY() + 1;
 
       // reset that portion of the canvas to its original render
       this.ctx.putImageData(this.renderedImageData, 0, 0, minX, minY, maxX - minX, maxY - minY);
@@ -831,7 +831,7 @@ export default class PrettyDelaunay {
     this.renderedImageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
 
     // throw events for light / dark text
-    var centerColor = this.center.canvasColorAtPoint(this.renderedImageData);
+    const centerColor = this.center.canvasColorAtPoint(this.renderedImageData);
 
     if (parseInt(centerColor.split(',')[2]) < 50) {
       if (this.options.onDarkBackground) {
@@ -922,10 +922,10 @@ export default class PrettyDelaunay {
       if (!this.image) return callback();
 
       // scale image to fit width/height of canvas
-      let heightMultiplier = this.canvas.height / this.image.height;
-      let widthMultiplier = this.canvas.width / this.image.width;
+      const heightMultiplier = this.canvas.height / this.image.height;
+      const widthMultiplier = this.canvas.width / this.image.width;
 
-      let multiplier = Math.max(heightMultiplier, widthMultiplier);
+      const multiplier = Math.max(heightMultiplier, widthMultiplier);
 
       this.ctx.drawImage(this.image, 0, 0, this.image.width * multiplier, this.image.height * multiplier);
 
@@ -968,7 +968,7 @@ export default class PrettyDelaunay {
       }
 
       if (this.hoverShadowCanvas) {
-        var color = '#' + ('000000' + i.toString(16)).slice(-6);
+        const color = '#' + ('000000' + i.toString(16)).slice(-6);
         this.triangles[i].render(this.shadowCtx!, color, false);
       }
     }
@@ -981,7 +981,7 @@ export default class PrettyDelaunay {
   // renders the points of the triangles
   renderPoints(): void {
     for (let i = 0; i < this.points.length; i++) {
-      var color = this.options.pointColor(this.points[i].canvasColorAtPoint(this.gradientImageData));
+      const color = this.options.pointColor(this.points[i].canvasColorAtPoint(this.gradientImageData));
       this.points[i].render(this.ctx, color);
     }
   }
@@ -994,7 +994,7 @@ export default class PrettyDelaunay {
               this.radialGradients[i].y0,
               this.radialGradients[i].r0,
               0, Math.PI * 2, true);
-      var center1 = new Point(this.radialGradients[i].x0, this.radialGradients[i].y0);
+      const center1 = new Point(this.radialGradients[i].x0, this.radialGradients[i].y0);
       this.ctx.strokeStyle = center1.canvasColorAtPoint(this.gradientImageData);
       this.ctx.stroke();
 
@@ -1003,7 +1003,7 @@ export default class PrettyDelaunay {
               this.radialGradients[i].y1,
               this.radialGradients[i].r1,
               0, Math.PI * 2, true);
-      var center2 = new Point(this.radialGradients[i].x1, this.radialGradients[i].y1);
+      const center2 = new Point(this.radialGradients[i].x1, this.radialGradients[i].y1);
       this.ctx.strokeStyle = center2.canvasColorAtPoint(this.gradientImageData);
       this.ctx.stroke();
     }
