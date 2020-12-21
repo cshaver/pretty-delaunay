@@ -55,15 +55,13 @@ function getOptions() {
   return options;
 }
 
-function getColors() {
-  var colors = [];
-
+function getColors(): [string, string, string] {
   if (elements.colorChooseOption.checked) {
     // use the ones in the inputs
-    colors = elements.colorInputs.map((input) => Color.rgbToHsla(Color.hexToRgbaArray(input.value)));
+    return elements.colorInputs.map((input) => Color.rgbToHsla(Color.hexToRgbaArray(input.value))) as [string, string, string];
   } else {
     // generate random colors
-    colors = elements.colorInputs.map((input) => {
+    return elements.colorInputs.map((input) => {
       let rgb = Random.randomRgba().replace('rgba', 'rgb').replace(/,\s*\d(\.\d+)?\)/, ')');
       let hsla = Color.rgbToHsla(rgb);
       let hex = '#' + Color.rgbToHex(rgb);
@@ -76,10 +74,8 @@ function getColors() {
       }
 
       return hsla;
-    });
+    }) as [string, string, string];
   }
-
-  return colors;
 }
 
 function getImage() {
