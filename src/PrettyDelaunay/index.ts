@@ -1,5 +1,4 @@
-// @ts-ignore
-import Delaunay from 'delaunay-fast';
+import Delaunator from 'delaunator';
 
 import Color from './color';
 import Random from './random';
@@ -576,7 +575,8 @@ export default class PrettyDelaunay {
     // returns 1 dimensional array arranged in triples such as:
     // [ t1a, t1b, t1c, t2a, t2b, t2c,.... ]
     // where t1a, etc are indices in the vertices array
-    const triangulated = Delaunay.triangulate(vertices);
+    const delaunay = Delaunator.from(vertices);
+    const triangulated = delaunay.triangles;
 
     // turn that into array of triangle points
     const newTriangles: [[number, number], [number, number], [number, number]][] = [];
