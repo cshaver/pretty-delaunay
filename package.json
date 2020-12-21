@@ -12,12 +12,19 @@
     "delaunay"
   ],
   "scripts": {
+    "lint": "eslint src demo --ext '.js,.ts'",
     "dev": "parcel demo/index.html",
     "build": "parcel build demo/index.html"
   },
   "devDependencies": {
     "@types/delaunator": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
     "parcel-bundler": "^1.12.4",
+    "prettier": "^2.2.1",
     "sass": "^1.30.0",
     "typescript": "^4.1.3"
   },
