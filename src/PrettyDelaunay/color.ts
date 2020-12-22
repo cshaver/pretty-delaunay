@@ -1,4 +1,8 @@
+
 export default {
+  /**
+   * @example "#FFABCD" -> "rgba(255,171,205,1)"
+   */
   hexToRgba: function(hex: string): string {
     hex = hex.replace('#', '');
     const r = parseInt(hex.substring(0, 2), 16);
@@ -8,6 +12,9 @@ export default {
     return 'rgba(' + r + ',' + g + ',' + b + ',1)';
   },
 
+  /**
+   * @example "#FFABCD" -> [255,171,205]
+   */
   hexToRgbaArray: function(hex: string): [number, number, number] {
     hex = hex.replace('#', '');
     const r = parseInt(hex.substring(0, 2), 16);
@@ -26,11 +33,7 @@ export default {
    * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
    * Assumes r, g, and b are contained in the set [0, 255] and
    * returns h, s, and l in the set [0, 1].
-   *
-   * @param   Number  r       The red color value
-   * @param   Number  g       The green color value
-   * @param   Number  b       The blue color value
-   * @return  Array           The HSL representation
+   * @example "rgb(255,171,205)" -> "hsla(336,100%,84%,1)"
    */
   rgbToHsla: function (_rgb: string | [number, number, number]): string {
     const rgb: [number, number, number] = Array.isArray(_rgb) ? _rgb :
@@ -60,6 +63,9 @@ export default {
     return 'hsla(' + Math.round(h * 360) + ',' + Math.round(s * 100) + '%,' + Math.round(l * 100) + '%,1)';
   },
 
+  /**
+   * @example "hsla(336,100%,84%,1)", 0.5 -> "hsla(336,100%,84%,0.5)"
+   */
   hslaAdjustAlpha: function(_color: string, alpha: number | string | ((alpha: number) => number | string)): string {
     const color = _color.split(',') as [string, string, string, string];
 
@@ -73,6 +79,9 @@ export default {
     return color.join(',');
   },
 
+  /**
+   * @example "hsla(336,100%,84%,1)", 50 -> "hsla(336,100%,50%,1)"
+   */
   hslaAdjustLightness: function(_color: string, lightness: number | string | ((lightness: number) => number | string)): string {
     const color = _color.split(',') as [string, string, string, string];
 
@@ -86,6 +95,9 @@ export default {
     return color.join(',');
   },
 
+  /**
+   * @example "rgb(255,171,205)" -> "#FFABCD"
+   */
   rgbToHex: function (_rgb: string | [string, string, string]): string {
     const rgb = typeof _rgb === 'string' ?
       (_rgb.replace('rgb(', '').replace(')', '').split(',') as [string, string, string])
