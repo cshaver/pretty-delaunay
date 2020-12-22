@@ -1,9 +1,5 @@
 import { rgbToHsla } from './utils/color';
 
-/**
- * Represents a point
- * @class
- */
 export default class Point {
   x: number;
   y: number;
@@ -11,15 +7,7 @@ export default class Point {
   color = 'black';
 
   private _canvasColor?: string;
-  /**
-   * Point consists x and y
-   * @constructor
-   * @param {Number} x
-   * @param {Number} y
-   * or:
-   * @param {Number[]} x
-   * where x is length-2 array
-   */
+
   constructor(x: [number, number]);
   constructor(x: number, y: number);
   constructor(x: [number, number] | number, y?: number) {
@@ -42,17 +30,18 @@ export default class Point {
     ctx.closePath();
   }
 
-  // converts to string
-  // returns something like:
-  // "(X,Y)"
-  // used in the pointMap to detect unique points
+  /**
+   * converts to string, used in the pointMap to detect unique points
+   * @returns string @example "(2,3)"
+   */
   toString(): string {
     return '(' + this.x + ',' + this.y + ')';
   }
 
-  // grab the color of the canvas at the point
-  // requires imagedata from canvas so we don’t grab
-  // each point individually, which is really expensive
+  /**
+   * grab the color of the canvas at the point
+   * imageData is required so we don’t grab each point individually, which is really expensive
+   */
   canvasColorAtPoint(
     imageData: ImageData,
     colorSpace: 'hsla' | 'rgb' = 'hsla',
@@ -93,11 +82,13 @@ export default class Point {
     );
   }
 
-  // scale points from [A, B] to [C, D]
-  // xA => old x min, xB => old x max
-  // yA => old y min, yB => old y max
-  // xC => new x min, xD => new x max
-  // yC => new y min, yD => new y max
+  /**
+   * scale points from [A, B] to [C, D]
+   * xA => old x min, xB => old x max
+   * yA => old y min, yB => old y max
+   * xC => new x min, xD => new x max
+   * yC => new y min, yD => new y max
+   */
   rescale(
     xA: number,
     xB: number,
