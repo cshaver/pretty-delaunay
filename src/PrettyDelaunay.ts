@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Delaunator from 'delaunator';
 
-import { hslaAdjustLightness, hslaAdjustAlpha, rgbToHex } from './color';
-import Random from './random';
-import Triangle from './triangle';
-import Point from './point';
-import PointMap from './pointMap';
+import { hslaAdjustLightness, hslaAdjustAlpha, rgbToHex } from './utils/color';
+import Random from './utils/random';
+import Triangle from './Triangle';
+import Point from './Point';
+import PointMap from './PointMap';
 
 interface RadialGradient {
   x0: number;

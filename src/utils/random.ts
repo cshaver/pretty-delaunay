@@ -1,4 +1,4 @@
-import Point from './point';
+import Point from '../Point';
 
 const Random = {
   // hey look a closure

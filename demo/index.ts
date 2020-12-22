@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import PrettyDelaunay from '../PrettyDelaunay/index';
-import { rgbToHsla, hexToRgbaArray, rgbToHex } from '../PrettyDelaunay/color';
-import Random from '../PrettyDelaunay/random';
+import PrettyDelaunay from '../src/PrettyDelaunay';
+import { rgbToHsla, hexToRgbaArray, rgbToHex } from '../src/utils/color';
+import Random from '../src/utils/random';
 
 const elements = {
   main: document.getElementById('main') as HTMLElement,

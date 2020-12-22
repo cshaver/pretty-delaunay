@@ -1,4 +1,4 @@
-import { rgbToHsla } from './color';
+import { rgbToHsla } from './utils/color';
 
 /**
  * Represents a point
