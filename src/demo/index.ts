@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import PrettyDelaunay from '../PrettyDelaunay/index';
-import {rgbToHsla,
-hexToRgbaArray,
-rgbToHex} from '../PrettyDelaunay/color';
+import { rgbToHsla, hexToRgbaArray, rgbToHex } from '../PrettyDelaunay/color';
 import Random from '../PrettyDelaunay/random';
 
 const elements = {
@@ -14,21 +12,33 @@ const elements = {
     generateButtons: document.getElementById('generate-buttons') as HTMLElement,
     renderOptions: document.getElementById('render-options') as HTMLElement,
     pointOptions: document.getElementById('point-options') as HTMLElement,
-    backgroundOptions: document.getElementById('background-options') as HTMLElement,
+    backgroundOptions: document.getElementById(
+      'background-options',
+    ) as HTMLElement,
     colorInputs: document.getElementById('color-inputs') as HTMLElement,
   },
   renderOptions: {
-    showTriangles: document.getElementById('show-triangles') as HTMLInputElement,
+    showTriangles: document.getElementById(
+      'show-triangles',
+    ) as HTMLInputElement,
     showPoints: document.getElementById('show-points') as HTMLInputElement,
     showCircles: document.getElementById('show-circles') as HTMLInputElement,
-    showCentroids: document.getElementById('show-centroids') as HTMLInputElement,
+    showCentroids: document.getElementById(
+      'show-centroids',
+    ) as HTMLInputElement,
     showEdges: document.getElementById('show-edges') as HTMLInputElement,
     showHover: document.getElementById('show-hover') as HTMLInputElement,
-    showAnimation: document.getElementById('show-animation') as HTMLInputElement,
+    showAnimation: document.getElementById(
+      'show-animation',
+    ) as HTMLInputElement,
   },
 
-  multiplierRadio: document.getElementById('point-gen-option-multiplier') as HTMLInputElement,
-  multiplierInput: document.getElementById('points-multiplier') as HTMLInputElement,
+  multiplierRadio: document.getElementById(
+    'point-gen-option-multiplier',
+  ) as HTMLInputElement,
+  multiplierInput: document.getElementById(
+    'points-multiplier',
+  ) as HTMLInputElement,
 
   minPointsInput: document.getElementById('min-points') as HTMLInputElement,
   maxPointsInput: document.getElementById('max-points') as HTMLInputElement,
@@ -36,17 +46,35 @@ const elements = {
   minEdgesInput: document.getElementById('min-edge-points') as HTMLInputElement,
   maxEdgesInput: document.getElementById('max-edge-points') as HTMLInputElement,
 
-  minGradientsInput: document.getElementById('min-gradients') as HTMLInputElement,
-  maxGradientsInput: document.getElementById('max-gradients') as HTMLInputElement,
+  minGradientsInput: document.getElementById(
+    'min-gradients',
+  ) as HTMLInputElement,
+  maxGradientsInput: document.getElementById(
+    'max-gradients',
+  ) as HTMLInputElement,
 
-  imageBackgroundUploadOption: document.getElementById('image-background-upload-option') as HTMLInputElement,
-  imageBackgroundUpload: document.getElementById('image-background-upload') as HTMLInputElement,
-  imageBackgroundURLOption: document.getElementById('image-background-url-option') as HTMLInputElement,
-  imageBackgroundURL: document.getElementById('image-background-url') as HTMLInputElement,
+  imageBackgroundUploadOption: document.getElementById(
+    'image-background-upload-option',
+  ) as HTMLInputElement,
+  imageBackgroundUpload: document.getElementById(
+    'image-background-upload',
+  ) as HTMLInputElement,
+  imageBackgroundURLOption: document.getElementById(
+    'image-background-url-option',
+  ) as HTMLInputElement,
+  imageBackgroundURL: document.getElementById(
+    'image-background-url',
+  ) as HTMLInputElement,
 
-  colorRandomOption: document.getElementById('color-random-option') as HTMLInputElement,
-  colorChooseOption: document.getElementById('color-choose-option') as HTMLInputElement,
-  colorImageOption: document.getElementById('color-image-option') as HTMLInputElement,
+  colorRandomOption: document.getElementById(
+    'color-random-option',
+  ) as HTMLInputElement,
+  colorChooseOption: document.getElementById(
+    'color-choose-option',
+  ) as HTMLInputElement,
+  colorImageOption: document.getElementById(
+    'color-image-option',
+  ) as HTMLInputElement,
 
   colorInputs: [
     document.getElementById('color-1') as HTMLInputElement,
@@ -62,7 +90,7 @@ const prettyDelaunay = new PrettyDelaunay(elements.canvas, {
   },
   onLightBackground: () => {
     elements.main.className = 'theme-dark';
-  }
+  },
 });
 
 // initial generation
@@ -84,7 +112,7 @@ function randomize() {
     options.maxGradients,
     options.multiplier,
     options.colors,
-    options.image
+    options.image,
   );
 }
 
@@ -100,7 +128,7 @@ function getOptions() {
     minGradients: parseInt(elements.minGradientsInput.value),
     maxGradients: parseInt(elements.maxGradientsInput.value),
     colors: getColors(),
-    image: getImage()
+    image: getImage(),
   };
 
   return options;
@@ -109,16 +137,22 @@ function getOptions() {
 function getColors(): [string, string, string] {
   if (elements.colorChooseOption.checked) {
     // use the ones in the inputs
-    return elements.colorInputs.map((input) => rgbToHsla(hexToRgbaArray(input.value))) as [string, string, string];
+    return elements.colorInputs.map((input) =>
+      rgbToHsla(hexToRgbaArray(input.value)),
+    ) as [string, string, string];
   } else {
     // generate random colors
     return elements.colorInputs.map((input) => {
-      const rgb = Random.randomRgba().replace('rgba', 'rgb').replace(/,\s*\d(\.\d+)?\)/, ')');
+      const rgb = Random.randomRgba()
+        .replace('rgba', 'rgb')
+        .replace(/,\s*\d(\.\d+)?\)/, ')');
       const hsla = rgbToHsla(rgb);
       const hex = '#' + rgbToHex(rgb);
 
       input.value = hex;
-      const matchingInput = document.getElementById(input.getAttribute('data-color-sync')!) as HTMLInputElement;
+      const matchingInput = document.getElementById(
+        input.getAttribute('data-color-sync')!,
+      ) as HTMLInputElement;
 
       if (matchingInput) {
         matchingInput.value = input.value;
@@ -134,7 +168,10 @@ function getImage() {
     return '';
   }
 
-  if (elements.imageBackgroundUploadOption.checked && elements.imageBackgroundUpload.files?.length) {
+  if (
+    elements.imageBackgroundUploadOption.checked &&
+    elements.imageBackgroundUpload.files?.length
+  ) {
     const file = elements.imageBackgroundUpload.files[0];
     return window.URL.createObjectURL(file);
   } else if (elements.imageBackgroundURLOption.checked) {
@@ -152,9 +189,11 @@ function getImage() {
 elements.sections.generateButtons.addEventListener('click', (event) => {
   const button = event.target as HTMLElement;
 
-  if (button.hasAttribute('data-generate-colors') &&
-      button.hasAttribute('data-generate-gradients') &&
-      button.hasAttribute('data-generate-triangles')) {
+  if (
+    button.hasAttribute('data-generate-colors') &&
+    button.hasAttribute('data-generate-gradients') &&
+    button.hasAttribute('data-generate-triangles')
+  ) {
     randomize();
     return;
   }
@@ -167,7 +206,7 @@ elements.sections.generateButtons.addEventListener('click', (event) => {
     const options = getOptions();
     prettyDelaunay.renderNewGradient(
       options.minGradients,
-      options.maxGradients
+      options.maxGradients,
     );
   }
 
@@ -178,7 +217,7 @@ elements.sections.generateButtons.addEventListener('click', (event) => {
       options.maxPoints,
       options.minEdgePoints,
       options.maxEdgePoints,
-      options.multiplier
+      options.multiplier,
     );
   }
 });
@@ -201,7 +240,9 @@ elements.sections.renderOptions.addEventListener('change', () => {
 
 elements.sections.colorInputs.addEventListener('change', (event) => {
   const input = event.target as HTMLInputElement;
-  const matchingInput = document.getElementById(input.getAttribute('data-color-sync')!) as HTMLInputElement;
+  const matchingInput = document.getElementById(
+    input.getAttribute('data-color-sync')!,
+  ) as HTMLInputElement;
 
   if (!matchingInput) {
     return;

@@ -33,9 +33,14 @@ export function hexToRgbaArray(hex: string): [number, number, number] {
  * returns h, s, and l in the set [0, 1].
  * @example "rgb(255,171,205)" -> "hsla(336,100%,84%,1)"
  */
-export function rgbToHsla (_rgb: string | [number, number, number]): string {
-  const rgb: [number, number, number] = Array.isArray(_rgb) ? _rgb :
-    _rgb.replace('rgb(', '').replace(')', '').split(',').map(str => parseInt(str)) as [number, number, number];
+export function rgbToHsla(_rgb: string | [number, number, number]): string {
+  const rgb: [number, number, number] = Array.isArray(_rgb)
+    ? _rgb
+    : (_rgb
+        .replace('rgb(', '')
+        .replace(')', '')
+        .split(',')
+        .map((str) => parseInt(str)) as [number, number, number]);
   const r = rgb[0] / 255;
   const g = rgb[1] / 255;
   const b = rgb[2] / 255;
@@ -50,21 +55,38 @@ export function rgbToHsla (_rgb: string | [number, number, number]): string {
   } else {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-    switch (max){
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
     }
     h /= 6;
   }
 
-  return 'hsla(' + Math.round(h * 360) + ',' + Math.round(s * 100) + '%,' + Math.round(l * 100) + '%,1)';
+  return (
+    'hsla(' +
+    Math.round(h * 360) +
+    ',' +
+    Math.round(s * 100) +
+    '%,' +
+    Math.round(l * 100) +
+    '%,1)'
+  );
 }
 
 /**
  * @example "hsla(336,100%,84%,1)", 0.5 -> "hsla(336,100%,84%,0.5)"
  */
-export function hslaAdjustAlpha(_color: string, alpha: number | string | ((alpha: number) => number | string)): string {
+export function hslaAdjustAlpha(
+  _color: string,
+  alpha: number | string | ((alpha: number) => number | string),
+): string {
   const color = _color.split(',') as [string, string, string, string];
 
   if (typeof alpha !== 'function') {
@@ -80,7 +102,10 @@ export function hslaAdjustAlpha(_color: string, alpha: number | string | ((alpha
 /**
  * @example "hsla(336,100%,84%,1)", 50 -> "hsla(336,100%,50%,1)"
  */
-export function hslaAdjustLightness(_color: string, lightness: number | string | ((lightness: number) => number | string)): string {
+export function hslaAdjustLightness(
+  _color: string,
+  lightness: number | string | ((lightness: number) => number | string),
+): string {
   const color = _color.split(',') as [string, string, string, string];
 
   if (typeof lightness !== 'function') {
@@ -96,13 +121,20 @@ export function hslaAdjustLightness(_color: string, lightness: number | string |
 /**
  * @example "rgb(255,171,205)" -> "#FFABCD"
  */
-export function rgbToHex (_rgb: string | [string, string, string]): string {
-  const rgb = typeof _rgb === 'string' ?
-    (_rgb.replace('rgb(', '').replace(')', '').split(',') as [string, string, string])
-    : _rgb;
+export function rgbToHex(_rgb: string | [string, string, string]): string {
+  const rgb =
+    typeof _rgb === 'string'
+      ? (_rgb.replace('rgb(', '').replace(')', '').split(',') as [
+          string,
+          string,
+          string,
+        ])
+      : _rgb;
 
-  return rgb.map(function (x) {
-    x = parseInt(x).toString(16);
-    return (x.length === 1) ? '0' + x : x;
-  }).join('');
+  return rgb
+    .map(function (x) {
+      x = parseInt(x).toString(16);
+      return x.length === 1 ? '0' + x : x;
+    })
+    .join('');
 }

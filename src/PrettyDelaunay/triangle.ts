@@ -5,14 +5,13 @@ import Point from './point';
  * @class
  */
 export default class Triangle {
-
   a: Point;
-  b: Point
-  c: Point
+  b: Point;
+  c: Point;
 
   // alias for a, b, c
   p1: Point;
-  p2: Point
+  p2: Point;
   p3: Point;
 
   color = 'black';
@@ -34,7 +33,11 @@ export default class Triangle {
   }
 
   // draw the triangle with differing edge colors optional
-  render(ctx: CanvasRenderingContext2D, color?: string | false, stroke?: string | false): void {
+  render(
+    ctx: CanvasRenderingContext2D,
+    color?: string | false,
+    stroke?: string | false,
+  ): void {
     ctx.beginPath();
     ctx.moveTo(this.a.x, this.a.y);
     ctx.lineTo(this.b.x, this.b.y);
@@ -64,16 +67,14 @@ export default class Triangle {
   randomInside(): Point {
     const r1 = Math.random();
     const r2 = Math.random();
-    const x = (1 - Math.sqrt(r1)) *
-            this.p1.x + (Math.sqrt(r1) *
-            (1 - r2)) *
-            this.p2.x + (Math.sqrt(r1) * r2) *
-            this.p3.x;
-    const y = (1 - Math.sqrt(r1)) *
-            this.p1.y + (Math.sqrt(r1) *
-            (1 - r2)) *
-            this.p2.y + (Math.sqrt(r1) * r2) *
-            this.p3.y;
+    const x =
+      (1 - Math.sqrt(r1)) * this.p1.x +
+      Math.sqrt(r1) * (1 - r2) * this.p2.x +
+      Math.sqrt(r1) * r2 * this.p3.x;
+    const y =
+      (1 - Math.sqrt(r1)) * this.p1.y +
+      Math.sqrt(r1) * (1 - r2) * this.p2.y +
+      Math.sqrt(r1) * r2 * this.p3.y;
     return new Point(x, y);
   }
 
@@ -103,13 +104,19 @@ export default class Triangle {
 
   // http://stackoverflow.com/questions/13300904/determine-whether-point-lies-inside-triangle
   pointInTriangle(point: Point): boolean {
-    const alpha = ((this.p2.y - this.p3.y) * (point.x - this.p3.x) + (this.p3.x - this.p2.x) * (point.y - this.p3.y)) /
-              ((this.p2.y - this.p3.y) * (this.p1.x - this.p3.x) + (this.p3.x - this.p2.x) * (this.p1.y - this.p3.y));
-    const beta = ((this.p3.y - this.p1.y) * (point.x - this.p3.x) + (this.p1.x - this.p3.x) * (point.y - this.p3.y)) /
-             ((this.p2.y - this.p3.y) * (this.p1.x - this.p3.x) + (this.p3.x - this.p2.x) * (this.p1.y - this.p3.y));
+    const alpha =
+      ((this.p2.y - this.p3.y) * (point.x - this.p3.x) +
+        (this.p3.x - this.p2.x) * (point.y - this.p3.y)) /
+      ((this.p2.y - this.p3.y) * (this.p1.x - this.p3.x) +
+        (this.p3.x - this.p2.x) * (this.p1.y - this.p3.y));
+    const beta =
+      ((this.p3.y - this.p1.y) * (point.x - this.p3.x) +
+        (this.p1.x - this.p3.x) * (point.y - this.p3.y)) /
+      ((this.p2.y - this.p3.y) * (this.p1.x - this.p3.x) +
+        (this.p3.x - this.p2.x) * (this.p1.y - this.p3.y));
     const gamma = 1.0 - alpha - beta;
 
-    return (alpha > 0 && beta > 0 && gamma > 0);
+    return alpha > 0 && beta > 0 && gamma > 0;
   }
 
   // scale points from [A, B] to [C, D]
@@ -117,7 +124,16 @@ export default class Triangle {
   // yA => old y min, yB => old y max
   // xC => new x min, xD => new x max
   // yC => new y min, yD => new y max
-  rescalePoints(xA: number, xB: number, yA: number, yB: number, xC: number, xD: number, yC: number, yD: number): void {
+  rescalePoints(
+    xA: number,
+    xB: number,
+    yA: number,
+    yB: number,
+    xC: number,
+    xD: number,
+    yC: number,
+    yD: number,
+  ): void {
     this.p1.rescale(xA, xB, yA, yB, xC, xD, yC, yD);
     this.p2.rescale(xA, xB, yA, yB, xC, xD, yC, yD);
     this.p3.rescale(xA, xB, yA, yB, xC, xD, yC, yD);
