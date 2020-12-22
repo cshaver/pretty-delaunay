@@ -1,4 +1,4 @@
-import Color from './color';
+import { rgbToHsla } from './color';
 
 /**
  * Represents a point
@@ -28,6 +28,7 @@ export default class Point {
       this.y = x[1];
     } else {
       this.x = x;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.y = y!;
     }
   }
@@ -59,7 +60,7 @@ export default class Point {
       const idx = (Math.floor(this.y) * imageData.width * 4) + (Math.floor(this.x) * 4);
 
       if (colorSpace === 'hsla') {
-        this._canvasColor = Color.rgbToHsla(Array.prototype.slice.call(imageData.data, idx, idx + 3) as [number, number, number]);
+        this._canvasColor = rgbToHsla(Array.prototype.slice.call(imageData.data, idx, idx + 3) as [number, number, number]);
       } else {
         this._canvasColor = 'rgb(' + Array.prototype.slice.call(imageData.data, idx, idx + 3).join() + ')';
       }

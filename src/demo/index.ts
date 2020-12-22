@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import PrettyDelaunay from '../PrettyDelaunay/index';
-import Color from '../PrettyDelaunay/color';
+import {rgbToHsla,
+hexToRgbaArray,
+rgbToHex} from '../PrettyDelaunay/color';
 import Random from '../PrettyDelaunay/random';
 
 const elements = {
@@ -106,13 +109,13 @@ function getOptions() {
 function getColors(): [string, string, string] {
   if (elements.colorChooseOption.checked) {
     // use the ones in the inputs
-    return elements.colorInputs.map((input) => Color.rgbToHsla(Color.hexToRgbaArray(input.value))) as [string, string, string];
+    return elements.colorInputs.map((input) => rgbToHsla(hexToRgbaArray(input.value))) as [string, string, string];
   } else {
     // generate random colors
     return elements.colorInputs.map((input) => {
       const rgb = Random.randomRgba().replace('rgba', 'rgb').replace(/,\s*\d(\.\d+)?\)/, ')');
-      const hsla = Color.rgbToHsla(rgb);
-      const hex = '#' + Color.rgbToHex(rgb);
+      const hsla = rgbToHsla(rgb);
+      const hex = '#' + rgbToHex(rgb);
 
       input.value = hex;
       const matchingInput = document.getElementById(input.getAttribute('data-color-sync')!) as HTMLInputElement;

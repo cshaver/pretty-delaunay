@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Delaunator from 'delaunator';
 
-import Color from './color';
+import { hslaAdjustLightness,
+hslaAdjustAlpha,
+rgbToHex,} from './color';
 import Random from './random';
 import Triangle from './triangle';
 import Point from './point';
@@ -242,7 +245,9 @@ export default class PrettyDelaunay {
       onLightBackground: function() { return; },
 
       gradient: {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         minX: (width, height) => Math.ceil(Math.sqrt(width)),
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         maxX: (width, height) => Math.ceil(width - Math.sqrt(width)),
         minY: (width, height) => Math.ceil(Math.sqrt(height)),
         maxY: (width, height) => Math.ceil(height - Math.sqrt(height)),
@@ -264,40 +269,40 @@ export default class PrettyDelaunay {
       // returns hsla color for triangle edge
       // as a function of the triangle fill color
       edgeColor: function(color) {
-        color = Color.hslaAdjustLightness(color, function(lightness) {
+        color = hslaAdjustLightness(color, function(lightness) {
           return (lightness + 200 - lightness * 2) / 3;
         });
-        color = Color.hslaAdjustAlpha(color, 0.25);
+        color = hslaAdjustAlpha(color, 0.25);
         return color;
       },
 
       // returns hsla color for triangle point
       // as a function of the triangle fill color
       pointColor: function(color) {
-        color = Color.hslaAdjustLightness(color, function(lightness) {
+        color = hslaAdjustLightness(color, function(lightness) {
           return (lightness + 200 - lightness * 2) / 3;
         });
-        color = Color.hslaAdjustAlpha(color, 1);
+        color = hslaAdjustAlpha(color, 1);
         return color;
       },
 
       // returns hsla color for triangle centroid
       // as a function of the triangle fill color
       centroidColor: function(color) {
-        color = Color.hslaAdjustLightness(color, function(lightness) {
+        color = hslaAdjustLightness(color, function(lightness) {
           return (lightness + 200 - lightness * 2) / 3;
         });
-        color = Color.hslaAdjustAlpha(color, 0.25);
+        color = hslaAdjustAlpha(color, 0.25);
         return color;
       },
 
       // returns hsla color for triangle hover fill
       // as a function of the triangle fill color
       hoverColor: function(color) {
-        color = Color.hslaAdjustLightness(color, function(lightness) {
+        color = hslaAdjustLightness(color, function(lightness) {
           return 100 - lightness;
         });
-        color = Color.hslaAdjustAlpha(color, 0.5);
+        color = hslaAdjustAlpha(color, 0.5);
         return color;
       },
     };
@@ -763,7 +768,7 @@ export default class PrettyDelaunay {
   hover(): void {
     if (this.mousePosition) {
       const rgb = this.mousePosition.canvasColorAtPoint(this.shadowImageData, 'rgb');
-      const hex = Color.rgbToHex(rgb);
+      const hex = rgbToHex(rgb);
       const dec = parseInt(hex, 16);
 
       // is probably triangle with that index, but
