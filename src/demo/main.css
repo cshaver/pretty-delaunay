@@ -1,0 +1,201 @@
+html {
+  height: 100%;
+  font-size: 16px;
+}
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  min-height: 100%;
+  font-family: sans-serif;
+}
+main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+}
+main > * {
+  z-index: 1;
+  position: relative;
+}
+* {
+  box-sizing: border-box;
+}
+* + * {
+  margin-top: 0.75rem;
+}
+hr {
+  margin: 1rem 0;
+  -webkit-margin-collapse: separate;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+form {
+  display: inline-block;
+  text-align: left;
+}
+.canvas-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+canvas,
+canvas + canvas {
+  margin: 0;
+}
+.form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.form-row > * {
+  flex-grow: 1;
+  flex-basis: 0;
+  margin-top: 0;
+  margin-left: 0.5rem;
+}
+.form-row > *:first-child {
+  margin-left: 0;
+}
+.form-row > input[type="radio"],
+.form-row > input[type="checkbox"] {
+  flex-grow: 0;
+  flex-basis: auto;
+  margin-left: 0;
+}
+.form-row > input[type="radio"] ~ input,
+.form-row > input[type="checkbox"] ~ input {
+  margin-left: 1rem;
+}
+.form-row > input[type="range"] {
+  flex-grow: 100;
+}
+.form-row > input[type="range"] ~ label {
+  margin-left: 0.5rem;
+  flex-grow: 1;
+  flex-basis: auto;
+}
+.form-row > input[type="range"] + label {
+  order: -1;
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+.form-row > input[type="number"] + label {
+  flex-grow: 0;
+}
+.form-row > input[type="url"] {
+  flex-grow: 10;
+}
+.form-row > input[type="color"] {
+  flex-grow: 1.5;
+}
+.form-row > input[type="color"] + input {
+  width: 5em;
+  flex-grow: 0;
+}
+legend + .form-row {
+  margin-top: 0.5rem;
+}
+fieldset > *:first-child {
+  margin-top: 0.75rem;
+}
+input ~ fieldset {
+  opacity: 0.3;
+  pointer-events: none;
+  margin: 0.5rem 0 1rem;
+}
+.form-row input ~ fieldset {
+  margin: 0.5rem 0 1rem;
+  pointer-events: all;
+}
+*:last-child > input ~ fieldset:last-child {
+  margin-bottom: 0;
+}
+input:checked ~ fieldset {
+  opacity: 1;
+  pointer-events: all;
+}
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0;
+}
+label + input[type="radio"],
+label + input[type="checkbox"] {
+  margin-left: 1em;
+}
+input[type="color"] {
+  height: 2rem;
+  padding: 2px;
+  border-width: 1px;
+}
+input + label {
+  margin-left: 0.5rem;
+}
+button {
+  padding: 4px 2px 5px 2px;
+  font-size: 0.75rem;
+}
+.a11y {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(0px 0px 99.9% 99.9%);
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  padding: 0;
+  border: 0;
+}
+.theme-light {
+  color: white;
+}
+.theme-dark {
+  color: black;
+}
+.theme-light input,
+.theme-dark input,
+.theme-light button,
+.theme-dark button {
+  color: black;
+}
+.check-toggle {
+  -webkit-appearance: none;
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+.check-toggle + label:after {
+  content: "Show";
+}
+.check-toggle ~ fieldset {
+  visibility: hidden;
+  height: 1px;
+}
+.check-toggle:checked + label:after {
+  content: "Hide";
+}
+.check-toggle:checked ~ fieldset {
+  visibility: visible;
+  height: auto;
+}
+.headline-toggle {
+  display: inline-block;
+}
