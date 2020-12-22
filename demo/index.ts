@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import PrettyDelaunay from '../src/PrettyDelaunay';
 import { rgbToHsla, hexToRgbaArray, rgbToHex } from '../src/utils/color';
-import Random from '../src/utils/random';
+import { randomRgba } from '../src/utils/random';
 
 const elements = {
   main: document.getElementById('main') as HTMLElement,
@@ -143,7 +143,7 @@ function getColors(): [string, string, string] {
   } else {
     // generate random colors
     return elements.colorInputs.map((input) => {
-      const rgb = Random.randomRgba()
+      const rgb = randomRgba()
         .replace('rgba', 'rgb')
         .replace(/,\s*\d(\.\d+)?\)/, ')');
       const hsla = rgbToHsla(rgb);

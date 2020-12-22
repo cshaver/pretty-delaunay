@@ -2,7 +2,11 @@
 import Delaunator from 'delaunator';
 
 import { hslaAdjustLightness, hslaAdjustAlpha, rgbToHex } from './utils/color';
-import Random from './utils/random';
+import {
+  randomBetween,
+  randomNumberFunction,
+  randomInCircle,
+} from './utils/random';
 import Triangle from './Triangle';
 import Point from './Point';
 import PointMap from './PointMap';
@@ -352,13 +356,13 @@ export default class PrettyDelaunay {
       : this.options.colorPalette
       ? [
           this.options.colorPalette[
-            Random.randomBetween(0, this.options.colorPalette.length - 1)
+            randomBetween(0, this.options.colorPalette.length - 1)
           ],
           this.options.colorPalette[
-            Random.randomBetween(0, this.options.colorPalette.length - 1)
+            randomBetween(0, this.options.colorPalette.length - 1)
           ],
           this.options.colorPalette[
-            Random.randomBetween(0, this.options.colorPalette.length - 1)
+            randomBetween(0, this.options.colorPalette.length - 1)
           ],
         ]
       : this.colors;
@@ -567,8 +571,8 @@ export default class PrettyDelaunay {
         ? Math.ceil(maxEdge)
         : Math.max(Math.ceil((perimeter / 50) * multiplier), 5);
 
-    this.numPoints = Random.randomBetween(min, max);
-    this.getNumEdgePoints = Random.randomNumberFunction(minEdge, maxEdge);
+    this.numPoints = randomBetween(min, max);
+    this.getNumEdgePoints = randomNumberFunction(minEdge, maxEdge);
 
     this.clear();
 
@@ -640,8 +644,8 @@ export default class PrettyDelaunay {
       do {
         j++;
         point = new Point(
-          Random.randomBetween(x, x + width),
-          Random.randomBetween(y, y + height),
+          randomBetween(x, x + width),
+          randomBetween(y, y + height),
         );
       } while (this.pointMap.exists(point) && j < 10);
 
@@ -715,7 +719,7 @@ export default class PrettyDelaunay {
     maxGradients: number = this.options.maxGradients,
   ): void {
     this.radialGradients = [];
-    this.numGradients = Random.randomBetween(minGradients, maxGradients);
+    this.numGradients = randomBetween(minGradients, maxGradients);
 
     for (let i = 0; i < this.numGradients; i++) {
       this.generateRadialGradient();
@@ -762,12 +766,9 @@ export default class PrettyDelaunay {
     );
 
     // helper random functions
-    const randomCanvasX = Random.randomNumberFunction(minX, maxX);
-    const randomCanvasY = Random.randomNumberFunction(minY, maxY);
-    const randomCanvasRadius = Random.randomNumberFunction(
-      minRadius,
-      maxRadius,
-    );
+    const randomCanvasX = randomNumberFunction(minX, maxX);
+    const randomCanvasY = randomNumberFunction(minY, maxY);
+    const randomCanvasRadius = randomNumberFunction(minRadius, maxRadius);
 
     // generate circle1 origin and radius
     let x0;
@@ -780,7 +781,7 @@ export default class PrettyDelaunay {
       const lastGradient = this.radialGradients[
         this.radialGradients.length - 1
       ];
-      const pointInLastCircle = Random.randomInCircle(
+      const pointInLastCircle = randomInCircle(
         lastGradient.r0,
         lastGradient.x0,
         lastGradient.y0,
@@ -796,7 +797,7 @@ export default class PrettyDelaunay {
 
     // find a random point inside circle1
     // this is the origin of circle 2
-    const pointInCircle = Random.randomInCircle(r0 * 0.09, x0, y0);
+    const pointInCircle = randomInCircle(r0 * 0.09, x0, y0);
 
     // grab the x/y coords
     const x1 = pointInCircle.x;
@@ -813,10 +814,10 @@ export default class PrettyDelaunay {
     const dist = Math.sqrt((x1 - aX) * (x1 - aX) + (y1 - aY) * (y1 - aY));
 
     // generate the radius of circle2 based on this distance
-    const r1 = Random.randomBetween(1, Math.sqrt(dist));
+    const r1 = randomBetween(1, Math.sqrt(dist));
 
     // random but nice looking color stop
-    const colorStop = Random.randomBetween(2, 8) / 10;
+    const colorStop = randomBetween(2, 8) / 10;
 
     this.radialGradients.push({ x0, y0, r0, x1, y1, r1, colorStop });
   }
