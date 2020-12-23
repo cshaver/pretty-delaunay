@@ -6,13 +6,16 @@ Uses [ironwallaby's Delaunay triangulation implementation](https://github.com/ir
 
 ## Usage
 
-Include `dist/pretty-delaunay.js` at the bottom of your page.
+Include `dist/pretty-delaunay.js` at the bottom of your page. See example.html for a simple example.
 
 Initialize PrettyDelaunay with a canvas element and your options:
 
 ```javascript
+var PrettyDelaunay = window.PrettyDelaunay.default;
 var canvas = document.getElementById('myCanvas');
-var prettyDelaunay = new PrettyDelaunay(canvas, options);
+var prettyDelaunay = new PrettyDelaunay(canvas, {
+  // options here
+});
 ```
 
 PrettyDelaunay will stretch the canvas to fit its parent - with a full width parent element you can have a nice, responsive triangle background. [See a demo here.](http://codepen.io/poochiepoochie/full/LGEwOB)

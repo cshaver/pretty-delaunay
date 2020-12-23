@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "outDir": "../demo-build"
-  },
-  "extends": "../tsconfig.json",
-  "include": ["./*.ts"]
-}

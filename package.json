@@ -15,8 +15,8 @@
   "scripts": {
     "lint": "eslint src --ext '.ts'",
     "dev": "parcel demo/index.html",
-    "build:lib": "yarn tsc",
-    "build:dist": "parcel build --no-content-hash src/PrettyDelaunay/index.ts --global PrettyDelaunay",
+    "build:lib": "yarn tsc --build src/tsconfig.json",
+    "build:dist": "parcel build src/PrettyDelaunay.ts --out-file pretty-delaunay.js --experimental-scope-hoisting --no-content-hash --global PrettyDelaunay",
     "build": "yarn clean && yarn build:lib && yarn build:dist",
     "clean": "rimraf dist/ lib/"
   },
