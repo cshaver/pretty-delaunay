@@ -20,6 +20,7 @@ main {
   margin: 0;
   padding: 1rem;
   text-align: center;
+  pointer-events: none;
 }
 main > * {
   z-index: 1;
@@ -74,39 +75,39 @@ canvas + canvas {
 .form-row > *:first-child {
   margin-left: 0;
 }
-.form-row > input[type="radio"],
-.form-row > input[type="checkbox"] {
+.form-row > input[type='radio'],
+.form-row > input[type='checkbox'] {
   flex-grow: 0;
   flex-basis: auto;
   margin-left: 0;
 }
-.form-row > input[type="radio"] ~ input,
-.form-row > input[type="checkbox"] ~ input {
+.form-row > input[type='radio'] ~ input,
+.form-row > input[type='checkbox'] ~ input {
   margin-left: 1rem;
 }
-.form-row > input[type="range"] {
+.form-row > input[type='range'] {
   flex-grow: 100;
 }
-.form-row > input[type="range"] ~ label {
+.form-row > input[type='range'] ~ label {
   margin-left: 0.5rem;
   flex-grow: 1;
   flex-basis: auto;
 }
-.form-row > input[type="range"] + label {
+.form-row > input[type='range'] + label {
   order: -1;
   margin-left: 0;
   margin-right: 0.5rem;
 }
-.form-row > input[type="number"] + label {
+.form-row > input[type='number'] + label {
   flex-grow: 0;
 }
-.form-row > input[type="url"] {
+.form-row > input[type='url'] {
   flex-grow: 10;
 }
-.form-row > input[type="color"] {
+.form-row > input[type='color'] {
   flex-grow: 1.5;
 }
-.form-row > input[type="color"] + input {
+.form-row > input[type='color'] + input {
   width: 5em;
   flex-grow: 0;
 }
@@ -132,15 +133,15 @@ input:checked ~ fieldset {
   opacity: 1;
   pointer-events: all;
 }
-input[type="radio"],
-input[type="checkbox"] {
+input[type='radio'],
+input[type='checkbox'] {
   margin: 0;
 }
-label + input[type="radio"],
-label + input[type="checkbox"] {
+label + input[type='radio'],
+label + input[type='checkbox'] {
   margin-left: 1em;
 }
-input[type="color"] {
+input[type='color'] {
   height: 2rem;
   padding: 2px;
   border-width: 1px;
@@ -183,14 +184,14 @@ button {
   overflow: hidden;
 }
 .check-toggle + label:after {
-  content: "Show";
+  content: 'Show';
 }
 .check-toggle ~ fieldset {
   visibility: hidden;
   height: 1px;
 }
 .check-toggle:checked + label:after {
-  content: "Hide";
+  content: 'Hide';
 }
 .check-toggle:checked ~ fieldset {
   visibility: visible;
