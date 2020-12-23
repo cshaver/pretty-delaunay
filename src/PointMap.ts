@@ -1,35 +1,30 @@
 import Point from './Point';
 
 /**
- * Represents a point
- * @class
+ * Tracks a set of points,
+ * such that two points with the same coordinates are the same
  */
 export default class PointMap {
-  private _map: { [point: string]: boolean } = {};
+  private set = new Set<string>();
 
-  // adds point to map
   add(point: Point): void {
-    this._map[point.toString()] = true;
+    this.set.add(point.toString());
   }
 
-  // adds x, y coord to map
   addCoord(x: number, y: number): void {
     this.add(new Point(x, y));
   }
 
-  // removes point from map
   remove(point: Point): void {
-    this._map[point.toString()] = false;
+    this.set.delete(point.toString());
   }
 
-  // removes x, y coord from map
   removeCoord(x: number, y: number): void {
     this.remove(new Point(x, y));
   }
 
-  // clears the map
   clear(): void {
-    this._map = {};
+    this.set.clear();
   }
 
   /**
@@ -38,6 +33,6 @@ export default class PointMap {
    *  @returns {Boolean}
    */
   exists(point: Point): boolean {
-    return this._map[point.toString()] ? true : false;
+    return this.set.has(point.toString());
   }
 }
