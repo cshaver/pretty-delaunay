@@ -1030,7 +1030,7 @@ export default class PrettyDelaunay {
     );
 
     // renders triangles, edges, and shadow canvas for hover detection
-    this.renderTriangles(this.options.showTriangles, this.options.showEdges);
+    this.renderTriangles();
 
     this.renderExtras();
 
@@ -1178,7 +1178,7 @@ export default class PrettyDelaunay {
     }
   };
 
-  renderTriangles(showTriangles?: boolean, showEdges?: boolean): void {
+  renderTriangles(): void {
     // save this for later
     this.center.canvasColorAtPoint(this.gradientImageData);
 
@@ -1190,16 +1190,16 @@ export default class PrettyDelaunay {
         this.gradientImageData,
       );
 
-      if (showTriangles && showEdges) {
+      if (this.options.showTriangles && this.options.showEdges) {
         this.triangles[i].stroke = this.options.edgeColor(
           this.triangles[i].colorAtCentroid(this.gradientImageData),
         );
         this.triangles[i].render(this.gradientImageData, this.ctx);
-      } else if (showTriangles) {
+      } else if (this.options.showTriangles) {
         // triangles only, no edges - render with the same stroke as the fill
         this.triangles[i].stroke = this.triangles[i].color;
         this.triangles[i].render(this.gradientImageData, this.ctx);
-      } else if (showEdges) {
+      } else if (this.options.showEdges) {
         // edges only, no fill
         this.triangles[i].stroke = this.options.edgeColor(
           this.triangles[i].colorAtCentroid(this.gradientImageData),
