@@ -1123,6 +1123,7 @@ export default class PrettyDelaunay {
       );
       radialGradient.addColorStop(0, outerColor);
 
+      // TODO: provide a hook for this so we don't style the parentElement willy-nilly
       this.canvas.parentElement!.style.backgroundColor = this.colors[2];
 
       this.ctx.fillStyle = radialGradient;
