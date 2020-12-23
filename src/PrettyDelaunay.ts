@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Delaunator from 'delaunator';
 
-import { hslaAdjustLightness, hslaAdjustAlpha, rgbToHex } from './utils/color';
+import {
+  hslaAdjustLightness,
+  hslaAdjustAlpha,
+  rgbToHex,
+  isHexString,
+  hexToRgba,
+} from './utils/color';
 import {
   randomBetween,
   randomNumberFunction,
@@ -1106,20 +1112,27 @@ export default class PrettyDelaunay {
         this.radialGradients[i].r1,
       );
 
-      let outerColor: string = this.colors[2];
+      const [innerColor] = this.colors;
+      let [, middleColor, outerColor] = this.colors;
 
+      // after the base gradient, the outer color must be
+      // the transparent version of the middle color so that it blends correctly
       if (i > 0) {
-        // must be transparent version of middle color
-        // this works for rgba and hsla
-        const middleColorParts = this.colors[1].split(',');
+        // this works for rgba and hsla, so convert if hex
+        if (isHexString(middleColor)) {
+          middleColor = hexToRgba(middleColor);
+        }
+        const middleColorParts = middleColor.split(',');
+
+        // 0 = transparent alpha
         middleColorParts[3] = '0)';
         outerColor = middleColorParts.join(',');
       }
 
-      radialGradient.addColorStop(1, this.colors[0]);
+      radialGradient.addColorStop(1, innerColor);
       radialGradient.addColorStop(
         this.radialGradients[i].colorStop,
-        this.colors[1],
+        middleColor,
       );
       radialGradient.addColorStop(0, outerColor);
 

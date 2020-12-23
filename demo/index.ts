@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import PrettyDelaunay from '../src/PrettyDelaunay';
-import { rgbToHsla, hexToRgbaArray, rgbToHex } from '../src/utils/color';
-import { randomRgba } from '../src/utils/random';
+import { rgbToHsla, hexToRgbaArray } from '../src/utils/color';
+import { randomHex } from '../src/utils/random';
 
 const elements = {
   main: document.getElementById('main') as HTMLElement,
@@ -143,12 +143,9 @@ function getColors(): [string, string, string] {
   } else {
     // generate random colors
     return elements.colorInputs.map((input) => {
-      const rgb = randomRgba()
-        .replace('rgba', 'rgb')
-        .replace(/,\s*\d(\.\d+)?\)/, ')');
-      const hsla = rgbToHsla(rgb);
-      const hex = '#' + rgbToHex(rgb);
+      const hex = randomHex();
 
+      // set the inputs’ values to the colors we just generated
       input.value = hex;
       const matchingInput = document.getElementById(
         input.getAttribute('data-color-sync')!,
@@ -158,7 +155,7 @@ function getColors(): [string, string, string] {
         matchingInput.value = input.value;
       }
 
-      return hsla;
+      return hex;
     }) as [string, string, string];
   }
 }

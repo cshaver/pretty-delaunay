@@ -66,3 +66,10 @@ export function randomHsla(): string {
     '%, 1)'
   );
 }
+
+export function randomHex(): string {
+  return (
+    '#' +
+    ('00000' + randomBetween(parseInt('ffffff', 16)).toString(16)).slice(-6)
+  );
+}
