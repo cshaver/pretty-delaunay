@@ -1,7 +1,43 @@
 /**
+ * @example "hsla(336,100%,84%,1)"
+ */
+type HslaString = string;
+
+/**
+ * @example "rgba(255,171,205,1)"
+ */
+type RgbaString = string;
+
+/**
+ * @example "rgb(255,171,205)"
+ */
+type RgbString = string;
+
+/**
+ * @example "#FFABCD"
+ */
+type HexString = string;
+
+export function isHslaString(color: string): color is HslaString {
+  return color.startsWith('hsla(') && color.split(',').length === 4;
+}
+
+export function isRgbaString(color: string): color is RgbaString {
+  return color.startsWith('rgba(') && color.split(',').length === 4;
+}
+
+export function isRgbString(color: string): color is RgbString {
+  return color.startsWith('rgb(') && color.split(',').length === 3;
+}
+
+export function isHexString(color: string): color is HexString {
+  return color.startsWith('#');
+}
+
+/**
  * @example "#FFABCD" -> "rgba(255,171,205,1)"
  */
-export function hexToRgba(hex: string): string {
+export function hexToRgba(hex: HexString): RgbaString {
   hex = hex.replace('#', '');
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);
@@ -13,7 +49,7 @@ export function hexToRgba(hex: string): string {
 /**
  * @example "#FFABCD" -> [255,171,205]
  */
-export function hexToRgbaArray(hex: string): [number, number, number] {
+export function hexToRgbaArray(hex: HexString): [number, number, number] {
   hex = hex.replace('#', '');
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);
@@ -33,7 +69,9 @@ export function hexToRgbaArray(hex: string): [number, number, number] {
  * returns h, s, and l in the set [0, 1].
  * @example "rgb(255,171,205)" -> "hsla(336,100%,84%,1)"
  */
-export function rgbToHsla(_rgb: string | [number, number, number]): string {
+export function rgbToHsla(
+  _rgb: RgbString | [number, number, number],
+): HslaString {
   const rgb: [number, number, number] = Array.isArray(_rgb)
     ? _rgb
     : (_rgb
@@ -84,7 +122,7 @@ export function rgbToHsla(_rgb: string | [number, number, number]): string {
  * @example "hsla(336,100%,84%,1)", 0.5 -> "hsla(336,100%,84%,0.5)"
  */
 export function hslaAdjustAlpha(
-  _color: string,
+  _color: HslaString,
   alpha: number | string | ((alpha: number) => number | string),
 ): string {
   const color = _color.split(',') as [string, string, string, string];
@@ -103,7 +141,7 @@ export function hslaAdjustAlpha(
  * @example "hsla(336,100%,84%,1)", 50 -> "hsla(336,100%,50%,1)"
  */
 export function hslaAdjustLightness(
-  _color: string,
+  _color: HslaString,
   lightness: number | string | ((lightness: number) => number | string),
 ): string {
   const color = _color.split(',') as [string, string, string, string];
@@ -121,7 +159,9 @@ export function hslaAdjustLightness(
 /**
  * @example "rgb(255,171,205)" -> "#FFABCD"
  */
-export function rgbToHex(_rgb: string | [string, string, string]): string {
+export function rgbToHex(
+  _rgb: RgbString | [string, string, string],
+): HexString {
   const rgb =
     typeof _rgb === 'string'
       ? (_rgb.replace('rgb(', '').replace(')', '').split(',') as [
