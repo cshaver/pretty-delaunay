@@ -31,6 +31,8 @@ interface PrettyDelaunayOptions {
   // shows triangles - false will show the gradient behind
   showTriangles: boolean;
 
+  triangleFill: 'solid' | 'linear-gradient';
+
   // show the points that make the triangulation
   showPoints: boolean;
 
@@ -213,6 +215,7 @@ export default class PrettyDelaunay {
     return {
       // shows triangles - false will show the gradient behind
       showTriangles: true,
+      triangleFill: 'solid',
       // show the points that make the triangulation
       showPoints: false,
       // show the circles that define the gradient locations, sizes
@@ -288,7 +291,6 @@ export default class PrettyDelaunay {
         const fill = options.hoverColor(triangle.color);
         const stroke = fill;
         triangle.render(
-          undefined,
           ctx,
           options.showEdges ? fill : undefined,
           options.showEdges ? undefined : stroke,
@@ -1183,38 +1185,57 @@ export default class PrettyDelaunay {
     this.center.canvasColorAtPoint(this.gradientImageData);
 
     for (let i = 0; i < this.triangles.length; i++) {
+      const triangle = this.triangles[i];
       // the color is determined by grabbing the color of the canvas
       // (where we drew the gradient) at the center of the triangle
-
-      this.triangles[i].color = this.triangles[i].colorAtCentroid(
+      const centroidColor = Point.colorAtPoint(
+        triangle.centroid(),
         this.gradientImageData,
       );
 
-      if (this.options.showTriangles && this.options.showEdges) {
-        this.triangles[i].stroke = this.options.edgeColor(
-          this.triangles[i].colorAtCentroid(this.gradientImageData),
+      let fill: string | CanvasGradient = centroidColor;
+      const stroke: string | CanvasGradient = this.options.edgeColor(
+        centroidColor,
+      );
+      triangle.color = fill;
+      triangle.stroke = stroke;
+
+      if (
+        this.gradientImageData &&
+        this.options.triangleFill === 'linear-gradient'
+      ) {
+        const fillGradient = this.ctx.createLinearGradient(
+          triangle.minX(),
+          triangle.minY(),
+          triangle.maxX(),
+          triangle.maxY(),
         );
-        this.triangles[i].render(this.gradientImageData, this.ctx);
+        fillGradient.addColorStop(
+          0,
+          triangle.p1.canvasColorAtPoint(this.gradientImageData),
+        );
+        fillGradient.addColorStop(
+          1,
+          triangle.p3
+            .getMidPoint(triangle.p2)
+            .canvasColorAtPoint(this.gradientImageData),
+        );
+        fill = fillGradient;
+      }
+
+      if (this.options.showTriangles && this.options.showEdges) {
+        triangle.render(this.ctx, fill, stroke);
       } else if (this.options.showTriangles) {
         // triangles only, no edges - render with the same stroke as the fill
-        this.triangles[i].stroke = this.triangles[i].color;
-        this.triangles[i].render(this.gradientImageData, this.ctx);
+        triangle.render(this.ctx, fill, fill);
       } else if (this.options.showEdges) {
         // edges only, no fill
-        this.triangles[i].stroke = this.options.edgeColor(
-          this.triangles[i].colorAtCentroid(this.gradientImageData),
-        );
-        this.triangles[i].render(this.gradientImageData, this.ctx, false);
+        triangle.render(this.ctx, false, stroke);
       }
 
       if (this.hoverShadowCanvas) {
         const color = '#' + ('000000' + i.toString(16)).slice(-6);
-        this.triangles[i].render(
-          this.gradientImageData,
-          this.shadowCtx!,
-          color,
-          false,
-        );
+        triangle.render(this.shadowCtx!, color, false);
       }
     }
 
