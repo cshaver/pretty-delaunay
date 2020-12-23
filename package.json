@@ -19,7 +19,7 @@
     "build:demo": "yarn rollup --config rollup.config.js",
     "build:lib": "yarn tsc --build src/tsconfig.json",
     "build:dist": "parcel build src/PrettyDelaunay.ts --out-file pretty-delaunay.js --experimental-scope-hoisting --no-content-hash --global PrettyDelaunay",
-    "build": "yarn clean && yarn build:lib && yarn build:dist",
+    "build": "yarn clean && yarn build:lib && yarn build:dist && yarn build:demo",
     "clean": "rimraf dist/ lib/"
   },
   "devDependencies": {
