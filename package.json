@@ -7,6 +7,7 @@
   "name": "pretty-delaunay",
   "main": "./lib/PrettyDelaunay.ts",
   "types": "./lib/PrettyDelaunay.ts",
+  "module": "./src/PrettyDelaunay.ts",
   "keywords": [
     "canvas",
     "triangles",
@@ -15,12 +16,14 @@
   "scripts": {
     "lint": "eslint src --ext '.ts'",
     "dev": "parcel demo/index.html",
+    "build:demo": "yarn rollup --config rollup.config.js",
     "build:lib": "yarn tsc --build src/tsconfig.json",
     "build:dist": "parcel build src/PrettyDelaunay.ts --out-file pretty-delaunay.js --experimental-scope-hoisting --no-content-hash --global PrettyDelaunay",
     "build": "yarn clean && yarn build:lib && yarn build:dist",
     "clean": "rimraf dist/ lib/"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.1.0",
     "@types/delaunator": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
@@ -30,10 +33,13 @@
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
+    "rollup": "^2.35.1",
     "sass": "^1.30.0",
+    "tslib": "^2.0.3",
     "typescript": "^4.1.3"
   },
   "dependencies": {
+    "@rollup/plugin-node-resolve": "^11.0.1",
     "delaunator": "^4.0.1"
   }
 }
