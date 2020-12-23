@@ -46,11 +46,13 @@ export default class Point {
     imageData: ImageData,
     colorSpace: 'hsla' | 'rgb' = 'hsla',
   ): string {
+    // use canvas edge colors if off-canvas
+    const x = Math.min(this.x, imageData.width - 1);
+    const y = Math.min(this.y, imageData.height - 1);
     // only find the canvas color if we don’t already know it
     if (!this._canvasColor) {
       // imageData array is flat, goes by rows then cols, four values per pixel
-      const idx =
-        Math.floor(this.y) * imageData.width * 4 + Math.floor(this.x) * 4;
+      const idx = Math.floor(y) * imageData.width * 4 + Math.floor(x) * 4;
 
       if (colorSpace === 'hsla') {
         this._canvasColor = rgbToHsla(
@@ -72,6 +74,10 @@ export default class Point {
 
   getCoords(): [number, number] {
     return [this.x, this.y];
+  }
+
+  getMidPoint(point: Point): Point {
+    return new Point((this.x + point.x) / 2, (this.y + point.y) / 2);
   }
 
   // distance to another point

@@ -34,6 +34,7 @@ export default class Triangle {
 
   // draw the triangle with differing edge colors optional
   render(
+    imageData: ImageData | undefined,
     ctx: CanvasRenderingContext2D,
     color?: string | false,
     stroke?: string | false,
@@ -53,6 +54,20 @@ export default class Triangle {
       ctx.strokeStyle = ctx.fillStyle;
       ctx.stroke();
       ctx.strokeStyle = tempStroke;
+    }
+    if (imageData) {
+      const gradient = ctx.createLinearGradient(
+        this.minX(),
+        this.minY(),
+        this.maxX(),
+        this.maxY(),
+      );
+      gradient.addColorStop(0, this.p1.canvasColorAtPoint(imageData));
+      gradient.addColorStop(
+        1,
+        this.p3.getMidPoint(this.p2).canvasColorAtPoint(imageData),
+      );
+      ctx.fillStyle = gradient;
     }
     if (color !== false) {
       ctx.fill();

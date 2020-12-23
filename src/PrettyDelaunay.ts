@@ -288,6 +288,7 @@ export default class PrettyDelaunay {
         const fill = options.hoverColor(triangle.color);
         const stroke = fill;
         triangle.render(
+          undefined,
           ctx,
           options.showEdges ? fill : undefined,
           options.showEdges ? undefined : stroke,
@@ -938,7 +939,7 @@ export default class PrettyDelaunay {
   }
 
   hover(): void {
-    if (this.mousePosition) {
+    if (this.mousePosition && this.shadowImageData) {
       const rgb = this.mousePosition.canvasColorAtPoint(
         this.shadowImageData,
         'rgb',
@@ -1193,22 +1194,27 @@ export default class PrettyDelaunay {
         this.triangles[i].stroke = this.options.edgeColor(
           this.triangles[i].colorAtCentroid(this.gradientImageData),
         );
-        this.triangles[i].render(this.ctx);
+        this.triangles[i].render(this.gradientImageData, this.ctx);
       } else if (showTriangles) {
         // triangles only, no edges - render with the same stroke as the fill
         this.triangles[i].stroke = this.triangles[i].color;
-        this.triangles[i].render(this.ctx);
+        this.triangles[i].render(this.gradientImageData, this.ctx);
       } else if (showEdges) {
         // edges only, no fill
         this.triangles[i].stroke = this.options.edgeColor(
           this.triangles[i].colorAtCentroid(this.gradientImageData),
         );
-        this.triangles[i].render(this.ctx, false);
+        this.triangles[i].render(this.gradientImageData, this.ctx, false);
       }
 
       if (this.hoverShadowCanvas) {
         const color = '#' + ('000000' + i.toString(16)).slice(-6);
-        this.triangles[i].render(this.shadowCtx!, color, false);
+        this.triangles[i].render(
+          this.gradientImageData,
+          this.shadowCtx!,
+          color,
+          false,
+        );
       }
     }
 
