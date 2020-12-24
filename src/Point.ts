@@ -8,6 +8,30 @@ export default class Point {
 
   private _canvasColor?: string;
 
+  static colorAtPoint(
+    point: Point,
+    imageData: ImageData,
+    colorSpace: 'hsla' | 'rgb' = 'hsla',
+  ): string {
+    // use canvas edge colors if off-canvas
+    const x = Math.min(point.x, imageData.width - 1);
+    const y = Math.min(point.y, imageData.height - 1);
+
+    // imageData array is flat, goes by rows then cols, four values per pixel
+    const idx = Math.floor(y) * imageData.width * 4 + Math.floor(x) * 4;
+    const rgb = Array.prototype.slice.call(imageData.data, idx, idx + 3) as [
+      number,
+      number,
+      number,
+    ];
+
+    if (colorSpace === 'hsla') {
+      return rgbToHsla(rgb);
+    } else {
+      return 'rgb(' + rgb.join(',') + ')';
+    }
+  }
+
   constructor(x: [number, number]);
   constructor(x: number, y: number);
   constructor(x: [number, number] | number, y?: number) {
@@ -48,30 +72,17 @@ export default class Point {
   ): string {
     // only find the canvas color if we don’t already know it
     if (!this._canvasColor) {
-      // imageData array is flat, goes by rows then cols, four values per pixel
-      const idx =
-        Math.floor(this.y) * imageData.width * 4 + Math.floor(this.x) * 4;
-
-      if (colorSpace === 'hsla') {
-        this._canvasColor = rgbToHsla(
-          Array.prototype.slice.call(imageData.data, idx, idx + 3) as [
-            number,
-            number,
-            number,
-          ],
-        );
-      } else {
-        this._canvasColor =
-          'rgb(' +
-          Array.prototype.slice.call(imageData.data, idx, idx + 3).join() +
-          ')';
-      }
+      this._canvasColor = Point.colorAtPoint(this, imageData, colorSpace);
     }
     return this._canvasColor;
   }
 
   getCoords(): [number, number] {
     return [this.x, this.y];
+  }
+
+  getMidPoint(point: Point): Point {
+    return new Point((this.x + point.x) / 2, (this.y + point.y) / 2);
   }
 
   // distance to another point

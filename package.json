@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "lint": "eslint src --ext '.ts'",
-    "dev": "parcel demo/index.html",
+    "dev": "yarn build:demo --watch",
     "build:demo": "yarn rollup --config rollup.config.js",
     "build:lib": "yarn tsc --build src/tsconfig.json",
     "build:dist": "parcel build src/PrettyDelaunay.ts --out-file pretty-delaunay.js --experimental-scope-hoisting --no-content-hash --global PrettyDelaunay",
@@ -30,11 +30,9 @@
     "eslint": "^7.16.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-prettier": "^3.3.0",
-    "parcel-bundler": "^1.12.4",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.35.1",
-    "sass": "^1.30.0",
     "tslib": "^2.0.3",
     "typescript": "^4.1.3"
   },
