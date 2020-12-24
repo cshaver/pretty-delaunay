@@ -11,7 +11,6 @@ Include `dist/pretty-delaunay.js` at the bottom of your page. See example.html f
 Initialize PrettyDelaunay with a canvas element and your options:
 
 ```javascript
-var PrettyDelaunay = window.PrettyDelaunay.default;
 var canvas = document.getElementById('myCanvas');
 var prettyDelaunay = new PrettyDelaunay(canvas, {
   // options here

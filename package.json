@@ -16,9 +16,9 @@
   "scripts": {
     "lint": "eslint src --ext '.ts'",
     "dev": "yarn build:demo --watch",
-    "build:demo": "yarn rollup --config rollup.config.js",
+    "build:demo": "yarn rollup --config rollup.demo.config.js",
     "build:lib": "yarn tsc --build src/tsconfig.json",
-    "build:dist": "parcel build src/PrettyDelaunay.ts --out-file pretty-delaunay.js --experimental-scope-hoisting --no-content-hash --global PrettyDelaunay",
+    "build:dist": "yarn rollup --config rollup.config.js",
     "build": "yarn clean && yarn build:lib && yarn build:dist && yarn build:demo",
     "clean": "rimraf dist/ lib/"
   },
